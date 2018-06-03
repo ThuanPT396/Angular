@@ -1,0 +1,33 @@
+<div class="col-xs-12 table">
+    <app-clinic-edit (ClinicAdded)="onClinicAdded($event)"></app-clinic-edit>
+    <hr>
+    <table datatable class="row-border hover">
+        <thead>
+            <tr>
+                <th>Clinic Name</th>
+                <th>Address</th>
+                <th>Start Working</th>
+                <th>End Working</th>
+                <th>Phone Number</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let clinic of clinics">
+                <td>{{clinic.clinicName}}</td>
+                <td>{{ clinic.address }}</td>
+                <td>{{ clinic.startWorking }}</td>
+                <td>{{ clinic.endWorking }}</td>
+                <td>{{clinic.phoneNumber}}</td>
+                <td class="text-right">
+                    <button style="margin: 5px" class="btn btn-danger" (click)="onClinicDelete(clinic.clinicName)">Delete</button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="onPatientUpdate(patient.id,patient.name,patient.phoneNumber)">Update</button>
+                </td>
+            </tr>
+            <tr *ngIf="clinics?.length == 0">
+                <td colspan="3" class="no-data-available">No data!</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

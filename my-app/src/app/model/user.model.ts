@@ -1,4 +1,6 @@
-export class User {
+import { IUser } from "../interface/user.interface";
+
+export class User implements IUser{
     constructor(
       public userName: string,
       public password:string,
@@ -6,3 +8,7 @@ export class User {
       public roleId: string,
       public isActive: string) {}
   }
+
+ 
+
+ 

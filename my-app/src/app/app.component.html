@@ -1,11 +1,6 @@
-<app-header (featureSelect)="onNavigate($event)">
-</app-header>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <app-clinic-list *ngIf="loadFeature === 'clinic'"></app-clinic-list>
-      <app-user-list *ngIf="loadFeature !== 'clinic' "></app-user-list>
-    </div>
-  </div>
-
+<app-appheader></app-appheader>
+<app-appmenu></app-appmenu>
+<div style="padding-top: 50px">
+    <router-outlet></router-outlet>
 </div>
+<app-appsetting></app-appsetting>

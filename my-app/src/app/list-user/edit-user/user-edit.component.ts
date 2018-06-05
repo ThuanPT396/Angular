@@ -6,23 +6,22 @@ import {User} from '../../model/user.model';
   templateUrl: './user-edit.component.html'
 })
 export class UserEditComponent implements OnInit {
+  message:string;
   isActive='true';
-  role='admin'
+  role='0';
   @ViewChild('inputUserName') userNameInputRef: ElementRef;
-  @ViewChild('inputPassword') passwordInputRef: ElementRef;
   @ViewChild('inputPhoneNumber') phoneNumberInputRef: ElementRef;
   @Output() UserAdded = new EventEmitter<User>();
   constructor() { }
 
   ngOnInit() {
   }
-  onAddItem() {
-    const ingUserName = this.userNameInputRef.nativeElement.value;
-    const ingPassword = this.passwordInputRef.nativeElement.value;
-    const ingPhoneNumber = this.phoneNumberInputRef.nativeElement.value;
+  // onAddItem() {
+  //   const ingUserName = this.userNameInputRef.nativeElement.value;
+  //   const ingPhoneNumber = this.phoneNumberInputRef.nativeElement.value;
 
-    const newUser = new User(ingUserName,ingPassword,ingPhoneNumber,this.role,this.isActive);
-    this.UserAdded.emit(newUser);
-
-  }
+  //   const newUser = new User(ingUserName,"123456",ingPhoneNumber,this.role,this.isActive);
+  //   this.UserAdded.emit(newUser);
+  //   console.log("Add success");
+  // }
 }

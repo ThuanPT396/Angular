@@ -10,8 +10,4 @@ import { environment } from '../environments/environment';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  loadFeature = 'clinic';
-  onNavigate(feature: string) {
-    this.loadFeature = feature;
-  }
 }

@@ -20,7 +20,7 @@
     <div class="col-md-12 table">
       <!-- <app-user-edit (UserAdded)="onUserAdded($event)"></app-user-edit> -->
       {{message}}
-      <table datatable [dtOptions] = "dtOptions" class="row-border hover">
+      <table datatable [dtOptions]="dtOptions" class="row-border hover">
         <thead>
           <tr>
             <th>Username</th>
@@ -41,7 +41,7 @@
               <!-- <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="onPatientUpdate(patient.id,patient.name,patient.phoneNumber)">Update</button> -->
             </td>
           </tr>
-          <tr *ngIf="users?.length > 0">
+          <tr *ngIf="users?.length == 0">
             <td colspan="3" class="no-data-available">No data!</td>
           </tr>
         </tbody>

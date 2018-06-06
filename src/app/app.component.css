@@ -1,7 +1,13 @@
-.content-wrapper{
-    height: 100% !important;
+
+table {
+  width: 100%;
 }
 
-.dataTables_empty {
-    display: none;
-  }
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}

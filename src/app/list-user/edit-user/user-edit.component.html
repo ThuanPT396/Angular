@@ -2,15 +2,15 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      User List
-      <small>Version 2.0</small>
+      Create User
+      <!-- <small>Version 2.0</small> -->
     </h1>
     <ol class="breadcrumb">
       <li>
         <a href="#">
           <i class="fa fa-user"></i> User</a>
       </li>
-      <li class="active">Register User</li>
+      <li class="active">Create User</li>
     </ol>
   </section>
 
@@ -19,17 +19,15 @@
     <div class="row">
       <div class="col-md-12 form-group">
         <label for="username">User Name</label>
-        <input type="text" id="username" class="form-control" #inputUserName>
+        <input type="text" id="username" class="form-control" [(ngModel)]="username" >
 
       </div>
       <div class="col-md-12 form-group">
         <label for="phoneNumber">Phone Number</label>
-        <input type="text" id="phoneNumber" class="form-control" #inputPhoneNumber>
+        <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
       </div>
       <div class="col-md-12 text-right">
         <button class="btn btn-primary" (click)="onAddItem()">Add</button>
-        <button class="btn btn-primary" (click)="newMessage()">Send Message</button>
-
       </div>
     </div>
   </section>

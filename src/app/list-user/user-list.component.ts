@@ -29,8 +29,10 @@ export class UserListComponent implements OnInit {
           var result = new User(user.username, user.password, user.phoneNumber, user.role, user.isActive);
           console.log(result);
           ELEMENT_DATA.push(result);
-          this.dataSource.filter = "";
+          
         }
+        this.dataSource.filter = "";
+        console.log("Load11");
       })
   }
   ngOnInit() {

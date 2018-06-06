@@ -11,3 +11,9 @@ table {
 td, th {
   width: 25%;
 }
+/* tr.mat-row:nth-child(even){
+    background-color:red;
+    } */
+tr.mat-row:nth-child(odd){
+  background-color: rgba(178, 194, 241, 0.247);
+  }

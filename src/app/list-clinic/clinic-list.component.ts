@@ -1,37 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Clinic } from '../model/clinic.model';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { ClinicService } from './clinic.service';
 
 @Component({
     selector: 'app-clinic-list',
     templateUrl: './clinic-list.component.html',
-    styleUrls: ['./clinic-list.component.css']
+    styleUrls: ['./clinic-list.component.css'],
+    providers: [ClinicService]
 })
 export class ClinicListComponent implements OnInit {
-    // name = "";
-    // password = "";
-    // phoneNumber = 0;
-    // role=0;
-    avtived = "false";
-    clinics: Clinic[] = [
-        new Clinic('dakhaHN@gmail.com', 'password', 'phong kham da khoa HN', '144 Toki', 1234567893, '2AM', '9PM', 'admin', 'true'),
-        new Clinic('nhanhau@gmail.com', 'passkiet', 'Nhan Hau', '27 Ham Tu', 6387126378, '5AM', '7PM', 'Clinic', 'false'),
-        new Clinic('dakhaHCM@gmail.com', 'password', 'phong kham da khoa HCM', '144 Quang Trung', 1234567893, '2AM', '9PM', 'admin', 'true'),
-        new Clinic('nhanhau2@gmail.com', 'passkiet', 'Nhan Hau 2', '27 Nguyen Van Quá', 6387126378, '5AM', '7PM', 'Clinic', 'false'),
-    ];
+    active = 0;
+    displayedColumns = ['position', 'username', 'phoneNumber', 'role', 'isActive','address','clinicName','function'];
+    dataSource = new MatTableDataSource<Clinic>(ELEMENT_DATA);
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
 
-    constructor() { }
+    constructor(private clinicService: ClinicService) {
+        this.clinicService
+      .getClinics()
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        console.log(tmp);
+        for (var i in tmp.value) {
+          var clinic = tmp.value[i];
+          var result = new Clinic(clinic.username,clinic.password,clinic.phoneNumber,clinic.role,clinic.isActive,clinic.address,clinic.clinicName);
+          console.log(result);
+          ELEMENT_DATA.push(result);
+          
+        }
+        this.dataSource.filter = "";
+        console.log("Load11");
+      })
+     }
 
     ngOnInit() {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
-    onClinicAdded(clinic: Clinic) {
-        if (clinic.roleId === '1') clinic.roleId = 'Clinic';
-        this.clinics.push(clinic);
+    onRemoveClinic(userName: string) {
+        const index = ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
+        ELEMENT_DATA[index].isActive = this.active + "";
+        //ELEMENT_DATA.splice(index, 1);
+
     }
-    onClinicDelete(clinicName: string) {
-        const index = this.clinics.findIndex(clinic => clinic.clinicName === clinicName);
-        this.clinics[index].isActive = this.avtived;
-        this.clinics.splice(index, 1);
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+        this.dataSource.filter = filterValue;
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
+}
+const ELEMENT_DATA: Clinic[] = [
+];
     // onUserPopup(userName: string, phoneNumber:number){
     //  const index= this.patients.findIndex(patient =>patient.name === name);
     //  this.name = name;
@@ -42,4 +65,3 @@ export class ClinicListComponent implements OnInit {
     //    this.patients[index].name=this.name;
     //    this.patients[index].phoneNumber=this.phoneNumber;
     // }
-}

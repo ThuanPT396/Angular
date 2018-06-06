@@ -1,6 +1,6 @@
-import { IUser } from "../interface/user.interface";
 
-export class User implements IUser{
+
+export class User{
     constructor(
       public username: string,
       public password:string,

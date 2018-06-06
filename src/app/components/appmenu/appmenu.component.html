@@ -30,26 +30,46 @@
               <i class="fa fa-circle-o"></i>Create User</a>
           </li>
           <li>
-              <a class="link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> <i class="fa fa-circle-o"></i>List User</a>
+            <a class="link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <i class="fa fa-circle-o"></i>List User</a>
+          </li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-heartbeat"></i>
+          <span>Clinic</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <!-- <li>
+              <a class="link" routerLink="/clinicAdd" routerLinkActive="active menu">
+                <i class="fa fa-circle-o"></i>Register Clinic</a>
+            </li> -->
+          <li>
+            <a class="link" routerLink="/clinicList" routerLinkActive="active menu">
+              <i class="fa fa-circle-o"></i>List Clinic</a>
           </li>
         </ul>
       </li>
       <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i>
-            <span>Clinic</span>
+            <i class="fa fa-key"></i>
+            <span>License</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="link" routerLink="/clinicAdd" routerLinkActive="active menu">
-                <i class="fa fa-circle-o"></i>Register Clinic</a>
+              <a class="link" routerLink="/licenseAdd" routerLinkActive="active">
+                <i class="fa fa-circle-o"></i>Create License</a>
             </li>
             <li>
-              <a class="link" routerLink="/clinicList" routerLinkActive="active menu">
-                <i class="fa fa-circle-o"></i>List Clinic</a>
+              <a class="link" routerLink="/licenseList" routerLinkActive="active">
+                <i class="fa fa-circle-o"></i>List License</a>
             </li>
           </ul>
         </li>

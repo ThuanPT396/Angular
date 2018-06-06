@@ -1,9 +1,3 @@
-.padd-right{
-    padding-right: 130px;
-}
-.padd-right-index{
-    padding-right: 210px;
-}
-.padd-left{
-    padding-left: 50px;
+td,th{
+    width: 0% !important;
 }

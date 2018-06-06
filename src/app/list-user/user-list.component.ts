@@ -4,7 +4,6 @@ import { User } from '../model/user.model';
 import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { IUser } from '../interface/user.interface';
 
 @Component({
   selector: 'app-user-list',

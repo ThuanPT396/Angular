@@ -14,6 +14,9 @@ import { UserEditComponent } from './list-user/edit-user/user-edit.component'
 // clinic
 import { ClinicListComponent } from './list-clinic/clinic-list.component'
 import { ClinicEditComponent } from './list-clinic/edit-clinic/clinic-edit.component'
+//license
+import {ListLicenseComponent} from './list-license/list-license.component'
+import {EditLicenseComponent} from './list-license/edit-license/edit-license.component'
 //Font-end
 import { AppheaderComponent } from './components/appheader/appheader.component';
 import { AppmenuComponent } from './components/appmenu/appmenu.component';
@@ -115,6 +118,8 @@ export class DemoMaterialModule { }
     UserEditComponent,
     ClinicListComponent,
     ClinicEditComponent,
+    ListLicenseComponent,
+    EditLicenseComponent,
     AppheaderComponent,
     AppmenuComponent,
     AppsettingComponent,

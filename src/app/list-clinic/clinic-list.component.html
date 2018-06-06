@@ -11,7 +11,7 @@
                 <i class="fa fa-heartbeat"></i> Clinic
             </li>
             <li class="active">
-                <a class="link" routerLink="/clinicList" routerLinkActive="active menu">Clinic List</a>
+                <a class="link" routerLink="/clinicList" routerLinkActive="active menu"><i class="fa fa-list" aria-hidden="true"></i>Clinic List</a>
             </li>
         </ol>
     </section>
@@ -68,6 +68,8 @@
                         <a (click)="onRemoveClinic(row.username)">
                             <i class="fa fa-close" style="color: red"></i>
                         </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a (click)="onUpdateClinic(row.username)"><i class="fa fa-pencil" style="color: blue"></i></a>
                     </td>
                 </ng-container>
 

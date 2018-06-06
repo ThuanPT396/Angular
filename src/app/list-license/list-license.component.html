@@ -10,7 +10,7 @@
         <li>
             <i class="fa fa-key"></i> License
         </li>
-        <li class="active"><a class="link" routerLink="/userList" routerLinkActive="active menu">License List</a></li>
+        <li class="active"><a class="link" routerLink="/userList" routerLinkActive="active menu"><i class="fa fa-list" aria-hidden="true"></i>License List</a></li>
       </ol>
     </section>
   
@@ -58,7 +58,11 @@
   
           <ng-container matColumnDef="function">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Function </th>
-            <td mat-cell *matCellDef="let row"><a (click)="onRemoveUser(row.licenseID)"><i class="fa fa-close" style="color: red"></i></a></td>
+            <td mat-cell *matCellDef="let row">
+              <a (click)="onRemoveLicense(row.name)"><i class="fa fa-close" style="color: red"></i></a>
+              &nbsp;&nbsp;&nbsp;
+              <a (click)="onUpdateLicense(row.username)"><i class="fa fa-pencil" style="color: blue"></i></a>
+            </td>
           </ng-container>
   
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

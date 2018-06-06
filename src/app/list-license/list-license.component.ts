@@ -36,10 +36,12 @@ export class ListLicenseComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  onRemoveUser(lienseId: number) {
-    const index = ELEMENT_DATA.findIndex(license => license.licenseID == lienseId);
+  onRemoveLicense(name: string) {
+   
+    const index = ELEMENT_DATA.findIndex(license => license.name === name);
     //ELEMENT_DATA[index].isActive = this.active + "";
     ELEMENT_DATA.splice(index, 1);
+    this.dataSource.filter = "";
   }
 
   applyFilter(filterValue: string) {

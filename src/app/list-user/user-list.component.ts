@@ -18,26 +18,26 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private userService: UserService) {
-    this.userService
-      .getUsers()
-      .subscribe((response) => {
-        var tmp = JSON.parse(JSON.stringify(response));
-        console.log(tmp);
-        for (var i in tmp.value) {
-          var user = tmp.value[i];
-          var result = new User(user.username, user.password, user.phoneNumber, user.role, user.isActive);
-          console.log(result);
-          ELEMENT_DATA.push(result);
-          
-        }
-        this.dataSource.filter = "";
-        console.log("Load11");
-      })
+    
   }
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
+    this.userService
+    .getUsers()
+    .subscribe((response) => {
+      var tmp = JSON.parse(JSON.stringify(response));
+      console.log(tmp);
+      for (var i in tmp.value) {
+        var user = tmp.value[i];
+        var result = new User(user.username, user.password, user.phoneNumber, user.role, user.isActive);
+        console.log(result);
+        ELEMENT_DATA.push(result);
+        
+      }
+      this.dataSource.filter = "";
+      console.log("Load11");
+    })
   }
   onRemoveUser(userName: string) {
     const index = ELEMENT_DATA.findIndex(user => user.username === userName);

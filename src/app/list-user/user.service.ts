@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 export class UserService {
     constructor(private http: HttpClient) { }
     url = 'http://27.74.245.84:8080';
-    getUsers():Observable<IUser[]> {
+    getUsers() {
         return this
         .http
-        .get<IUser[]>(`${this.url}/user/getAllAdmin`);
+        .get<BaseResponse<IUser[]>>(`${this.url}/user/getAllAdmin`);
     }
 }

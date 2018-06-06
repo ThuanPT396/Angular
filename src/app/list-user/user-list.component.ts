@@ -13,29 +13,37 @@ import { IUser } from '../interface/user.interface';
   providers: [UserService]
 })
 export class UserListComponent implements OnInit {
-  
-  displayedColumns = ['username', 'password', 'phoneNumber', 'isActive'];
+  active = 0;
+  displayedColumns = ['position','username', 'password', 'phoneNumber','role', 'isActive', 'function'];
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private userService: UserService) {
-  }
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
     this.userService
       .getUsers()
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
+        console.log(tmp);
         for (var i in tmp.value) {
           var user = tmp.value[i];
           var result = new User(user.username, user.password, user.phoneNumber, user.role, user.isActive);
           console.log(result);
           ELEMENT_DATA.push(result);
+          this.dataSource.filter = "";
         }
       })
   }
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
 
+  }
+  onRemoveUser(userName: string) {
+    const index = ELEMENT_DATA.findIndex(user => user.username === userName);
+    ELEMENT_DATA[index].isActive = this.active + "";
+    //ELEMENT_DATA.splice(index, 1);
+
+  }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -44,9 +52,7 @@ export class UserListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-
 }
- const ELEMENT_DATA: User[] = [
-  {username: 'thuan', password: 'Hydrogen', phoneNumber: 12137287, role: '0', isActive: '1'},
- ];
+const ELEMENT_DATA: User[] = [
+  // {username: 'thuan', password: 'Hydrogen', phoneNumber: 12137287, role: '0', isActive: '1'},
+];

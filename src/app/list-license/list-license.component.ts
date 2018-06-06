@@ -10,8 +10,9 @@ import { License } from '../model/license.model';
   providers: [LicenseService]
 })
 export class ListLicenseComponent implements OnInit {
+  ELEMENT_DATA: License[] = [];
   displayedColumns = ['position','license', 'price', 'duration','name', 'description', 'function'];
-  dataSource = new MatTableDataSource<License>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<License>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private licenseService: LicenseService) {
@@ -24,7 +25,7 @@ export class ListLicenseComponent implements OnInit {
           var license = tmp.value[i];
           var result = new License(license.licenseID,license.price,license.duration,license.name,license.description);
           console.log(result);
-          ELEMENT_DATA.push(result);
+          this.ELEMENT_DATA.push(result);
           
         }
         this.dataSource.filter = "";
@@ -38,9 +39,9 @@ export class ListLicenseComponent implements OnInit {
 
   onRemoveLicense(name: string) {
    
-    const index = ELEMENT_DATA.findIndex(license => license.name === name);
+    const index = this.ELEMENT_DATA.findIndex(license => license.name === name);
     //ELEMENT_DATA[index].isActive = this.active + "";
-    ELEMENT_DATA.splice(index, 1);
+    this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
   }
 
@@ -53,4 +54,4 @@ export class ListLicenseComponent implements OnInit {
     }
   }
 }
-const ELEMENT_DATA: License[] = [];
+

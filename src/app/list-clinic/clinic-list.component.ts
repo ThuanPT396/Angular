@@ -10,9 +10,10 @@ import { ClinicService } from './clinic.service';
     providers: [ClinicService]
 })
 export class ClinicListComponent implements OnInit {
+    ELEMENT_DATA: Clinic[] = [];
     active = 0;
     displayedColumns = ['position', 'username', 'phoneNumber', 'role', 'isActive','address','clinicName','function'];
-    dataSource = new MatTableDataSource<Clinic>(ELEMENT_DATA);
+    dataSource = new MatTableDataSource<Clinic>(this.ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
@@ -26,11 +27,10 @@ export class ClinicListComponent implements OnInit {
           var clinic = tmp.value[i];
           var result = new Clinic(clinic.username,clinic.password,clinic.phoneNumber,clinic.role,clinic.isActive,clinic.address,clinic.clinicName);
           console.log(result);
-          ELEMENT_DATA.push(result);
+          this.ELEMENT_DATA.push(result);
           
         }
         this.dataSource.filter = "";
-        console.log("Load11");
       })
      }
 
@@ -39,8 +39,8 @@ export class ClinicListComponent implements OnInit {
         this.dataSource.sort = this.sort;
     }
     onRemoveClinic(userName: string) {
-        const index = ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
-        ELEMENT_DATA[index].isActive = this.active + "";
+        const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
+        this.ELEMENT_DATA[index].isActive = this.active + "";
         //ELEMENT_DATA.splice(index, 1);
 
     }
@@ -53,8 +53,6 @@ export class ClinicListComponent implements OnInit {
         }
     }
 }
-const ELEMENT_DATA: Clinic[] = [
-];
     // onUserPopup(userName: string, phoneNumber:number){
     //  const index= this.patients.findIndex(patient =>patient.name === name);
     //  this.name = name;

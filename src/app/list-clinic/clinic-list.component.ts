@@ -81,7 +81,6 @@ export class ClinicListComponent implements OnInit {
     }
     onUpdateClinic(username:string){
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === username);
-        alert(this.ELEMENT_DATA[index].password);
         this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
         this.ELEMENT_DATA[index].address = this.address;
         this.ELEMENT_DATA[index].clinicName = this.clinicName;

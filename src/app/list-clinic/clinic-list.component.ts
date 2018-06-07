@@ -22,13 +22,10 @@ export class ClinicListComponent implements OnInit {
       .getClinics()
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
-        console.log(tmp);
         for (var i in tmp.value) {
           var clinic = tmp.value[i];
           var result = new Clinic(clinic.username,clinic.password,clinic.phoneNumber,clinic.role,clinic.isActive,clinic.address,clinic.clinicName);
-          console.log(result);
-          this.ELEMENT_DATA.push(result);
-          
+          this.ELEMENT_DATA.push(result);       
         }
         this.dataSource.filter = "";
       })

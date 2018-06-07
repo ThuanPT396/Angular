@@ -20,11 +20,9 @@ export class ListLicenseComponent implements OnInit {
       .getLicenses()
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
-        console.log(tmp);
         for (var i in tmp.value) {
           var license = tmp.value[i];
           var result = new License(license.licenseID,license.price,license.duration,license.name,license.description);
-          console.log(result);
           this.ELEMENT_DATA.push(result);
           
         }

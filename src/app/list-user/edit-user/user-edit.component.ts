@@ -4,6 +4,7 @@ import { throwError } from 'rxjs';
 import { UserService } from '../user.service';
 import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../../model/BaseResponse.model';
+import { Final } from '../../Const';
 
 @Component({
   selector: 'app-user-edit',
@@ -21,7 +22,7 @@ export class UserEditComponent implements OnInit {
   }
   onAddItem() {
     this.http
-      .post<BaseResponse<User[]>>('http://27.74.245.84:8080/user/create',
+      .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/create`,
         {
           username: this.username,
           phoneNumber: this.phoneNumber,

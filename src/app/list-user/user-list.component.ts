@@ -4,6 +4,8 @@ import { User } from '../model/user.model';
 import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { BaseResponse } from '../model/BaseResponse.model';
+import { Final } from '../Const';
 
 @Component({
   selector: 'app-user-list',
@@ -13,15 +15,18 @@ import { throwError } from 'rxjs';
 })
 export class UserListComponent implements OnInit {
   ELEMENT_DATA: User[] = [];
+  username = "";
+  phoneNumber = 0;
   active = 0;
-  displayedColumns = ['position', 'username', 'password', 'phoneNumber', 'role', 'isActive', 'function'];
+  displayedColumns = ['position', 'username', 'phoneNumber', 'function'];
   dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private http: HttpClient) {
 
   }
   ngOnInit() {
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.userService
@@ -41,9 +46,61 @@ export class UserListComponent implements OnInit {
 
   onRemoveUser(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    this.ELEMENT_DATA[index].isActive = this.active + "";
-    //ELEMENT_DATA.splice(index, 1);
+    // this.ELEMENT_DATA[index].isActive = this.active + "";
+    this.http
+      .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
+        {
+          username: this.ELEMENT_DATA[index].username,
+          password: this.ELEMENT_DATA[index].password,
+          phoneNumber: this.ELEMENT_DATA[index].phoneNumber,
+          role: 0,
+          isActive: this.ELEMENT_DATA[index].isActive = this.active + ""
+        })
+      .subscribe((response) => {
+        console.log(response);
+        alert("Remove Administrator is successfully.")
 
+      },
+        error => {
+          console.error("Error delete user!");
+          alert("Remove Administrator is fail.")
+          return throwError(error);  // Angular 6/RxJS 6
+        }
+      );
+    this.ELEMENT_DATA.splice(index, 1);
+    this.dataSource.filter = "";
+  }
+  onPushPopup(userName: string, phoneNumber: number) {
+    const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
+    console.log(index);
+    this.username = userName;
+    console.log(this.username);
+    this.phoneNumber = phoneNumber;
+  }
+  onUpdateUser(userName: string) {
+    const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
+    this.ELEMENT_DATA[index].phoneNumber=this.phoneNumber;
+    this.http
+      .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
+        {
+          username: this.ELEMENT_DATA[index].username,
+          password: this.ELEMENT_DATA[index].password,
+          phoneNumber: this.phoneNumber,
+          role: 0,
+          isActive: 1
+        })
+      .subscribe((response) => {
+        console.log(response);
+        alert("Update Administrator is successfully.");
+
+      },
+        error => {
+          console.error("Error Update user!");
+          alert("Update Administrator is fail.");
+          return throwError(error);  // Angular 6/RxJS 6
+        }
+      );
+    this.dataSource.filter = "";
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

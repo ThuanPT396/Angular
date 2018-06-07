@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../../model/BaseResponse.model';
 import { License } from '../../model/license.model';
 import { throwError } from 'rxjs';
+import { Final } from '../../Const';
 
 @Component({
   selector: 'app-edit-license',
@@ -19,7 +20,7 @@ export class EditLicenseComponent implements OnInit {
   ngOnInit() {}
   onAddItem() {
     this.http
-    .post<BaseResponse<License[]>>('http://27.74.245.84:8080/license/create',
+    .post<BaseResponse<License[]>>(`${Final.API_ENDPOINT}/license/create`,
       {
         price: this.price,
         duration: this.duration,

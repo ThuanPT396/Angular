@@ -16,9 +16,10 @@ import { Final } from '../Const';
 export class UserListComponent implements OnInit {
   ELEMENT_DATA: User[] = [];
   username = "";
+  fullName = "";
   phoneNumber = 0;
   active = 0;
-  displayedColumns = ['position', 'username', 'phoneNumber', 'function'];
+  displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'function'];
   dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -35,8 +36,8 @@ export class UserListComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var user = tmp.value[i];
-          var result = new User(user.username, user.password, user.phoneNumber, user.role, user.isActive);
-          // console.log(result);
+          var result = new User(user.username, user.password, user.fullName, user.phoneNumber, user.role, user.isActive);
+          console.log(result);
           this.ELEMENT_DATA.push(result);
 
         }
@@ -46,12 +47,12 @@ export class UserListComponent implements OnInit {
 
   onRemoveUser(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    // this.ELEMENT_DATA[index].isActive = this.active + "";
     this.http
       .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
         {
           username: this.ELEMENT_DATA[index].username,
           password: this.ELEMENT_DATA[index].password,
+          fullName: this.ELEMENT_DATA[index].fullName,
           phoneNumber: this.ELEMENT_DATA[index].phoneNumber,
           role: 0,
           isActive: this.ELEMENT_DATA[index].isActive = this.active + ""
@@ -70,21 +71,22 @@ export class UserListComponent implements OnInit {
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
   }
-  onPushPopup(userName: string, phoneNumber: number) {
+  onPushPopup(userName: string, fullName: string, phoneNumber: number) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    console.log(index);
     this.username = userName;
-    console.log(this.username);
+    this.fullName = fullName;
     this.phoneNumber = phoneNumber;
   }
   onUpdateUser(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    this.ELEMENT_DATA[index].phoneNumber=this.phoneNumber;
+    this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
+    this.ELEMENT_DATA[index].fullName = this.fullName;
     this.http
       .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
         {
           username: this.ELEMENT_DATA[index].username,
           password: this.ELEMENT_DATA[index].password,
+          fullName: this.fullName,
           phoneNumber: this.phoneNumber,
           role: 0,
           isActive: 1

@@ -10,7 +10,8 @@
         <i class="fa fa-key"></i> License
       </li>
       <li class="active">
-        <a class="link" routerLink="/licenseAdd" routerLinkActive="active menu"><i class="fa fa-plus" aria-hidden="true"></i>Create License</a>
+        <a class="link" routerLink="/licenseAdd" routerLinkActive="active menu">
+          <i class="fa fa-plus" aria-hidden="true"></i>Create License</a>
       </li>
     </ol>
   </section>
@@ -28,13 +29,13 @@
         <input type="text" id="price" class="form-control" [(ngModel)]="price">
       </div>
       <div class="col-md-12 form-group">
-          <label for="duration">Duration</label>
-          <input type="text" id="duration" class="form-control" [(ngModel)]="duration">
-        </div>
-        <div class="col-md-12 form-group">
-            <label for="description">Description</label>
-            <input type="text" id="description" class="form-control" [(ngModel)]="description">
-          </div>
+        <label for="duration">Duration</label>
+        <input type="text" id="duration" class="form-control" [(ngModel)]="duration">
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" class="form-control" [(ngModel)]="description">
+      </div>
       <div class="col-md-12 text-right">
         <button class="btn btn-primary" (click)="onAddItem()">Add</button>
       </div>

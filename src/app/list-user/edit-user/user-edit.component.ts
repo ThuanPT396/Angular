@@ -13,6 +13,7 @@ import { Final } from '../../Const';
 export class UserEditComponent implements OnInit {
   username = "";
   phoneNumber = "";
+  fullName="";
   isActive = 'true';
   role = '0';
   constructor(private http: HttpClient) { }
@@ -25,6 +26,7 @@ export class UserEditComponent implements OnInit {
       .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/create`,
         {
           username: this.username,
+          fullName : this.fullName,
           phoneNumber: this.phoneNumber,
           role: 0
         })

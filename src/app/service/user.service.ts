@@ -50,13 +50,7 @@ export class UserService {
           password: password
         })
       }
-    
-    
-    
       getUserClaims(){
-        localStorage.getItem('username');
-        console.log(localStorage.getItem('username'));
-        
+       return localStorage.getItem('username');
       }
-    
 }

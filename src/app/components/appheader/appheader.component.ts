@@ -8,11 +8,12 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./appheader.component.css']
 })
 export class AppheaderComponent implements OnInit {
-
-  constructor(private router: Router, private userService:UserService) { }
+  username = ""
+  constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUserClaims();
+    this.username = this.userService.getUserClaims();
+
   }
   logout() {
     localStorage.removeItem('username');

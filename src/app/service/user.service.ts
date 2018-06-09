@@ -4,7 +4,9 @@ import { BaseResponse } from '../model/BaseResponse.model';
 import { User } from '../model/user.model';
 import { Final } from '../Const';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class UserService {
     constructor(private http: HttpClient) { }
    // url = 'http://27.74.245.84:8080';
@@ -41,5 +43,20 @@ export class UserService {
             role:0
         })
     }
+
+    userAuthentication(username,password){
+        return this.http.post('http://27.74.245.84:8080/user/login', {
+          username: username,
+          password: password
+        })
+      }
+    
+    
+    
+      getUserClaims(){
+        localStorage.getItem('username');
+        console.log(localStorage.getItem('username'));
+        
+      }
     
 }

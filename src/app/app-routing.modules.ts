@@ -6,43 +6,47 @@ import { ClinicListComponent } from './list-clinic/clinic-list.component'
 import { ClinicEditComponent } from './list-clinic/edit-clinic/clinic-edit.component'
 import { ListLicenseComponent } from './list-license/list-license.component'
 import { EditLicenseComponent } from './list-license/edit-license/edit-license.component'
+import { SignInComponent } from './list-user/sign-in/sign-in.component';
+import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './auth/auth.guard';
 
-const appRoutes: Routes = [
-    { path: '', component: UserListComponent },
-    { path: 'userAdd', component: UserEditComponent },
-    { path: 'userList', component: UserListComponent },
-    { path: 'clinicAdd', component: ClinicEditComponent },
-    { path: 'clinicList', component: ClinicListComponent },
-    { path: 'licenseAdd',component: EditLicenseComponent},
-    { path: 'licenseList',component:ListLicenseComponent },
+export const appRoutes: Routes = [
+    // { path: '', component: UserListComponent },
+    // { path: 'userAdd', component: UserEditComponent },
+    // { path: 'userList', component: UserListComponent },
+    // { path: 'clinicAdd', component: ClinicEditComponent },
+    // { path: 'clinicList', component: ClinicListComponent },
+    // { path: 'licenseAdd',component: EditLicenseComponent},
+    // { path: 'licenseList',component:ListLicenseComponent },
 
 
-    // { path: 'login', component: SignInComponent },
-    // {
-    //     path: 'userAdd', component: HomeComponent,
-    //     children: [{ path: '', component: UserEditComponent }]
-    // },
-    // {
-    //     path: 'userList', component: HomeComponent,
-    //     children: [{ path: '', component: UserListComponent }]
-    // },
-    // {
-    //     path: 'clinicAdd', component: HomeComponent,
-    //     children: [{ path: '', component: ClinicEditComponent }]
-    // },
-    // {
-    //     path: 'clinicList', component: HomeComponent,
-    //     children: [{ path: '', component: ClinicListComponent }]
-    // },
-    // {
-    //     path: 'licenseAdd', component: HomeComponent,
-    //     children: [{ path: '', component: EditLicenseComponent }]
-    // },
-    // {
-    //     path: 'license', component: HomeComponent,
-    //     children: [{ path: '', component: ListLicenseComponent }]
-    // },
-    // { path: '', redirectTo: '/login', pathMatch: 'full' }
+    { path: 'login', component: SignInComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    {
+        path: 'userAdd', component: HomeComponent,
+        children: [{ path: '', component: UserEditComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'userList', component: HomeComponent,
+        children: [{ path: '', component: UserListComponent , canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'clinicAdd', component: HomeComponent,
+        children: [{ path: '', component: ClinicEditComponent , canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'clinicList', component: HomeComponent,
+        children: [{ path: '', component: ClinicListComponent, canActivate: [AuthGuard]  }]
+    },
+    {
+        path: 'licenseAdd', component: HomeComponent,
+        children: [{ path: '', component: EditLicenseComponent, canActivate: [AuthGuard]  }]
+    },
+    {
+        path: 'licenseList', component: HomeComponent,
+        children: [{ path: '', component: ListLicenseComponent , canActivate: [AuthGuard] }]
+    },
+    { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

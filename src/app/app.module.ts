@@ -23,7 +23,7 @@ import { AppmenuComponent } from './components/appmenu/appmenu.component';
 import { AppsettingComponent } from './components/appsetting/appsetting.component';
 // Routing
 import { RouterModule, Routes } from '@angular/router';
-import { AppRoutingModule } from './app-routing.modules';
+import { AppRoutingModule, appRoutes } from './app-routing.modules';
 //Marterial Table
 import '../polyfills';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -66,6 +66,11 @@ import {
 } from '@angular/material';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeComponent } from './home/home.component';
+import { SignInComponent } from './list-user/sign-in/sign-in.component';
+import { UserService } from './service/user.service';
+import { AuthGuard } from './auth/auth.guard';
+
 
 @NgModule({
   exports: [
@@ -105,7 +110,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ]
+  ],
+  
 })
 export class DemoMaterialModule { }
 
@@ -121,7 +127,8 @@ export class DemoMaterialModule { }
     AppheaderComponent,
     AppmenuComponent,
     AppsettingComponent,
-  
+    HomeComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
@@ -135,14 +142,13 @@ export class DemoMaterialModule { }
     BrowserAnimationsModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    ReactiveFormsModule
-    
+    ReactiveFormsModule,
   ],
   exports: [
     CdkTableModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

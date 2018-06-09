@@ -16,8 +16,8 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MAIN NAVIGATION</li>
-      <li class="treeview">
-        <a href="#">
+      <li class="active treeview menu-open">
+        <a class="link">
           <i class="fa fa-user"></i>
           <span>User</span>
           <span class="pull-right-container">
@@ -30,12 +30,12 @@
               <i class="fa fa-user-plus"></i>Create User</a>
           </li>
           <li>
-            <a class="link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="link" routerLink="/userList" routerLinkActive="active menu" >
                 <i class="fa fa-list" aria-hidden="true"></i>List User</a>
           </li>
         </ul>
       </li>
-      <li class="treeview">
+      <li class="active treeview menu-open">
         <a href="#">
           <i class="fa fa-heartbeat"></i>
           <span>Clinic</span>
@@ -54,7 +54,7 @@
           </li>
         </ul>
       </li>
-      <li class="treeview">
+      <li class="active treeview menu-open">
           <a href="#">
             <i class="fa fa-key"></i>
             <span>License</span>

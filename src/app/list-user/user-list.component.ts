@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { User } from '../model/user.model';
-import { UserService } from './user.service';
+import { UserService } from '../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { BaseResponse } from '../model/BaseResponse.model';
@@ -47,16 +47,12 @@ export class UserListComponent implements OnInit {
 
   onRemoveUser(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    this.http
-      .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
-        {
-          username: this.ELEMENT_DATA[index].username,
-          password: this.ELEMENT_DATA[index].password,
-          fullName: this.ELEMENT_DATA[index].fullName,
-          phoneNumber: this.ELEMENT_DATA[index].phoneNumber,
-          role: 0,
-          isActive: this.ELEMENT_DATA[index].isActive = this.active + ""
-        })
+    this.userService
+      .postUser(this.ELEMENT_DATA[index].username,
+        this.ELEMENT_DATA[index].password,
+        this.ELEMENT_DATA[index].fullName,
+        this.ELEMENT_DATA[index].phoneNumber,
+        0)
       .subscribe((response) => {
         console.log(response);
         alert("Remove Administrator is successfully.")
@@ -81,16 +77,12 @@ export class UserListComponent implements OnInit {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
     this.ELEMENT_DATA[index].fullName = this.fullName;
-    this.http
-      .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
-        {
-          username: this.ELEMENT_DATA[index].username,
-          password: this.ELEMENT_DATA[index].password,
-          fullName: this.fullName,
-          phoneNumber: this.phoneNumber,
-          role: 0,
-          isActive: 1
-        })
+    this.userService
+      .postUser(this.ELEMENT_DATA[index].username,
+        this.ELEMENT_DATA[index].password,
+        this.fullName,
+        this.phoneNumber,
+        1)
       .subscribe((response) => {
         console.log(response);
         alert("Update Administrator is successfully.");

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Clinic } from '../model/clinic.model';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ClinicService } from './clinic.service';
+import { ClinicService } from '../service/clinic.service';
 import { BaseResponse } from '../model/BaseResponse.model';
 import { Final } from '../Const';
 import { throwError } from 'rxjs';
@@ -45,18 +45,25 @@ export class ClinicListComponent implements OnInit {
     }
     onRemoveClinic(userName: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
-        this.http
-            .post<BaseResponse<Clinic[]>>(`${Final.API_ENDPOINT}/clinic/update`,
-                {
-                    username: this.ELEMENT_DATA[index].username,
-                    password: this.ELEMENT_DATA[index].password,
-                    fullName: this.ELEMENT_DATA[index].fullName,
-                    address: this.ELEMENT_DATA[index].address,
-                    clinicName: this.ELEMENT_DATA[index].clinicName,
-                    phoneNumber: this.ELEMENT_DATA[index].phoneNumber,
-                    role: 1,
-                    isActive: this.ELEMENT_DATA[index].isActive = this.active + ""
-                })
+        // this.http
+        //     .post<BaseResponse<Clinic[]>>(`${Final.API_ENDPOINT}/clinic/update`,
+        //         {
+        //             username: this.ELEMENT_DATA[index].username,
+        //             password: this.ELEMENT_DATA[index].password,
+        //             fullName: this.ELEMENT_DATA[index].fullName,
+        //             address: this.ELEMENT_DATA[index].address,
+        //             clinicName: this.ELEMENT_DATA[index].clinicName,
+        //             phoneNumber: this.ELEMENT_DATA[index].phoneNumber,
+        //             role: 1,
+        //             isActive: this.ELEMENT_DATA[index].isActive = this.active + ""
+        //         })
+        this.clinicService
+        .postClinic(this.ELEMENT_DATA[index].username,
+            this.ELEMENT_DATA[index].password,
+            this.ELEMENT_DATA[index].fullName,
+            this.ELEMENT_DATA[index].address,
+            this.ELEMENT_DATA[index].clinicName,
+            this.ELEMENT_DATA[index].phoneNumber,0)
             .subscribe((response) => {
                 console.log(response);
                 alert("Remove Clinic is successfully.")
@@ -84,16 +91,13 @@ export class ClinicListComponent implements OnInit {
         this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
         this.ELEMENT_DATA[index].address = this.address;
         this.ELEMENT_DATA[index].clinicName = this.clinicName;
-        this.http
-          .post<BaseResponse<Clinic[]>>(`${Final.API_ENDPOINT}/clinic/update`,
-            {
-              username: this.ELEMENT_DATA[index].username,
-              phoneNumber: this.phoneNumber,
-              address:this.address,
-              clinicName:this.clinicName,
-              role: 1,
-              isActive: 1
-            })
+        this.clinicService
+        .postClinic(this.ELEMENT_DATA[index].username,
+            this.ELEMENT_DATA[index].password,
+            this.ELEMENT_DATA[index].fullName,
+            this.ELEMENT_DATA[index].address,
+            this.ELEMENT_DATA[index].clinicName,
+            this.ELEMENT_DATA[index].phoneNumber,1)
           .subscribe((response) => {
             console.log(response);
             alert("Update Clinic is successfully.");

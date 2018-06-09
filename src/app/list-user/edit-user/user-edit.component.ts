@@ -1,35 +1,30 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { User } from '../../model/user.model';
 import { throwError } from 'rxjs';
-import { UserService } from '../user.service';
+import { UserService } from 'src/app/service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../../model/BaseResponse.model';
 import { Final } from '../../Const';
 
 @Component({
   selector: 'app-user-edit',
-  templateUrl: './user-edit.component.html'
+  templateUrl: './user-edit.component.html',
+  providers: [UserService]
 })
 export class UserEditComponent implements OnInit {
   username = "";
   phoneNumber = "";
-  fullName="";
+  fullName = "";
   isActive = 'true';
   role = '0';
-  constructor(private http: HttpClient) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
 
   }
   onAddItem() {
-    this.http
-      .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/create`,
-        {
-          username: this.username,
-          fullName : this.fullName,
-          phoneNumber: this.phoneNumber,
-          role: 0
-        })
+    this.userService
+      .postCreateUser(this.username, this.fullName, this.phoneNumber, )
       .subscribe((response) => {
         console.log(response);
         alert("Create Administrator is successfully.")

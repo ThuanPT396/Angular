@@ -21,7 +21,6 @@ import {EditLicenseComponent} from './list-license/edit-license/edit-license.com
 import { AppheaderComponent } from './components/appheader/appheader.component';
 import { AppmenuComponent } from './components/appmenu/appmenu.component';
 import { AppsettingComponent } from './components/appsetting/appsetting.component';
-import {HeaderComponent} from './header/header.component';
 // Routing
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.modules';
@@ -113,7 +112,6 @@ export class DemoMaterialModule { }
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     UserListComponent,
     UserEditComponent,
     ClinicListComponent,

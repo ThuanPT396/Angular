@@ -11,7 +11,7 @@ body {
 	margin-top: 4em;
 }
 
-h1, h3 { font-weight: 300; }
+/* h1, h3 { font-weight: 300; } */
 
 h1 { color: #636363; }
 
@@ -63,15 +63,12 @@ label {
 
 /* active */
 
-input:focus ~ label, input.used ~ label {
+input ~ label, input.used ~ label {
 	top: -20px;
   -webkit-transform: scale(.75);
           transform: scale(.75); left: -2px;
-	/* font-size: 14px; */
-	color: #4a89dc;
+  color: #4a89dc;
 }
-
-
 /* Underline */
 
 .bar {

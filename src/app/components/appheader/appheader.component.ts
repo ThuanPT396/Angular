@@ -9,14 +9,18 @@ import { UserService } from '../../service/user.service';
 })
 export class AppheaderComponent implements OnInit {
   username = ""
+  fullName = ""
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-    this.username = this.userService.getUserClaims();
+    var result = this.userService.getUserClaims();
+   
+    this.fullName = result.fullName
 
   }
   logout() {
     localStorage.removeItem('username');
+    localStorage.removeItem('fullName');
     this.router.navigate(['/login'])
   }
 }

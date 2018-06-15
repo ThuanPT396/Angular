@@ -21,7 +21,7 @@ export class UserService {
     postUser(username, password, fullName, phoneNumber, isActive) {
         return this
             .http
-            .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/update`,
+            .post<BaseResponse<User[]>>(`${this.url}/user/update`,
                 {
                     username: username,
                     password: password,
@@ -35,7 +35,7 @@ export class UserService {
     postCreateUser(username, fullName, phoneNumber) {
         return this
             .http
-            .post<BaseResponse<User[]>>(`${Final.API_ENDPOINT}/user/create`,
+            .post<BaseResponse<User[]>>(`${this.url}/user/create`,
                 {
                     username: username,
                     fullName: fullName,
@@ -45,7 +45,7 @@ export class UserService {
     }
 
     userAuthentication(username, password) {
-        return this.http.post('http://27.74.245.84:8080/user/login', {
+        return this.http.post(`${this.url}/user/login`, {
             username: username,
             password: password
         })

@@ -5,6 +5,7 @@ import { UserService } from 'src/app/service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../../model/BaseResponse.model';
 import { Final } from '../../Const';
+import { ToasterService } from '../../service/toast/toaster.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -17,7 +18,7 @@ export class UserEditComponent implements OnInit {
   fullName = "";
   isActive = 'true';
   role = '0';
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private toastService:ToasterService) { }
 
   ngOnInit() {
 
@@ -26,22 +27,14 @@ export class UserEditComponent implements OnInit {
     this.userService
       .postCreateUser(this.username, this.fullName, this.phoneNumber, )
       .subscribe((response) => {
-        console.log(response);
-        alert("Create Administrator is successfully.")
-      },
-        error => {
-          console.error("Error saving user!");
-          alert("Create Administrator is fail.")
-          return throwError(error);  // Angular 6/RxJS 6
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Create Administrator Successfully")
         }
-      );
+        else {
+          this.toastService.Error("Create Administrator Failure. Username is duplicate!!!")
+        }
+      },
+    );
   }
-  // onAddItem() {
-  //   const ingUserName = this.userNameInputRef.nativeElement.value;
-  //   const ingPhoneNumber = this.phoneNumberInputRef.nativeElement.value;
-
-  //   const newUser = new User(ingUserName,"123456",ingPhoneNumber,this.role,this.isActive);
-  //   this.UserAdded.emit(newUser);
-  //   console.log("Add success");
-  // }
 }

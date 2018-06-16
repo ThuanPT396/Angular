@@ -5,6 +5,7 @@ import { License } from '../../model/license.model';
 import { throwError } from 'rxjs';
 import { Final } from '../../Const';
 import { LicenseService } from '../../service/license.service';
+import { ToasterService } from '../../service/toast/toaster.service';
 
 @Component({
   selector: 'app-edit-license',
@@ -17,29 +18,21 @@ export class EditLicenseComponent implements OnInit {
   price="";
   duration="";
   description="";
-  constructor(private licenseService:LicenseService) { }
+  constructor(private licenseService:LicenseService,private toastService:ToasterService) { }
 
   ngOnInit() {}
   onAddItem() {
-    // this.http
-    // .post<BaseResponse<License[]>>(`${Final.API_ENDPOINT}/license/create`,
-    //   {
-    //     price: this.price,
-    //     duration: this.duration,
-    //     name: this.name,
-    //     description: this.description
-    //   })
     this.licenseService
-    .postCreateLicense(this.price,this.duration,this.name,this.description)
+    .postCreateLicense(this.price,this.duration,this.name,this.description,1)
     .subscribe((response) => {
-      console.log(response);
-      alert("Create License is successfully.")
-    },
-      error => {
-        console.error("Error saving license!");
-        alert("Create Administrator is fail.")
-        return throwError(error);  // Angular 6/RxJS 6
+      var tmp = JSON.parse(JSON.stringify(response));
+      if (tmp.status == true) {
+        this.toastService.Success("Create License Successfully")
       }
+      else {
+        this.toastService.Error("Create License Failure")
+      }
+    },
     );
   }
 

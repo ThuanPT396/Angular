@@ -8,18 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-
+  
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
+    
   }
   OnSubmit(username, password) {
     this.userService
     .userAuthentication(username,password)
     .subscribe(response => {
       var tmp = JSON.parse(JSON.stringify(response));
-      console.log(response);
-      console.log(tmp.status);
       if (tmp.status == true) {
         alert("Success")
         localStorage.setItem('username',tmp.value.username);
@@ -29,6 +28,5 @@ export class SignInComponent implements OnInit {
         alert("Invalid")
       }
     })
-  console.log(username, password)
   }
 }

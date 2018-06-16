@@ -70,7 +70,7 @@ import { HomeComponent } from './home/home.component';
 import { SignInComponent } from './list-user/sign-in/sign-in.component';
 import { UserService } from './service/user.service';
 import { AuthGuard } from './auth/auth.guard';
-
+import { ToasterService } from './service/toast/toaster.service';
 
 @NgModule({
   exports: [
@@ -138,7 +138,6 @@ export class DemoMaterialModule { }
     AppRoutingModule,
     HttpClientModule,
     DataTablesModule,
-
     BrowserAnimationsModule,
     DemoMaterialModule,
     MatNativeDateModule,
@@ -148,7 +147,7 @@ export class DemoMaterialModule { }
     CdkTableModule,
     MatTableModule
   ],
-  providers: [UserService],
+  providers: [UserService,ToasterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

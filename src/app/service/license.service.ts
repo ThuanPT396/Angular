@@ -27,7 +27,7 @@ export class LicenseService {
         })
     }
 
-    postCreateLicense(price,duration,name,description){
+    postCreateLicense(price,duration,name,description,isActive){
         return this
         .http
         .post<BaseResponse<License[]>>(`${this.url}/license/create`,{
@@ -35,6 +35,7 @@ export class LicenseService {
             duration:duration,
             name:name,
             description:description,
+            isActive: isActive
         })
     }
 }

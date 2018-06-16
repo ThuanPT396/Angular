@@ -6,6 +6,7 @@ import { BaseResponse } from '../model/BaseResponse.model';
 import { Final } from '../Const';
 import { throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ToasterService } from '../service/toast/toaster.service';
 
 @Component({
     selector: 'app-clinic-list',
@@ -16,16 +17,16 @@ import { HttpClient } from '@angular/common/http';
 export class ClinicListComponent implements OnInit {
     ELEMENT_DATA: Clinic[] = [];
     active = 0;
-    userName="";
-    phoneNumber=0;
-    address="";
-    clinicName="";
+    userName = "";
+    phoneNumber = 0;
+    address = "";
+    clinicName = "";
     displayedColumns = ['position', 'username', 'phoneNumber', 'address', 'clinicName', 'function'];
     dataSource = new MatTableDataSource<Clinic>(this.ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private clinicService: ClinicService, private http: HttpClient) {
+    constructor(private clinicService: ClinicService, private http: HttpClient, private toastService: ToasterService) {
         this.clinicService
             .getClinics()
             .subscribe((response) => {
@@ -45,36 +46,23 @@ export class ClinicListComponent implements OnInit {
     }
     onRemoveClinic(userName: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
-        // this.http
-        //     .post<BaseResponse<Clinic[]>>(`${Final.API_ENDPOINT}/clinic/update`,
-        //         {
-        //             username: this.ELEMENT_DATA[index].username,
-        //             password: this.ELEMENT_DATA[index].password,
-        //             fullName: this.ELEMENT_DATA[index].fullName,
-        //             address: this.ELEMENT_DATA[index].address,
-        //             clinicName: this.ELEMENT_DATA[index].clinicName,
-        //             phoneNumber: this.ELEMENT_DATA[index].phoneNumber,
-        //             role: 1,
-        //             isActive: this.ELEMENT_DATA[index].isActive = this.active + ""
-        //         })
         this.clinicService
-        .postClinic(this.ELEMENT_DATA[index].username,
-            this.ELEMENT_DATA[index].password,
-            this.ELEMENT_DATA[index].fullName,
-            this.ELEMENT_DATA[index].address,
-            this.ELEMENT_DATA[index].clinicName,
-            this.ELEMENT_DATA[index].phoneNumber,0)
+            .postClinic(this.ELEMENT_DATA[index].username,
+                this.ELEMENT_DATA[index].password,
+                this.ELEMENT_DATA[index].fullName,
+                this.ELEMENT_DATA[index].address,
+                this.ELEMENT_DATA[index].clinicName,
+                this.ELEMENT_DATA[index].phoneNumber, 0)
             .subscribe((response) => {
-                console.log(response);
-                alert("Remove Clinic is successfully.")
-
-            },
-                error => {
-                    console.error("Error delete clinic!");
-                    alert("Remove Clinic is fail.")
-                    return throwError(error);  // Angular 6/RxJS 6
+                var tmp = JSON.parse(JSON.stringify(response));
+                if (tmp.status == true) {
+                    this.toastService.Success("Remove Clinic Successfully")
                 }
-            );
+                else {
+                    this.toastService.Error("Remove Clinic Failure")
+                }
+            },
+        );
         this.ELEMENT_DATA.splice(index, 1);
         this.dataSource.filter = "";
 
@@ -82,33 +70,33 @@ export class ClinicListComponent implements OnInit {
     onPushPopup(userName: string, phoneNumber: number, address: string, clinicName: string) {
         const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
         this.userName = userName;
-        this.phoneNumber=phoneNumber;
+        this.phoneNumber = phoneNumber;
         this.address = address;
-        this.clinicName=clinicName;
+        this.clinicName = clinicName;
     }
-    onUpdateClinic(username:string){
+    onUpdateClinic(username: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === username);
         this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
         this.ELEMENT_DATA[index].address = this.address;
         this.ELEMENT_DATA[index].clinicName = this.clinicName;
         this.clinicService
-        .postClinic(this.ELEMENT_DATA[index].username,
-            this.ELEMENT_DATA[index].password,
-            this.ELEMENT_DATA[index].fullName,
-            this.ELEMENT_DATA[index].address,
-            this.ELEMENT_DATA[index].clinicName,
-            this.ELEMENT_DATA[index].phoneNumber,1)
-          .subscribe((response) => {
-            console.log(response);
-            alert("Update Clinic is successfully.");
-    
-          },
-            error => {
-              console.error("Error Update Clinic!");
-              alert("Update Clinic is fail.");
-              return throwError(error);  // Angular 6/RxJS 6
-            }
-          );
+            .postClinic(this.ELEMENT_DATA[index].username,
+                this.ELEMENT_DATA[index].password,
+                this.ELEMENT_DATA[index].fullName,
+                this.ELEMENT_DATA[index].address,
+                this.ELEMENT_DATA[index].clinicName,
+                this.ELEMENT_DATA[index].phoneNumber, 1)
+            .subscribe((response) => {
+                var tmp = JSON.parse(JSON.stringify(response));
+                if (tmp.status == true) {
+                    this.toastService.Success("Update Clinic Successfully")
+                }
+                else {
+                    this.toastService.Error("Update Clinic Failure")
+                }
+            },
+
+        );
         this.dataSource.filter = "";
     }
     applyFilter(filterValue: string) {

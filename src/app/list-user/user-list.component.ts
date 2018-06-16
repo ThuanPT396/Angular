@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { BaseResponse } from '../model/BaseResponse.model';
 import { Final } from '../Const';
+import { ToasterService } from '../service/toast/toaster.service';
 
 @Component({
   selector: 'app-user-list',
@@ -19,15 +20,18 @@ export class UserListComponent implements OnInit {
   fullName = "";
   phoneNumber = 0;
   active = 0;
+  // MatPaginator Output
+  pageEvent: PageEvent;
+
   displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'function'];
   dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private userService: UserService, private http: HttpClient) {
+  constructor(private userService: UserService, private http: HttpClient, private toastService: ToasterService) {
 
   }
   ngOnInit() {
-
+    // this.paginator.pageIndex = 0;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.userService
@@ -37,9 +41,7 @@ export class UserListComponent implements OnInit {
         for (var i in tmp.value) {
           var user = tmp.value[i];
           var result = new User(user.username, user.password, user.fullName, user.phoneNumber, user.role, user.isActive);
-          console.log(result);
           this.ELEMENT_DATA.push(result);
-
         }
         this.dataSource.data = this.ELEMENT_DATA;
       })
@@ -54,16 +56,15 @@ export class UserListComponent implements OnInit {
         this.ELEMENT_DATA[index].phoneNumber,
         0)
       .subscribe((response) => {
-        console.log(response);
-        alert("Remove Administrator is successfully.")
-
-      },
-        error => {
-          console.error("Error delete user!");
-          alert("Remove Administrator is fail.")
-          return throwError(error);  // Angular 6/RxJS 6
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Remove Administrator Successfully")
         }
-      );
+        else {
+          this.toastService.Error("Remove Administrator Failure")
+        }
+      },
+    );
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
   }
@@ -84,16 +85,15 @@ export class UserListComponent implements OnInit {
         this.phoneNumber,
         1)
       .subscribe((response) => {
-        console.log(response);
-        alert("Update Administrator is successfully.");
-
-      },
-        error => {
-          console.error("Error Update user!");
-          alert("Update Administrator is fail.");
-          return throwError(error);  // Angular 6/RxJS 6
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Update Administrator Successfully")
         }
-      );
+        else {
+          this.toastService.Error("Update Administrator Failure")
+        }
+      },
+    );
     this.dataSource.filter = "";
   }
   applyFilter(filterValue: string) {

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../model/BaseResponse.model';
 import { Final } from '../Const';
 import { throwError } from 'rxjs';
+import { ToasterService } from '../service/toast/toaster.service';
 
 @Component({
   selector: 'app-list-license',
@@ -25,7 +26,7 @@ export class ListLicenseComponent implements OnInit {
   dataSource = new MatTableDataSource<License>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private licenseService: LicenseService, private http: HttpClient) {
+  constructor(private licenseService: LicenseService, private http: HttpClient,private toastService: ToasterService) {
     this.licenseService
       .getLicenses()
       .subscribe((response) => {
@@ -56,16 +57,16 @@ export class ListLicenseComponent implements OnInit {
         this.ELEMENT_DATA[index].description, 0
       )
       .subscribe((response) => {
-        console.log(response);
-        alert("Remove License is successfully.")
-
-      },
-        error => {
-          console.error("Error delete license!");
-          alert("Remove license is failure.")
-          return throwError(error);  // Angular 6/RxJS 6
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Remove License Successfully")
         }
-      );
+        else {
+          this.toastService.Error("Remove License Failure")
+        }
+      },
+
+    );
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
   }
@@ -91,15 +92,16 @@ export class ListLicenseComponent implements OnInit {
         this.name,
         this.description, 1)
       .subscribe((response) => {
-        console.log(response);
-        alert("Update License is successfully.")
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Update License Successfully")
+        }
+        else {
+          this.toastService.Error("Update License Failure")
+        }
 
       },
-        error => {
-          console.error("Error update license!");
-          alert("Update License is fail.")
-          return throwError(error);  // Angular 6/RxJS 6
-        }
+       
       );
     this.dataSource.filter = "";
   }

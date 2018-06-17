@@ -3,9 +3,6 @@ import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/m
 import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { BaseResponse } from '../model/BaseResponse.model';
-import { Final } from '../Const';
 import { ToasterService } from '../service/toast/toaster.service';
 
 @Component({
@@ -22,6 +19,7 @@ export class UserListComponent implements OnInit {
   active = 0;
   // MatPaginator Output
   pageEvent: PageEvent;
+  selectedRowIndex;
 
   displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'function'];
   dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);

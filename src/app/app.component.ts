@@ -1,7 +1,4 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',

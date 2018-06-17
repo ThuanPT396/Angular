@@ -65,9 +65,11 @@
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent = $event">
-
       </mat-paginator>
       <div *ngIf="pageEvent">Page index:{{pageEvent.pageIndex+1}}</div>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"
+        [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="highlight(row, i, isOdd, isEven, isLast)">
+      </mat-row>
     </div>
 
   </section>

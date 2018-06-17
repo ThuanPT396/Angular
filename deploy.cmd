@@ -45,7 +45,7 @@ IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\package.json" (
   popd
 )
 :: Building the Angular App
-IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\.angular-cli.json" (
+IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\.angular.json" (
   pushd "%DEPLOYMENT_SOURCE%\WebAdmin"
   call :ExecuteCmd node_modules\.bin\ng build --progress false --prod
   IF !ERRORLEVEL! NEQ 0 goto error

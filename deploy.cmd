@@ -37,7 +37,20 @@ IF NOT DEFINED NEXT_MANIFEST_PATH (
     SET PREVIOUS_MANIFEST_PATH=%ARTIFACTS%\manifest
   )
 )
-
+:: Installing NPM dependencies.
+IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\package.json" (
+  pushd "%DEPLOYMENT_SOURCE%\WebAdmin"
+  call npm install --save
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
+:: Building the Angular App
+IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\.angular-cli.json" (
+  pushd "%DEPLOYMENT_SOURCE%\WebAdmin"
+  call :ExecuteCmd node_modules\.bin\ng build --progress false --prod
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 IF NOT DEFINED KUDU_SYNC_CMD (
   :: Install kudu sync
   echo Installing Kudu Sync
@@ -55,20 +68,6 @@ IF NOT DEFINED DEPLOYMENT_TEMP (
 IF DEFINED CLEAN_LOCAL_DEPLOYMENT_TEMP (
   IF EXIST "%DEPLOYMENT_TEMP%" rd /s /q "%DEPLOYMENT_TEMP%"
   mkdir "%DEPLOYMENT_TEMP%"
-)
-:: Installing NPM dependencies.
-IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\package.json" (
-  pushd "%DEPLOYMENT_SOURCE%\WebAdmin"
-  call npm install --save
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
-:: Building the Angular App
-IF EXIST "%DEPLOYMENT_SOURCE%\WebAdmin\.angular-cli.json" (
-  pushd "%DEPLOYMENT_SOURCE%\WebAdmin"
-  call :ExecuteCmd node_modules\.bin\ng build --progress false --prod
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
 )
 
 IF DEFINED MSBUILD_PATH goto MsbuildPathDefined

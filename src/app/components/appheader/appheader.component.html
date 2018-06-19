@@ -3,9 +3,11 @@
   <!-- Logo -->
   <a href="/home" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>C</b>C</span>
+    <span class="logo-mini">
+      <b>C</b>C</span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Call</b>Center</span>
+    <span class="logo-lg">
+      <b>Call</b>Center</span>
   </a>
 
   <!-- Header Navbar: style can be found in header.less -->
@@ -92,9 +94,9 @@
             </li> -->
             <!-- Menu Footer-->
             <li class="user-footer">
-              <!-- <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
-              </div> -->
+              <div class="pull-left">
+                <button class="btn btn-default btn-flat" data-toggle="modal" data-target="#myModalPW">Change Password</button>
+              </div>
               <div class="pull-right">
                 <a href="" (click)="logout()" class="btn btn-default btn-flat">Sign out</a>
               </div>
@@ -107,6 +109,63 @@
         </li> -->
       </ul>
     </div>
-
   </nav>
 </header>
+<!-- Modal -->
+<div id="myModalPW" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change Password</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <div class="col-md-6 padd-left-none">
+              <label for="username">User Name</label>
+              <input type="text" id="username" class="form-control" disabled [(ngModel)]="username">
+            </div>
+            <div class="col-md-6 padd-right-none">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" class="form-control" disabled [(ngModel)]="fullName">
+            </div>
+          </div>
+
+          <div class="col-md-12 form-group">
+            <div class="col-md-6 padd-left-none">
+              <label for="currentpw">Current password</label>
+              <input type="text" id="currentpw" class="form-control" [(ngModel)]="currentpw" (focusout)="checkPassword(username,currentpw)">
+            </div>
+            <div class="col-md-6 padd-text">
+              <p style="color: gray; font-weight: bold">{{textValidPW}}</p>
+            </div>
+          </div>
+          <div class="col-md-12 form-group">
+            <div class="col-md-6 padd-left-none">
+              <label for="newpw">New password</label>
+              <input type="text" id="newpw" class="form-control" [(ngModel)]="newpw">
+            </div>
+
+          </div>
+          <div class="col-md-12 form-group">
+            <div class="col-md-6 padd-left-none">
+              <label for="confirmpw">Confirm password</label>
+              <input type="text" id="confirmpw" class="form-control" [(ngModel)]="confirmpw" (keyup)="ConfirmPW(newpw,confirmpw)">
+            </div>
+            <div class="col-md-6 padd-text">
+                <p style="color: gray; font-weight: bold">{{textConfirmPW}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" (click)="onChangePassword(username,currentpw,newpw)" data-dismiss="modal">Change</button>
+      </div>
+    </div>
+
+  </div>
+</div>

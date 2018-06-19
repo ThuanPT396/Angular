@@ -20,7 +20,6 @@ export class SignInComponent implements OnInit {
     .subscribe(response => {
       var tmp = JSON.parse(JSON.stringify(response));
       if (tmp.status == true) {
-        alert("Success")
         localStorage.setItem('username',tmp.value.username);
         localStorage.setItem('fullName',tmp.value.fullName);
         this.router.navigate(['/home'])

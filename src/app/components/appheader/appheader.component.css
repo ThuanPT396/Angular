@@ -2,3 +2,10 @@
     position: fixed;
     width: 100%;
 }
+
+.padd-left-none {
+    padding-left: 0px;
+}
+.padd-right-none {
+    padding-right: 0px;
+}

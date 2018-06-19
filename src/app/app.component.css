@@ -17,3 +17,7 @@ td, th {
 tr.mat-row:nth-child(odd){
   background-color: rgba(178, 194, 241, 0.247);
   }
+
+.padd-text{
+  padding-top: 30px;
+}

@@ -44,6 +44,26 @@ export class UserService {
                 })
     }
 
+    userChangePassword(username,currentpw,newpw){
+        return this
+        .http
+        .post<BaseResponse<User[]>>(`${this.url}/user/changePassword`,
+        {
+            username: username,
+            password: currentpw,
+            newPassword: newpw,
+        })
+    }
+
+    userCheckPassword(username,password){
+        return this
+        .http
+        .post<BaseResponse<User[]>>(`${this.url}/user/checkPassword`,
+        {
+            username: username,
+            password: password
+        })
+    }
     userAuthentication(username, password) {
         return this.http.post(`${this.url}/user/login`, {
             username: username,
@@ -52,10 +72,8 @@ export class UserService {
     }
     getUserClaims() {
         const username = localStorage.getItem('username')
-        const fullName = localStorage.getItem('fullName');
-        
+        const fullName = localStorage.getItem('fullName');       
         var result = new User(username, "", fullName, 0, "", "")
-        console.log(result)
         return result
     }
 }

@@ -15,15 +15,15 @@ export class ClinicService {
             .get<BaseResponse<Clinic[]>>(`${this.url}/clinic/getAllClinic`);
     }
 
-    postClinic(username, password, fullName, address, clinicName, phoneNumber, isActive) {
+    postClinic(username, fullName, address, clinicName, phoneNumber, isActive,email) {
         return this
             .http.post<BaseResponse<Clinic[]>>(`${this.url}/clinic/update`, {
                 username:username,
-                password: password ,
                 fullName: fullName,
                 address: address,
                 clinicName: clinicName,
                 phoneNumber:phoneNumber,
+                email:email,
                 role: 1,
                 isActive:isActive
         })

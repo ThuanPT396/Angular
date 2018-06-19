@@ -16,6 +16,7 @@ export class UserEditComponent implements OnInit {
   username = "";
   phoneNumber = "";
   fullName = "";
+  email="";
   isActive = 'true';
   role = '0';
   constructor(private userService: UserService, private toastService:ToasterService) { }
@@ -25,7 +26,7 @@ export class UserEditComponent implements OnInit {
   }
   onAddItem() {
     this.userService
-      .postCreateUser(this.username, this.fullName, this.phoneNumber, )
+      .postCreateUser(this.username, this.fullName, this.phoneNumber,this.email )
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {

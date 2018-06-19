@@ -21,7 +21,8 @@ export class ClinicListComponent implements OnInit {
     phoneNumber = 0;
     address = "";
     clinicName = "";
-    displayedColumns = ['position', 'username', 'phoneNumber', 'address', 'clinicName', 'function'];
+    email="";
+    displayedColumns = ['position', 'username', 'phoneNumber', 'address', 'clinicName','email', 'function'];
     dataSource = new MatTableDataSource<Clinic>(this.ELEMENT_DATA);
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -33,7 +34,7 @@ export class ClinicListComponent implements OnInit {
                 var tmp = JSON.parse(JSON.stringify(response));
                 for (var i in tmp.value) {
                     var clinic = tmp.value[i];
-                    var result = new Clinic(clinic.username, clinic.password, clinic.fullName, clinic.phoneNumber, clinic.role, clinic.isActive, clinic.address, clinic.clinicName);
+                    var result = new Clinic(clinic.username, clinic.password, clinic.fullName, clinic.phoneNumber, clinic.role, clinic.isActive, clinic.address, clinic.clinicName,clinic.email);
                     this.ELEMENT_DATA.push(result);
                 }
                 this.dataSource.filter = "";
@@ -48,11 +49,12 @@ export class ClinicListComponent implements OnInit {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
         this.clinicService
             .postClinic(this.ELEMENT_DATA[index].username,
-                this.ELEMENT_DATA[index].password,
+                
                 this.ELEMENT_DATA[index].fullName,
                 this.ELEMENT_DATA[index].address,
                 this.ELEMENT_DATA[index].clinicName,
-                this.ELEMENT_DATA[index].phoneNumber, 0)
+                this.ELEMENT_DATA[index].phoneNumber,
+                0,this.ELEMENT_DATA[index].email)
             .subscribe((response) => {
                 var tmp = JSON.parse(JSON.stringify(response));
                 if (tmp.status == true) {
@@ -67,25 +69,27 @@ export class ClinicListComponent implements OnInit {
         this.dataSource.filter = "";
 
     }
-    onPushPopup(userName: string, phoneNumber: number, address: string, clinicName: string) {
+    onPushPopup(userName: string, phoneNumber: number, address: string, clinicName: string,email:string) {
         const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.clinicName = clinicName;
+        this.email=email;
     }
     onUpdateClinic(username: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === username);
         this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
         this.ELEMENT_DATA[index].address = this.address;
         this.ELEMENT_DATA[index].clinicName = this.clinicName;
+        this.ELEMENT_DATA[index].email = this.email;
         this.clinicService
             .postClinic(this.ELEMENT_DATA[index].username,
-                this.ELEMENT_DATA[index].password,
                 this.ELEMENT_DATA[index].fullName,
                 this.ELEMENT_DATA[index].address,
                 this.ELEMENT_DATA[index].clinicName,
-                this.ELEMENT_DATA[index].phoneNumber, 1)
+                this.ELEMENT_DATA[index].phoneNumber,
+                this.ELEMENT_DATA[index].email, 1)
             .subscribe((response) => {
                 var tmp = JSON.parse(JSON.stringify(response));
                 if (tmp.status == true) {

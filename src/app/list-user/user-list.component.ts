@@ -17,11 +17,12 @@ export class UserListComponent implements OnInit {
   fullName = "";
   phoneNumber = 0;
   active = 0;
+  email = "";
   // MatPaginator Output
   pageEvent: PageEvent;
   selectedRowIndex;
 
-  displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'function'];
+  displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'email', 'function'];
   dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -38,7 +39,8 @@ export class UserListComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var user = tmp.value[i];
-          var result = new User(user.username, user.password, user.fullName, user.phoneNumber, user.role, user.isActive);
+          //console.log(tmp.value);
+          var result = new User(user.username, user.password, user.fullName, user.phoneNumber, user.role, user.isActive, user.email);
           this.ELEMENT_DATA.push(result);
         }
         this.dataSource.data = this.ELEMENT_DATA;
@@ -52,6 +54,7 @@ export class UserListComponent implements OnInit {
         this.ELEMENT_DATA[index].password,
         this.ELEMENT_DATA[index].fullName,
         this.ELEMENT_DATA[index].phoneNumber,
+        this.ELEMENT_DATA[index].email,
         0)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
@@ -66,21 +69,24 @@ export class UserListComponent implements OnInit {
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
   }
-  onPushPopup(userName: string, fullName: string, phoneNumber: number) {
+  onPushPopup(userName: string, fullName: string, phoneNumber: number, email: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
     this.username = userName;
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
+    this.email = email;
   }
   onUpdateUser(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
     this.ELEMENT_DATA[index].fullName = this.fullName;
+    this.ELEMENT_DATA[index].email = this.email;
     this.userService
       .postUser(this.ELEMENT_DATA[index].username,
         this.ELEMENT_DATA[index].password,
         this.fullName,
         this.phoneNumber,
+        this.email,
         1)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));

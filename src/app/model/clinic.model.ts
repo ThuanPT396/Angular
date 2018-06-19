@@ -8,5 +8,6 @@ export class Clinic {
         public isActive: string,
         public address: string,
         public clinicName: string,
+        public email:string
     ) {}
 }

@@ -18,7 +18,7 @@ export class UserService {
             .get<BaseResponse<User[]>>(`${this.url}/user/getAllAdmin`);
     }
 
-    postUser(username, password, fullName, phoneNumber, isActive) {
+    postUser(username, password, fullName, phoneNumber,email, isActive) {
         return this
             .http
             .post<BaseResponse<User[]>>(`${this.url}/user/update`,
@@ -28,11 +28,12 @@ export class UserService {
                     fullName: fullName,
                     phoneNumber: phoneNumber,
                     role: 0,
+                    email:email,
                     isActive: isActive
                 })
     }
 
-    postCreateUser(username, fullName, phoneNumber) {
+    postCreateUser(username, fullName, phoneNumber,email) {
         return this
             .http
             .post<BaseResponse<User[]>>(`${this.url}/user/create`,
@@ -40,6 +41,7 @@ export class UserService {
                     username: username,
                     fullName: fullName,
                     phoneNumber: phoneNumber,
+                    email: email,
                     role: 0
                 })
     }
@@ -73,7 +75,7 @@ export class UserService {
     getUserClaims() {
         const username = localStorage.getItem('username')
         const fullName = localStorage.getItem('fullName');       
-        var result = new User(username, "", fullName, 0, "", "")
+        var result = new User(username, "", fullName, 0, "", "","")
         return result
     }
 }

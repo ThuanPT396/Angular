@@ -7,6 +7,7 @@ import { BaseResponse } from '../model/BaseResponse.model';
 import { Final } from '../Const';
 import { throwError } from 'rxjs';
 import { ToasterService } from '../service/toast/toaster.service';
+import { DialogService } from '../service/dialog/dialog.service';
 
 @Component({
   selector: 'app-list-license',
@@ -26,7 +27,7 @@ export class ListLicenseComponent implements OnInit {
   dataSource = new MatTableDataSource<License>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private licenseService: LicenseService, private http: HttpClient,private toastService: ToasterService) {
+  constructor(private licenseService: LicenseService, private http: HttpClient,private toastService: ToasterService,private dialog: DialogService) {
     this.licenseService
       .getLicenses()
       .subscribe((response) => {
@@ -38,6 +39,9 @@ export class ListLicenseComponent implements OnInit {
 
         }
         this.dataSource.filter = "";
+      },
+      error => {
+        this.dialog.openDialog("Attention", "Network is Disconnect");
       })
   }
 
@@ -65,7 +69,9 @@ export class ListLicenseComponent implements OnInit {
           this.toastService.Error("Remove License Failure")
         }
       },
-
+      error => {
+        this.dialog.openDialog("Attention", "Network is Disconnect");
+      }
     );
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
@@ -101,7 +107,9 @@ export class ListLicenseComponent implements OnInit {
         }
 
       },
-       
+      error => {
+        this.dialog.openDialog("Attention", "Network is Disconnect");
+      }
       );
     this.dataSource.filter = "";
   }

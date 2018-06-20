@@ -4,6 +4,7 @@ import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { ToasterService } from '../service/toast/toaster.service';
+import { DialogService } from '../service/dialog/dialog.service';
 
 @Component({
   selector: 'app-user-list',
@@ -26,7 +27,7 @@ export class UserListComponent implements OnInit {
   dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private userService: UserService, private http: HttpClient, private toastService: ToasterService) {
+  constructor(private userService: UserService, private http: HttpClient, private toastService: ToasterService,private dialog: DialogService) {
 
   }
   ngOnInit() {
@@ -44,6 +45,9 @@ export class UserListComponent implements OnInit {
           this.ELEMENT_DATA.push(result);
         }
         this.dataSource.data = this.ELEMENT_DATA;
+      },
+      error => {
+        this.dialog.openDialog("Attention", "Network is Disconnect");
       })
   }
 
@@ -65,6 +69,9 @@ export class UserListComponent implements OnInit {
           this.toastService.Error("Remove Administrator Failure")
         }
       },
+      error => {
+        this.dialog.openDialog("Attention", "Network is Disconnect");
+      }
     );
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
@@ -97,6 +104,9 @@ export class UserListComponent implements OnInit {
           this.toastService.Error("Update Administrator Failure")
         }
       },
+      error => {
+        this.dialog.openDialog("Attention", "Network is Disconnect");
+      }
     );
     this.dataSource.filter = "";
   }

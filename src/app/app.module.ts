@@ -22,8 +22,7 @@ import { AppheaderComponent } from './components/appheader/appheader.component';
 import { AppmenuComponent } from './components/appmenu/appmenu.component';
 import { AppsettingComponent } from './components/appsetting/appsetting.component';
 // Routing
-import { RouterModule, Routes } from '@angular/router';
-import { AppRoutingModule, appRoutes } from './app-routing.modules';
+import { AppRoutingModule } from './app-routing.modules';
 //Marterial Table
 import '../polyfills';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -69,6 +68,7 @@ import { HomeComponent } from './home/home.component';
 import { SignInComponent } from './list-user/sign-in/sign-in.component';
 import { UserService } from './service/user.service';
 import { ToasterService } from './service/toast/toaster.service';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
   exports: [
@@ -109,6 +109,7 @@ import { ToasterService } from './service/toast/toaster.service';
     MatTooltipModule,
     MatTreeModule,
   ],
+  declarations: [],
   
 })
 export class DemoMaterialModule { }
@@ -126,7 +127,8 @@ export class DemoMaterialModule { }
     AppmenuComponent,
     AppsettingComponent,
     HomeComponent,
-    SignInComponent
+    SignInComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -145,6 +147,7 @@ export class DemoMaterialModule { }
     CdkTableModule,
     MatTableModule
   ],
+  entryComponents: [PopupComponent],
   providers: [UserService,ToasterService],
   bootstrap: [AppComponent]
 })

@@ -15,7 +15,7 @@ export class UserService {
     getUsers() {
         return this
             .http
-            .get<BaseResponse<User[]>>(`${this.url}/user/getAllAdmin`);
+            .get<BaseResponse<User[]>>(`${this.url}/user/getAllUser?role=0`);
     }
 
     postUser(username, password, fullName, phoneNumber,email, isActive) {
@@ -64,6 +64,21 @@ export class UserService {
         {
             username: username,
             password: password
+        })
+    }
+    userCheckUsername(username){
+        return this.http.post(`${this.url}/user/checkDuplicate`,{
+            username:username
+        })
+    }
+    userCheckPhoneNumber(phoneNumber){
+        return this.http.post(`${this.url}/user/checkDuplicate`,{
+            phoneNumber:phoneNumber
+        })
+    }
+    userCheckEmail(email){
+        return this.http.post(`${this.url}/user/checkDuplicate`,{
+            email:email
         })
     }
     userAuthentication(username, password) {

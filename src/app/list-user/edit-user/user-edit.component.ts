@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../../model/BaseResponse.model';
 import { Final } from '../../Const';
 import { ToasterService } from '../../service/toast/toaster.service';
+import { DialogService } from '../../service/dialog/dialog.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -14,28 +15,91 @@ import { ToasterService } from '../../service/toast/toaster.service';
 })
 export class UserEditComponent implements OnInit {
   username = "";
+  textCheckUsername="";
   phoneNumber = "";
   fullName = "";
-  email="";
+  email = "";
   isActive = 'true';
   role = '0';
-  constructor(private userService: UserService, private toastService:ToasterService) { }
+  hasErrorUsername=false;
+  hasErrorPhoneNumber=false;
+  hasErrorEmail=false;
+  hiddenicon = true;
+  constructor(private userService: UserService, private toastService: ToasterService, private dialog: DialogService) { }
 
   ngOnInit() {
 
   }
   onAddItem() {
     this.userService
-      .postCreateUser(this.username, this.fullName, this.phoneNumber,this.email )
+      .postCreateUser(this.username, this.fullName, this.phoneNumber, this.email)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
           this.toastService.Success("Create Administrator Successfully")
+          this.username = "";
+          this.phoneNumber = "";
+          this.fullName = "";
+          this.email = "";
         }
         else {
           this.toastService.Error("Create Administrator Failure. Username is duplicate!!!")
         }
       },
-    );
+        error => {
+          this.dialog.openDialog("Attention", "Network is Disconnect");
+        }
+      );
   }
+  checkUsername(username: string) {
+    this.userService
+      .userCheckUsername(username)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          if (this.username=='') {
+            this.hasErrorUsername=true;
+            return;
+          }
+          this.hasErrorUsername=false;
+        }else{
+          this.hasErrorUsername=true;
+        }
+      })
+  }
+
+  checkPhoneNumber(phoneNumber: string) {
+    this.userService
+      .userCheckPhoneNumber(phoneNumber)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          if (this.phoneNumber=='') {
+            this.hasErrorPhoneNumber=true;
+            return;
+          }
+          this.hasErrorPhoneNumber=false;
+        }else{
+          this.hasErrorPhoneNumber=true;
+        }
+      })
+  }
+
+  checkEmail(email: string) {
+    this.userService
+      .userCheckEmail(email)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          if (this.email=='') {
+            this.hasErrorEmail=true;
+            return;
+          }
+          this.hasErrorEmail=false;
+        }else{
+          this.hasErrorEmail=true;
+        }
+      })
+  }
+
 }

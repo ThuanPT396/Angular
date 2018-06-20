@@ -7,6 +7,7 @@ import { Final } from '../Const';
 import { throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToasterService } from '../service/toast/toaster.service';
+import { DialogService } from '../service/dialog/dialog.service';
 
 @Component({
     selector: 'app-clinic-list',
@@ -27,7 +28,7 @@ export class ClinicListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private clinicService: ClinicService, private http: HttpClient, private toastService: ToasterService) {
+    constructor(private clinicService: ClinicService, private http: HttpClient, private toastService: ToasterService,private dialog: DialogService) {
         this.clinicService
             .getClinics()
             .subscribe((response) => {
@@ -38,7 +39,11 @@ export class ClinicListComponent implements OnInit {
                     this.ELEMENT_DATA.push(result);
                 }
                 this.dataSource.filter = "";
-            })
+            },
+            error => {
+                this.dialog.openDialog("Attention", "Network is Disconnect");
+              }
+        )
     }
 
     ngOnInit() {
@@ -64,6 +69,9 @@ export class ClinicListComponent implements OnInit {
                     this.toastService.Error("Remove Clinic Failure")
                 }
             },
+            error => {
+                this.dialog.openDialog("Attention", "Network is Disconnect");
+              }
         );
         this.ELEMENT_DATA.splice(index, 1);
         this.dataSource.filter = "";
@@ -99,7 +107,9 @@ export class ClinicListComponent implements OnInit {
                     this.toastService.Error("Update Clinic Failure")
                 }
             },
-
+            error => {
+                this.dialog.openDialog("Attention", "Network is Disconnect");
+              }
         );
         this.dataSource.filter = "";
     }
@@ -112,13 +122,3 @@ export class ClinicListComponent implements OnInit {
         }
     }
 }
-    // onUserPopup(userName: string, phoneNumber:number){
-    //  const index= this.patients.findIndex(patient =>patient.name === name);
-    //  this.name = name;
-    //  this.phoneNumber = phoneNumber;
-    // }
-    // onSubmitUpdate(id:number){
-    //    const index= this.patients.findIndex(patient =>patient.id === id);
-    //    this.patients[index].name=this.name;
-    //    this.patients[index].phoneNumber=this.phoneNumber;
-    // }

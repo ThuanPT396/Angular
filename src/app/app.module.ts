@@ -13,7 +13,6 @@ import { UserListComponent } from './list-user/user-list.component'
 import { UserEditComponent } from './list-user/edit-user/user-edit.component'
 // clinic
 import { ClinicListComponent } from './list-clinic/clinic-list.component'
-import { ClinicEditComponent } from './list-clinic/edit-clinic/clinic-edit.component'
 //license
 import {ListLicenseComponent} from './list-license/list-license.component'
 import {EditLicenseComponent} from './list-license/edit-license/edit-license.component'
@@ -120,7 +119,6 @@ export class DemoMaterialModule { }
     UserListComponent,
     UserEditComponent,
     ClinicListComponent,
-    ClinicEditComponent,
     ListLicenseComponent,
     EditLicenseComponent,
     AppheaderComponent,

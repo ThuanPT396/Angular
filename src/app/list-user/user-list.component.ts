@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
-import { User } from '../model/user.model';
+import { Admin } from '../model/user.model';
 import { UserService } from '../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { ToasterService } from '../service/toast/toaster.service';
@@ -13,7 +13,7 @@ import { DialogService } from '../service/dialog/dialog.service';
   providers: [UserService]
 })
 export class UserListComponent implements OnInit {
-  ELEMENT_DATA: User[] = [];
+  ELEMENT_DATA: Admin[] = [];
   username = "";
   fullName = "";
   phoneNumber = 0;
@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   selectedRowIndex;
 
   displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'email', 'function'];
-  dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Admin>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private userService: UserService, private http: HttpClient, private toastService: ToasterService,private dialog: DialogService) {
@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
         for (var i in tmp.value) {
           var user = tmp.value[i];
           // console.log(tmp.value);
-          var result = new User(user.username, user.password, user.fullName, user.phoneNumber, user.role, user.isActive, user.email);
+          var result = new Admin(user.username, user.fullName, user.phoneNumber, user.role, user.isActive, user.email);
           this.ELEMENT_DATA.push(result);
         }
         this.dataSource.data = this.ELEMENT_DATA;

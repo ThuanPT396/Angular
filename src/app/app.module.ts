@@ -68,6 +68,7 @@ import { SignInComponent } from './list-user/sign-in/sign-in.component';
 import { UserService } from './service/user.service';
 import { ToasterService } from './service/toast/toaster.service';
 import { PopupComponent } from './components/popup/popup.component';
+import { DevComponent } from './dev/dev.component';
 
 @NgModule({
   exports: [
@@ -108,7 +109,6 @@ import { PopupComponent } from './components/popup/popup.component';
     MatTooltipModule,
     MatTreeModule,
   ],
-  declarations: [],
   
 })
 export class DemoMaterialModule { }
@@ -116,6 +116,7 @@ export class DemoMaterialModule { }
 @NgModule({
   declarations: [
     AppComponent,
+    DevComponent,
     UserListComponent,
     UserEditComponent,
     ClinicListComponent,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../model/BaseResponse.model';
-import { User } from '../model/user.model';
+import { Admin } from '../model/user.model';
 import { Final } from '../Const';
 
 @Injectable({
@@ -15,13 +15,13 @@ export class UserService {
     getUsers() {
         return this
             .http
-            .get<BaseResponse<User[]>>(`${this.url}/user/getAllUser?role=0`);
+            .get<BaseResponse<Admin[]>>(`${this.url}/user/getAllUser?role=0`);
     }
 
     postUser(username, fullName, phoneNumber,email, isActive) {
         return this
             .http
-            .post<BaseResponse<User[]>>(`${this.url}/user/update`,
+            .post<BaseResponse<Admin[]>>(`${this.url}/user/update`,
                 {
                     username: username,
                    // password: password,
@@ -36,7 +36,7 @@ export class UserService {
     postCreateUser(username, fullName, phoneNumber,email) {
         return this
             .http
-            .post<BaseResponse<User[]>>(`${this.url}/user/create`,
+            .post<BaseResponse<Admin[]>>(`${this.url}/user/create`,
                 {
                     username: username,
                     fullName: fullName,
@@ -49,7 +49,7 @@ export class UserService {
     userChangePassword(username,currentpw,newpw){
         return this
         .http
-        .post<BaseResponse<User[]>>(`${this.url}/user/changePassword`,
+        .post<BaseResponse<Admin[]>>(`${this.url}/user/changePassword`,
         {
             username: username,
             password: currentpw,
@@ -60,7 +60,7 @@ export class UserService {
     userCheckPassword(username,password){
         return this
         .http
-        .post<BaseResponse<User[]>>(`${this.url}/user/checkPassword`,
+        .post<BaseResponse<Admin[]>>(`${this.url}/user/checkPassword`,
         {
             username: username,
             password: password
@@ -90,7 +90,7 @@ export class UserService {
     getUserClaims() {
         const username = localStorage.getItem('username')
         const fullName = localStorage.getItem('fullName');       
-        var result = new User(username, "", fullName, 0, "", "","")
+        var result = new Admin(username,fullName, 0, "", "","")
         return result
     }
 }

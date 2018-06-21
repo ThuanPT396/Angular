@@ -137,7 +137,7 @@
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
               <label for="currentpw">Current password</label>
-              <input type="text" id="currentpw" class="form-control" [(ngModel)]="currentpw" (focusout)="checkPassword(username,currentpw)">
+              <input type="password" id="currentpw" class="form-control" [(ngModel)]="currentpw" (focusout)="checkPassword(username,currentpw)">
             </div>
             <div class="col-md-6 padd-text">
               <p style="color: gray; font-weight: bold">{{textValidPW}}</p>
@@ -146,14 +146,14 @@
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
               <label for="newpw">New password</label>
-              <input type="text" id="newpw" class="form-control" [(ngModel)]="newpw">
+              <input type="password" id="newpw" class="form-control" [(ngModel)]="newpw">
             </div>
 
           </div>
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
               <label for="confirmpw">Confirm password</label>
-              <input type="text" id="confirmpw" class="form-control" [(ngModel)]="confirmpw" (keyup)="ConfirmPW(newpw,confirmpw)">
+              <input type="password" id="confirmpw" class="form-control" [(ngModel)]="confirmpw" (keyup)="ConfirmPW(newpw,confirmpw)">
             </div>
             <div class="col-md-6 padd-text">
                 <p style="color: gray; font-weight: bold">{{textConfirmPW}}</p>

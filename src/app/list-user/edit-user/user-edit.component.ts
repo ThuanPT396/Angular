@@ -1,10 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { User } from '../../model/user.model';
-import { throwError } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
-import { HttpClient } from '@angular/common/http';
-import { BaseResponse } from '../../model/BaseResponse.model';
-import { Final } from '../../Const';
 import { ToasterService } from '../../service/toast/toaster.service';
 import { DialogService } from '../../service/dialog/dialog.service';
 

@@ -8,6 +8,7 @@ import { EditLicenseComponent } from './list-license/edit-license/edit-license.c
 import { SignInComponent } from './list-user/sign-in/sign-in.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
+import { DevComponent } from './dev/dev.component';
 
 export const appRoutes: Routes = [
     // { path: '', component: UserListComponent },
@@ -25,11 +26,11 @@ export const appRoutes: Routes = [
         children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
     },
     {
-        path: 'userAdd', component: HomeComponent,
+        path: 'adminAdd', component: HomeComponent,
         children: [{ path: '', component: UserEditComponent, canActivate: [AuthGuard] }]
     },
     {
-        path: 'userList', component: HomeComponent,
+        path: 'adminList', component: HomeComponent,
         children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
     },
     {
@@ -43,6 +44,10 @@ export const appRoutes: Routes = [
     {
         path: 'licenseList', component: HomeComponent,
         children: [{ path: '', component: ListLicenseComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'userList', component: HomeComponent,
+        children: [{ path: '', component: DevComponent, canActivate: [AuthGuard] }]
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

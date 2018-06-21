@@ -40,7 +40,7 @@ export class UserListComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var user = tmp.value[i];
-          //console.log(tmp.value);
+          // console.log(tmp.value);
           var result = new User(user.username, user.password, user.fullName, user.phoneNumber, user.role, user.isActive, user.email);
           this.ELEMENT_DATA.push(result);
         }
@@ -55,7 +55,7 @@ export class UserListComponent implements OnInit {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
     this.userService
       .postUser(this.ELEMENT_DATA[index].username,
-        this.ELEMENT_DATA[index].password,
+        // this.ELEMENT_DATA[index].password,
         this.ELEMENT_DATA[index].fullName,
         this.ELEMENT_DATA[index].phoneNumber,
         this.ELEMENT_DATA[index].email,
@@ -67,6 +67,7 @@ export class UserListComponent implements OnInit {
         }
         else {
           this.toastService.Error("Remove Administrator Failure")
+          console.log(tmp.error)
         }
       },
       error => {
@@ -90,7 +91,7 @@ export class UserListComponent implements OnInit {
     this.ELEMENT_DATA[index].email = this.email;
     this.userService
       .postUser(this.ELEMENT_DATA[index].username,
-        this.ELEMENT_DATA[index].password,
+        // this.ELEMENT_DATA[index].password,
         this.fullName,
         this.phoneNumber,
         this.email,

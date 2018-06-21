@@ -18,13 +18,13 @@ export class UserService {
             .get<BaseResponse<User[]>>(`${this.url}/user/getAllUser?role=0`);
     }
 
-    postUser(username, password, fullName, phoneNumber,email, isActive) {
+    postUser(username, fullName, phoneNumber,email, isActive) {
         return this
             .http
             .post<BaseResponse<User[]>>(`${this.url}/user/update`,
                 {
                     username: username,
-                    password: password,
+                   // password: password,
                     fullName: fullName,
                     phoneNumber: phoneNumber,
                     role: 0,

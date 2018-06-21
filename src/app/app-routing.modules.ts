@@ -21,30 +21,33 @@ export const appRoutes: Routes = [
 
 
     { path: 'login', component: SignInComponent },
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    {
+        path: 'home', component: HomeComponent,
+        children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
+    },
     {
         path: 'userAdd', component: HomeComponent,
         children: [{ path: '', component: UserEditComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'userList', component: HomeComponent,
-        children: [{ path: '', component: UserListComponent , canActivate: [AuthGuard] }]
+        children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'clinicAdd', component: HomeComponent,
-        children: [{ path: '', component: ClinicEditComponent , canActivate: [AuthGuard] }]
+        children: [{ path: '', component: ClinicEditComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'clinicList', component: HomeComponent,
-        children: [{ path: '', component: ClinicListComponent, canActivate: [AuthGuard]  }]
+        children: [{ path: '', component: ClinicListComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'licenseAdd', component: HomeComponent,
-        children: [{ path: '', component: EditLicenseComponent, canActivate: [AuthGuard]  }]
+        children: [{ path: '', component: EditLicenseComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'licenseList', component: HomeComponent,
-        children: [{ path: '', component: ListLicenseComponent , canActivate: [AuthGuard] }]
+        children: [{ path: '', component: ListLicenseComponent, canActivate: [AuthGuard] }]
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

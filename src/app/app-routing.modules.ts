@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from './list-user/user-list.component'
 import { UserEditComponent } from './list-user/edit-user/user-edit.component'
 import { ClinicListComponent } from './list-clinic/clinic-list.component'
-import { ClinicEditComponent } from './list-clinic/edit-clinic/clinic-edit.component'
 import { ListLicenseComponent } from './list-license/list-license.component'
 import { EditLicenseComponent } from './list-license/edit-license/edit-license.component'
 import { SignInComponent } from './list-user/sign-in/sign-in.component';
@@ -32,10 +31,6 @@ export const appRoutes: Routes = [
     {
         path: 'userList', component: HomeComponent,
         children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
-    },
-    {
-        path: 'clinicAdd', component: HomeComponent,
-        children: [{ path: '', component: ClinicEditComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'clinicList', component: HomeComponent,

@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --aot -prod"
   },
   "private": true,
   "dependencies": {
@@ -29,9 +30,12 @@
     "datatable": "^2.0.2",
     "datatables.net": "^1.10.16",
     "datatables.net-dt": "^1.10.16",
+    "express": "^4.16.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
+    "path": "^0.12.7",
     "rxjs": "^6.0.0",
+    "typescript": "~2.7.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -45,6 +49,7 @@
     "@types/jquery": "^3.3.2",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
+    "enhanced-resolve": "^3.3.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",
@@ -56,5 +61,9 @@
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
     "typescript": "~2.7.2"
+  },
+  "engines": {
+    "node": "8.11.2",
+    "npm": "5.6.0"
   }
 }

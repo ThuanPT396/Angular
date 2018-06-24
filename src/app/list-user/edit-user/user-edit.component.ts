@@ -43,7 +43,7 @@ export class UserEditComponent implements OnInit {
         }
       },
         error => {
-          this.dialog.openDialog("Attention", "Network is Disconnect");
+          this.dialog.openDialog("Attention", "Cannot connect network!");
         }
       );
   }

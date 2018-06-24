@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 
 @Component({
-  selector: 'app-appmenu',
-  templateUrl: './appmenu.component.html',
-  styleUrls: ['./appmenu.component.css']
+  selector: 'app-appmenu-staff',
+  templateUrl: './appmenu-staff.component.html',
+  styleUrls: ['./appmenu-staff.component.css']
 })
-export class AppmenuComponent implements OnInit {
+export class AppmenuStaffComponent implements OnInit {
   fullName = ""
   constructor(private userService: UserService) { }
 
@@ -15,5 +14,5 @@ export class AppmenuComponent implements OnInit {
     var result = this.userService.getUserClaims();
     this.fullName = result.fullName
   }
-  
+
 }

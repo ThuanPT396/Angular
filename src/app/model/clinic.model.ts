@@ -8,6 +8,10 @@ export class Clinic {
         public isActive: string,
         public address: string,
         public clinicName: string,
-        public email:string
+        public email:string,
+        public accountSid:string,
+        public authToken:string,
+        public examinationDuration:string,
+        public expiredLicense:string
     ) {}
 }

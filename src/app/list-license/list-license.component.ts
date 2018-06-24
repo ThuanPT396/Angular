@@ -41,7 +41,7 @@ export class ListLicenseComponent implements OnInit {
         this.dataSource.filter = "";
       },
       error => {
-        this.dialog.openDialog("Attention", "Network is Disconnect");
+        this.dialog.openDialog("Attention", "Cannot connect network!");
       })
   }
 
@@ -70,7 +70,7 @@ export class ListLicenseComponent implements OnInit {
         }
       },
       error => {
-        this.dialog.openDialog("Attention", "Network is Disconnect");
+        this.dialog.openDialog("Attention", "Cannot connect network!");
       }
     );
     this.ELEMENT_DATA.splice(index, 1);
@@ -108,7 +108,7 @@ export class ListLicenseComponent implements OnInit {
 
       },
       error => {
-        this.dialog.openDialog("Attention", "Network is Disconnect");
+        this.dialog.openDialog("Attention", "Cannot connect network!");
       }
       );
     this.dataSource.filter = "";

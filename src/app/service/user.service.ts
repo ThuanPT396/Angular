@@ -88,9 +88,10 @@ export class UserService {
         })
     }
     getUserClaims() {
-        const username = localStorage.getItem('username')
-        const fullName = localStorage.getItem('fullName');       
-        var result = new Admin(username,fullName, 0, "", "","")
+        const username = localStorage.getItem('username');
+        const fullName = localStorage.getItem('fullName');    
+        const role = localStorage.getItem('role');   
+        var result = new Admin(username,fullName, 0, role, "","")
         return result
     }
 }

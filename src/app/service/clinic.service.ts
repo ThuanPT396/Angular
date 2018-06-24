@@ -12,20 +12,36 @@ export class ClinicService {
     getClinics() {
         return this
             .http
-            .get<BaseResponse<Clinic[]>>(`${this.url}/clinic/getAllClinic`);
+            .get<BaseResponse<Clinic[]>>(`${this.url}/user/getAllUser?role=1`);
+    }
+    getClinicsForStaff() {
+        return this
+            .http
+            .get<BaseResponse<Clinic[]>>(`${this.url}/clinic/getClinicsWaitingForPhone`);
     }
 
-    postClinic(username, fullName, address, clinicName, phoneNumber, isActive,email) {
+    postClinic(username, fullName, address, clinicName, phoneNumber, email, isActive,accountSid,authToken) {
         return this
-            .http.post<BaseResponse<Clinic[]>>(`${this.url}/clinic/update`, {
-                username:username,
+            .http.post<BaseResponse<Clinic[]>>(`${this.url}/user/update`, {
+                username: username,
                 fullName: fullName,
                 address: address,
                 clinicName: clinicName,
-                phoneNumber:phoneNumber,
-                email:email,
-                role: 1,
-                isActive:isActive
-        })
+                phoneNumber: phoneNumber,
+                email: email,
+                isActive: isActive,
+                accountSid: accountSid,
+                authToken:authToken
+            })
+    }
+
+    postClinicForStaff(username, phoneNumber, accountSid, authToken) {
+        return this
+            .http.post<BaseResponse<Clinic[]>>(`${this.url}/clinic/registerPhoneNumber`, {
+                username: username,
+                phoneNumber: phoneNumber,
+                accountSid: accountSid,
+                authToken: authToken
+            })
     }
 }

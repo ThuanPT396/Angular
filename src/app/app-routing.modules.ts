@@ -9,6 +9,7 @@ import { SignInComponent } from './list-user/sign-in/sign-in.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
 import { DevComponent } from './dev/dev.component';
+import { ListClinicForStaffComponent } from './list-clinic/list-clinic-for-staff/list-clinic-for-staff.component';
 
 export const appRoutes: Routes = [
     // { path: '', component: UserListComponent },
@@ -20,10 +21,9 @@ export const appRoutes: Routes = [
     // { path: 'licenseList',component:ListLicenseComponent },
 
 
-    { path: 'login', component: SignInComponent },
+    { path: 'login', component: SignInComponent},
     {
-        path: 'home', component: HomeComponent,
-        children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
+        path: 'home', component: HomeComponent , canActivate: [AuthGuard] 
     },
     {
         path: 'adminAdd', component: HomeComponent,
@@ -36,6 +36,10 @@ export const appRoutes: Routes = [
     {
         path: 'clinicList', component: HomeComponent,
         children: [{ path: '', component: ClinicListComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'clinicListForStaff', component: HomeComponent,
+        children: [{ path: '', component: ListClinicForStaffComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'licenseAdd', component: HomeComponent,

@@ -39,7 +39,7 @@ export class EditLicenseComponent implements OnInit {
         }
       },
         error => {
-          this.dialog.openDialog("Attention", "Network is Disconnect");
+          this.dialog.openDialog("Attention", "Cannot connect network!");
         }
       );
   }

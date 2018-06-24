@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { Admin } from '../model/user.model';
 import { UserService } from '../service/user.service';
@@ -27,11 +27,11 @@ export class UserListComponent implements OnInit {
   dataSource = new MatTableDataSource<Admin>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private userService: UserService, private http: HttpClient, private toastService: ToasterService,private dialog: DialogService) {
+  constructor(private userService: UserService, private http: HttpClient, private toastService: ToasterService, private dialog: DialogService) {
 
   }
   ngOnInit() {
-    // this.paginator.pageIndex = 0;
+    //this.paginator.pageIndex = 0;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.userService
@@ -46,16 +46,17 @@ export class UserListComponent implements OnInit {
         }
         this.dataSource.data = this.ELEMENT_DATA;
       },
-      error => {
-        this.dialog.openDialog("Attention", "Network is Disconnect");
-      })
+        error => {
+          this.dialog.openDialog("Attention", "Cannot connect network!");
+        })
   }
 
   onRemoveUser(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    this.userService
+    const usernamelocal=localStorage.getItem('username');
+    if (userName!=usernamelocal) {
+      this.userService
       .postUser(this.ELEMENT_DATA[index].username,
-        // this.ELEMENT_DATA[index].password,
         this.ELEMENT_DATA[index].fullName,
         this.ELEMENT_DATA[index].phoneNumber,
         this.ELEMENT_DATA[index].email,
@@ -70,12 +71,16 @@ export class UserListComponent implements OnInit {
           console.log(tmp.error)
         }
       },
-      error => {
-        this.dialog.openDialog("Attention", "Network is Disconnect");
-      }
-    );
+        error => {
+          this.dialog.openDialog("Attention", "Cannot connect network!");
+        }
+      );
     this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
+    }else{
+      this.toastService.Error("Cannot remove yourself.")
+    }
+   
   }
   onPushPopup(userName: string, fullName: string, phoneNumber: number, email: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
@@ -105,10 +110,10 @@ export class UserListComponent implements OnInit {
           this.toastService.Error("Update Administrator Failure")
         }
       },
-      error => {
-        this.dialog.openDialog("Attention", "Network is Disconnect");
-      }
-    );
+        error => {
+          this.dialog.openDialog("Attention", "Cannot connect network!");
+        }
+      );
     this.dataSource.filter = "";
   }
   applyFilter(filterValue: string) {

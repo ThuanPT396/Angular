@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-home',
@@ -6,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  role = ""
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-  
+    var result = this.userService.getUserClaims();
+    this.role = result.role;
   }
 
 }

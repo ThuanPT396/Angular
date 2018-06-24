@@ -26,6 +26,7 @@ export class AppheaderComponent implements OnInit {
   logout() {
     localStorage.removeItem('username');
     localStorage.removeItem('fullName');
+    localStorage.removeItem('role');
     this.router.navigate(['/login'])
   }
   checkPassword(username:string, password:string){

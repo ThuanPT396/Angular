@@ -69,6 +69,8 @@ import { UserService } from './service/user.service';
 import { ToasterService } from './service/toast/toaster.service';
 import { PopupComponent } from './components/popup/popup.component';
 import { DevComponent } from './dev/dev.component';
+import { AppmenuStaffComponent } from './components/appmenu-staff/appmenu-staff.component';
+import { ListClinicForStaffComponent } from './list-clinic/list-clinic-for-staff/list-clinic-for-staff.component';
 
 @NgModule({
   exports: [
@@ -117,8 +119,10 @@ export class DemoMaterialModule { }
   declarations: [
     AppComponent,
     DevComponent,
+    AppmenuStaffComponent,
     UserListComponent,
     UserEditComponent,
+    ListClinicForStaffComponent,
     ClinicListComponent,
     ListLicenseComponent,
     EditLicenseComponent,

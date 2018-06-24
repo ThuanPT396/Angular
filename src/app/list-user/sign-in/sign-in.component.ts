@@ -23,13 +23,14 @@ export class SignInComponent implements OnInit {
         if (tmp.status == true) {
           localStorage.setItem('username', tmp.value.username);
           localStorage.setItem('fullName', tmp.value.fullName);
+          localStorage.setItem('role',tmp.value.role);
           this.router.navigate(['/home'])
         } else {
           this.dialog.openDialog("Attention", "Usename or Password is wrong");
         }
       },
         error => {
-          this.dialog.openDialog("Attention", "Network is Disconnect");
+          this.dialog.openDialog("Attention", "Cannot connect network!");
         })
   }
 }

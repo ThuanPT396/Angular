@@ -109,6 +109,9 @@ export class ClinicListComponent implements OnInit {
         this.ELEMENT_DATA[index].address = this.address;
         this.ELEMENT_DATA[index].clinicName = this.clinicName;
         this.ELEMENT_DATA[index].email = this.email;
+        this.ELEMENT_DATA[index].fullName = this.fullName;
+        this.ELEMENT_DATA[index].accountSid =this.accountSid;
+        this.ELEMENT_DATA[index].authToken=this.authToken
         this.clinicService
             .postClinic(this.ELEMENT_DATA[index].username,
                 this.ELEMENT_DATA[index].fullName,

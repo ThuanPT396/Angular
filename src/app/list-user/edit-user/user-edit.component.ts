@@ -27,7 +27,8 @@ export class UserEditComponent implements OnInit {
 
   }
   onAddItem() {
-    this.userService
+    if (this.username !== "") {
+      this.userService
       .postCreateUser(this.username, this.fullName, this.phoneNumber, this.email)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
@@ -46,6 +47,10 @@ export class UserEditComponent implements OnInit {
           this.dialog.openDialog("Attention", "Cannot connect network!");
         }
       );
+    }else{
+      this.dialog.openDialog("Attention", "Username cannot empty");
+    }
+    
   }
   checkUsername(username: string) {
     this.userService

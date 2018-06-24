@@ -26,7 +26,8 @@ export class EditStaffComponent implements OnInit {
   ngOnInit() {
   }
   onAddItem() {
-    this.staffService
+    if (this.username !== "") {
+      this.staffService
       .postCreateStaff(this.username, this.fullName, this.phoneNumber, this.email)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
@@ -45,6 +46,10 @@ export class EditStaffComponent implements OnInit {
           this.dialog.openDialog("Attention", "Cannot connect network!");
         }
       );
+    }else{
+      this.dialog.openDialog("Attention", "Username cannot empty");
+    }
+   
   }
   checkUsername(username: string) {
     this.staffService

@@ -3,7 +3,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Clinic List
+      Clinic Need Approve
       <!-- <small>Version 2.0</small> -->
     </h1>
     <ol class="breadcrumb">
@@ -12,7 +12,7 @@
       </li>
       <li class="active">
         <a class="link" routerLink="/clinicListForStaff" routerLinkActive="active menu">
-          <i class="fa fa-list" aria-hidden="true"></i>Clinic List</a>
+          <i class="fa fa-list" aria-hidden="true"></i>Clinic Need Approve</a>
       </li>
     </ol>
   </section>
@@ -20,14 +20,14 @@
   <!-- Main content -->
   <section class="content">
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
     </mat-form-field>
 
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Position </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header >Position </th>
           <td mat-cell *matCellDef="let row; let rIndex = index;"> {{rIndex+1}} </td>
         </ng-container>
         <!-- User Column -->

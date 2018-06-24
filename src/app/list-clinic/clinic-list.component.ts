@@ -2,10 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Clinic } from '../model/clinic.model';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ClinicService } from '../service/clinic.service';
-import { BaseResponse } from '../model/BaseResponse.model';
-import { Final } from '../Const';
-import { throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 
@@ -63,13 +59,14 @@ export class ClinicListComponent implements OnInit {
     }
     onRemoveClinic(userName: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
+        console.log( this.ELEMENT_DATA[index])
         this.clinicService
             .postClinic(this.ELEMENT_DATA[index].username,
                 this.ELEMENT_DATA[index].fullName,
                 this.ELEMENT_DATA[index].address,
                 this.ELEMENT_DATA[index].clinicName,
                 this.ELEMENT_DATA[index].phoneNumber,
-                this.ELEMENT_DATA[index].email, 0,
+                this.ELEMENT_DATA[index].email,0,1,
                 this.ELEMENT_DATA[index].accountSid,
                 this.ELEMENT_DATA[index].authToken)
             .subscribe((response) => {
@@ -80,7 +77,6 @@ export class ClinicListComponent implements OnInit {
                 }
                 else {
                     this.toastService.Error("Remove Clinic Failure")
-                    console.log(tmp.error)
                 }
             },
                 error => {
@@ -91,7 +87,27 @@ export class ClinicListComponent implements OnInit {
         this.dataSource.filter = "";
 
     }
-    onPushPopup(userName: string, phoneNumber: number, address: string, clinicName: string, email: string) {
+    onResetClinic(userName: string) {
+        const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
+        this.clinicService
+            .postResetClinic(this.ELEMENT_DATA[index].username)
+            .subscribe((response) => {
+                var tmp = JSON.parse(JSON.stringify(response));
+                if (tmp.status == true) {
+                    this.toastService.Success("Remove phoneNumber, AccountSid, AuthToken Successfully")
+                }
+                else {
+                    this.toastService.Error("Remove phoneNumber, AccountSid, AuthToken Failure")
+                }
+            },
+                error => {
+                    this.dialog.openDialog("Attention", "Cannot connect network!");
+                }
+            );
+        // this.ELEMENT_DATA.splice(index,1,Clinic[index].value);
+        this.dataSource.filter = "";
+    }
+    onPushPopupUpdate(userName: string, phoneNumber: number, address: string, clinicName: string, email: string) {
         const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
         this.userName = userName;
         this.phoneNumber = phoneNumber;
@@ -104,6 +120,9 @@ export class ClinicListComponent implements OnInit {
         this.accountSid = this.ELEMENT_DATA[index].accountSid;
         this.authToken = this.ELEMENT_DATA[index].authToken;
     }
+    onPushPopupRemove(userName: string) {
+        this.userName = userName;
+    }
     onUpdateClinic(username: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === username);
         this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
@@ -111,15 +130,15 @@ export class ClinicListComponent implements OnInit {
         this.ELEMENT_DATA[index].clinicName = this.clinicName;
         this.ELEMENT_DATA[index].email = this.email;
         this.ELEMENT_DATA[index].fullName = this.fullName;
-        this.ELEMENT_DATA[index].accountSid =this.accountSid;
-        this.ELEMENT_DATA[index].authToken=this.authToken
+        this.ELEMENT_DATA[index].accountSid = this.accountSid;
+        this.ELEMENT_DATA[index].authToken = this.authToken
         this.clinicService
             .postClinic(this.ELEMENT_DATA[index].username,
                 this.ELEMENT_DATA[index].fullName,
                 this.ELEMENT_DATA[index].address,
                 this.ELEMENT_DATA[index].clinicName,
                 this.ELEMENT_DATA[index].phoneNumber,
-                this.ELEMENT_DATA[index].email, 1,
+                this.ELEMENT_DATA[index].email, 1,1,
                 this.ELEMENT_DATA[index].accountSid,
                 this.ELEMENT_DATA[index].authToken)
             .subscribe((response) => {

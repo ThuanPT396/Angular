@@ -15,8 +15,8 @@ export class ListClinicForStaffComponent implements OnInit {
   ELEMENT_DATA: Clinic[] = [];
   userName = "";
   phoneNumber;
-  accountSid="";
-  authToken="";
+  accountSid = "";
+  authToken = "";
   displayedColumns = ['position', 'username', 'address', 'clinicName', 'email', 'expiredLicense', 'function'];
   dataSource = new MatTableDataSource<Clinic>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -28,7 +28,7 @@ export class ListClinicForStaffComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var clinic = tmp.value[i];
-          var result = new Clinic(clinic.username, clinic.password, clinic.fullName, clinic.phoneNumber, clinic.role, clinic.isActive, clinic.address, clinic.clinicName, clinic.email,"","","","");
+          var result = new Clinic(clinic.username, clinic.password, clinic.fullName, clinic.phoneNumber, clinic.role, clinic.isActive, clinic.address, clinic.clinicName, clinic.email, "", "", "", "");
           this.ELEMENT_DATA.push(result);
         }
         this.dataSource.filter = "";
@@ -45,7 +45,7 @@ export class ListClinicForStaffComponent implements OnInit {
   }
   onPushPopup(userName: string) {
     this.userName = userName;
-}
+  }
   onUpdateClinic(username: string) {
     const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === username);
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
@@ -69,6 +69,7 @@ export class ListClinicForStaffComponent implements OnInit {
           this.dialog.openDialog("Attention", "Cannot connect network!");
         }
       );
+    this.ELEMENT_DATA.splice(index, 1);
     this.dataSource.filter = "";
   }
   applyFilter(filterValue: string) {

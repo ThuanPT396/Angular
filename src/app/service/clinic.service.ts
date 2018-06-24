@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../model/BaseResponse.model';
-import { Observable } from 'rxjs';
 import { Clinic } from '../model/clinic.model';
 import { Final } from '../Const';
 
@@ -20,7 +19,7 @@ export class ClinicService {
             .get<BaseResponse<Clinic[]>>(`${this.url}/clinic/getClinicsWaitingForPhone`);
     }
 
-    postClinic(username, fullName, address, clinicName, phoneNumber, email, isActive,accountSid,authToken) {
+    postClinic(username, fullName, address, clinicName, phoneNumber, email, isActive,role,accountSid,authToken) {
         return this
             .http.post<BaseResponse<Clinic[]>>(`${this.url}/user/update`, {
                 username: username,
@@ -30,6 +29,7 @@ export class ClinicService {
                 phoneNumber: phoneNumber,
                 email: email,
                 isActive: isActive,
+                role:role,
                 accountSid: accountSid,
                 authToken:authToken
             })
@@ -43,5 +43,12 @@ export class ClinicService {
                 accountSid: accountSid,
                 authToken: authToken
             })
+    }
+
+    postResetClinic(username){
+        return this
+        .http.post<BaseResponse<Clinic[]>>(`${this.url}/clinic/removeTwilioAccount`, {
+            username: username
+        })
     }
 }

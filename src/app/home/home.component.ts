@@ -7,12 +7,12 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  role = ""
+  role=0;
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     var result = this.userService.getUserClaims();
-    this.role = result.role;
+    this.role = parseInt(result.role);
   }
 
 }

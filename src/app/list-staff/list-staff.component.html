@@ -1,0 +1,118 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Staff List
+        <!-- <small>Version 2.0</small> -->
+      </h1>
+      <ol class="breadcrumb">
+        <li>
+          <i class="fa fa-user"></i> Staff
+        </li>
+        <li class="active">
+          <a class="link" routerLink="/staffList" routerLinkActive="active menu">
+            <i class="fa fa-list" aria-hidden="true"></i>Staff List</a>
+        </li>
+      </ol>
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+  
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+  
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Position </th>
+            <td mat-cell *matCellDef="let row; let rIndex = index;"> {{ rIndex+1}} </td>
+          </ng-container>
+          <!-- User Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+            <td mat-cell *matCellDef="let row"> {{row.username}} </td>
+          </ng-container>
+          <!-- Fullname Column -->
+          <ng-container matColumnDef="fullname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.fullName}} </td>
+          </ng-container>
+  
+          <!-- phoneNumber Column -->
+          <ng-container matColumnDef="phoneNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
+            <td mat-cell *matCellDef="let row"> {{row.phoneNumber}} </td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+          </ng-container>
+          <ng-container matColumnDef="function">
+            <th mat-header-cell *matHeaderCellDef>Function</th>
+            <td mat-cell *matCellDef="let row">
+              <a (click)="onRemoveStaff(row.username)">
+                <i class="fa fa-trash" style="color: red"></i>
+              </a>
+              &nbsp;&nbsp;&nbsp;
+              <a data-toggle="modal" data-target="#myModal" (click)="onPushPopup(row.username,row.fullName,row.phoneNumber,row.email)">
+                <i class="fa fa-edit" style="color: blue"></i>
+              </a>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+        </table>
+        <div *ngIf="pageEvent" style="color: #ADADAD; background-color: white; padding-right: 20px" class="text-right">Page index:{{pageEvent.pageIndex+1}}</div>  
+  
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent = $event">  
+        </mat-paginator>
+  
+        <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"
+          [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="highlight(row, i, isOdd, isEven, isLast)">
+        </mat-row>
+      </div>
+    </section>
+  </div>
+  
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Detail</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <label for="username">User Name</label>
+              <input type="text" id="username" class="form-control" disabled [(ngModel)]="username">
+  
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName">
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="phoneNumber">Phone Number</label>
+              <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
+            </div>
+            <div class="col-md-12 form-group">
+              <label for="email">Email</label>
+              <input type="text" id="email" class="form-control" [(ngModel)]="email">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary" (click)="onUpdateStaff(username)" data-dismiss="modal">Update</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>

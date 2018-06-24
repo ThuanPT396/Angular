@@ -191,6 +191,7 @@ input:focus ~ .highlight {
   height: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.25);
+  
 }
 
 .ripples.is-active .ripplesCircle {
@@ -224,4 +225,8 @@ input:focus ~ .highlight {
     opacity: 0;
   }
 }
+/* .test-bg{
+  background-image: url(../../../assets/dist/img/background-pictures.jpg);
+  height: 100%;
+} */
 

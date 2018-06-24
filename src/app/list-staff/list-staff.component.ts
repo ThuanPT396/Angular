@@ -1,19 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
-import { Admin } from '../model/user.model';
-import { UserService } from '../service/user.service';
-import { HttpClient } from '@angular/common/http';
+import { Staff } from '../model/staff.model';
+import { PageEvent, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
+import { StaffService } from '../service/staff.service';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css'],
-  providers: [UserService]
+  selector: 'app-list-staff',
+  templateUrl: './list-staff.component.html',
+  styleUrls: ['./list-staff.component.css']
 })
-export class UserListComponent implements OnInit {
-  ELEMENT_DATA: Admin[] = [];
+export class ListStaffComponent implements OnInit {
+  ELEMENT_DATA: Staff[] = [];
   username = "";
   fullName = "";
   phoneNumber = 0;
@@ -24,24 +23,22 @@ export class UserListComponent implements OnInit {
   selectedRowIndex;
 
   displayedColumns = ['position', 'username', 'fullname', 'phoneNumber', 'email', 'function'];
-  dataSource = new MatTableDataSource<Admin>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Staff>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private userService: UserService, private toastService: ToasterService, private dialog: DialogService) {
+  constructor(private staffService: StaffService, private toastService: ToasterService, private dialog: DialogService) { }
 
-  }
   ngOnInit() {
-    //this.paginator.pageIndex = 0;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.userService
-      .getUsers()
+    this.staffService
+      .getStaffs()
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var user = tmp.value[i];
           // console.log(tmp.value);
-          var result = new Admin(user.username, user.fullName, user.phoneNumber, user.role, user.isActive, user.email);
+          var result = new Staff(user.username, user.fullName, user.phoneNumber, user.role, user.isActive, user.email);
           this.ELEMENT_DATA.push(result);
         }
         this.dataSource.data = this.ELEMENT_DATA;
@@ -50,37 +47,31 @@ export class UserListComponent implements OnInit {
           this.dialog.openDialog("Attention", "Cannot connect network!");
         })
   }
-
-  onRemoveUser(userName: string) {
+  onRemoveStaff(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
-    const usernamelocal=localStorage.getItem('username');
-    if (userName!=usernamelocal) {
-      this.userService
-      .postUser(this.ELEMENT_DATA[index].username,
-        this.ELEMENT_DATA[index].fullName,
-        this.ELEMENT_DATA[index].phoneNumber,
-        this.ELEMENT_DATA[index].email,
-        0)
-      .subscribe((response) => {
-        var tmp = JSON.parse(JSON.stringify(response));
-        if (tmp.status == true) {
-          this.toastService.Success("Remove Administrator Successfully")
-        }
-        else {
-          this.toastService.Error("Remove Administrator Failure")
-          console.log(tmp.error)
-        }
-      },
-        error => {
-          this.dialog.openDialog("Attention", "Cannot connect network!");
-        }
-      );
-    this.ELEMENT_DATA.splice(index, 1);
-    this.dataSource.filter = "";
-    }else{
-      this.toastService.Error("Cannot remove yourself.")
-    }
-   
+      this.staffService
+        .postStaff(this.ELEMENT_DATA[index].username,
+          this.ELEMENT_DATA[index].fullName,
+          this.ELEMENT_DATA[index].phoneNumber,
+          this.ELEMENT_DATA[index].email,
+          0)
+        .subscribe((response) => {
+          var tmp = JSON.parse(JSON.stringify(response));
+          if (tmp.status == true) {
+            this.toastService.Success("Remove Staff Successfully")
+          }
+          else {
+            this.toastService.Error("Remove Staff Failure")
+            console.log(tmp.error)
+          }
+        },
+          error => {
+            this.dialog.openDialog("Attention", "Cannot connect network!");
+          }
+        );
+      this.ELEMENT_DATA.splice(index, 1);
+      this.dataSource.filter = "";
+
   }
   onPushPopup(userName: string, fullName: string, phoneNumber: number, email: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
@@ -89,13 +80,13 @@ export class UserListComponent implements OnInit {
     this.phoneNumber = phoneNumber;
     this.email = email;
   }
-  onUpdateUser(userName: string) {
+  onUpdateStaff(userName: string) {
     const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber;
     this.ELEMENT_DATA[index].fullName = this.fullName;
     this.ELEMENT_DATA[index].email = this.email;
-    this.userService
-      .postUser(this.ELEMENT_DATA[index].username,
+    this.staffService
+      .postStaff(this.ELEMENT_DATA[index].username,
         // this.ELEMENT_DATA[index].password,
         this.fullName,
         this.phoneNumber,
@@ -104,10 +95,10 @@ export class UserListComponent implements OnInit {
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
-          this.toastService.Success("Update Administrator Successfully")
+          this.toastService.Success("Update Staff Successfully")
         }
         else {
-          this.toastService.Error("Update Administrator Failure")
+          this.toastService.Error("Update Staff Failure")
         }
       },
         error => {
@@ -124,4 +115,4 @@ export class UserListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-} 
+}

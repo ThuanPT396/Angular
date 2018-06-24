@@ -21,3 +21,9 @@ tr.mat-row:nth-child(odd){
 .padd-text{
   padding-top: 30px;
 }
+.fa-edit{
+  font-size: 20px;
+}
+.fa-trash{
+  font-size: 20px;
+}

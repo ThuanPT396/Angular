@@ -44,7 +44,6 @@ export class ClinicListComponent implements OnInit {
                     var clinic = tmp.value[i];
                     var result = new Clinic(clinic.username, clinic.password, clinic.fullName, clinic.phoneNumber, clinic.role, clinic.isActive, clinic.address, clinic.clinicName, clinic.email, clinic.accountSid, clinic.authToken, clinic.examinationDuration, clinic.expiredLicense);
                     this.ELEMENT_DATA.push(result);
-                    console.log(result)
                 }
                 this.dataSource.filter = "";
             },
@@ -77,9 +76,11 @@ export class ClinicListComponent implements OnInit {
                 var tmp = JSON.parse(JSON.stringify(response));
                 if (tmp.status == true) {
                     this.toastService.Success("Remove Clinic Successfully")
+                    console.log(tmp.value)
                 }
                 else {
                     this.toastService.Error("Remove Clinic Failure")
+                    console.log(tmp.error)
                 }
             },
                 error => {
@@ -128,7 +129,6 @@ export class ClinicListComponent implements OnInit {
                 }
                 else {
                     this.toastService.Error("Update Clinic Failure")
-                    console.log(tmp.error)
                 }
             },
                 error => {

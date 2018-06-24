@@ -65,11 +65,11 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Function </th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onRemoveLicense(row.licenseID)">
-              <i class="fa fa-close" style="color: red"></i>
+              <i class="fa fa-trash" style="color: red"></i>
             </a>
             &nbsp;&nbsp;&nbsp;
             <a (click)="onPushPopup(row.licenseID,row.name,row.price,row.duration,row.description)">
-              <i data-toggle="modal" data-target="#myModal" class="fa fa-pencil" style="color: blue"></i>
+              <i data-toggle="modal" data-target="#myModal" class="fa fa-edit" style="color: blue"></i>
             </a>
           </td>
         </ng-container>

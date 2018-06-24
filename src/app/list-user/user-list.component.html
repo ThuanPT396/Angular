@@ -3,16 +3,16 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      User List
+        Administrator List
       <!-- <small>Version 2.0</small> -->
     </h1>
     <ol class="breadcrumb">
       <li>
-        <i class="fa fa-user"></i> User
+        <i class="fa fa-user"></i> Administrator
       </li>
       <li class="active">
         <a class="link" routerLink="/adminList" routerLinkActive="active menu">
-          <i class="fa fa-list" aria-hidden="true"></i>User List</a>
+          <i class="fa fa-list" aria-hidden="true"></i>Administrator List</a>
       </li>
     </ol>
   </section>
@@ -54,11 +54,11 @@
           <th mat-header-cell *matHeaderCellDef>Function</th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onRemoveUser(row.username)">
-              <i class="fa fa-close" style="color: red"></i>
+              <i class="fa fa-trash" style="color: red"></i>
             </a>
             &nbsp;&nbsp;&nbsp;
             <a data-toggle="modal" data-target="#myModal" (click)="onPushPopup(row.username,row.fullName,row.phoneNumber,row.email)">
-              <i class="fa fa-pencil" style="color: blue"></i>
+              <i class="fa fa-edit" style="color: blue"></i>
             </a>
           </td>
         </ng-container>

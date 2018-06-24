@@ -71,6 +71,8 @@ import { PopupComponent } from './components/popup/popup.component';
 import { DevComponent } from './dev/dev.component';
 import { AppmenuStaffComponent } from './components/appmenu-staff/appmenu-staff.component';
 import { ListClinicForStaffComponent } from './list-clinic/list-clinic-for-staff/list-clinic-for-staff.component';
+import { ListStaffComponent } from './list-staff/list-staff.component';
+import { EditStaffComponent } from './list-staff/edit-staff/edit-staff.component';
 
 @NgModule({
   exports: [
@@ -119,6 +121,8 @@ export class DemoMaterialModule { }
   declarations: [
     AppComponent,
     DevComponent,
+    EditStaffComponent,
+    ListStaffComponent,
     AppmenuStaffComponent,
     UserListComponent,
     UserEditComponent,

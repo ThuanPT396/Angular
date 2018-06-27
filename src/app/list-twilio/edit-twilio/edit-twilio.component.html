@@ -1,0 +1,39 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Create License
+      <!-- <small>Version 2.0</small> -->
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <i class="fa fa-key"></i> License
+      </li>
+      <li class="active">
+        <a class="link" routerLink="/licenseAdd" routerLinkActive="active menu">
+          <i class="fa fa-plus" aria-hidden="true"></i>Create License</a>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="col-md-12 box-content">
+      <div class="col-md-12 form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="accountSid">AccountSid</label>
+        <input type="text" id="accountSid" class="form-control" [(ngModel)]="accountSid">
+      </div>
+      <div class="col-md-12 form-group">
+        <label for="authToken">Authetication Token</label>
+        <input type="text" id="authToken" class="form-control" [(ngModel)]="authToken">
+      </div>
+      <div class="col-md-12 text-right">
+        <button class="btn btn-primary" (click)="onAddItem()"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+      </div>
+    </div>
+  </section>
+</div>

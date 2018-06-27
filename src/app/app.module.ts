@@ -22,6 +22,7 @@ import { AppmenuComponent } from './components/appmenu/appmenu.component';
 import { AppsettingComponent } from './components/appsetting/appsetting.component';
 // Routing
 import { AppRoutingModule } from './app-routing.modules';
+import { NgxPermissionsModule } from 'ngx-permissions';
 //Marterial Table
 import '../polyfills';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -70,10 +71,13 @@ import { ToasterService } from './service/toast/toaster.service';
 import { PopupComponent } from './components/popup/popup.component';
 import { DevComponent } from './dev/dev.component';
 import { AppmenuStaffComponent } from './components/appmenu-staff/appmenu-staff.component';
-import { ListClinicForStaffComponent } from './list-clinic/list-clinic-for-staff/list-clinic-for-staff.component';
 import { ListStaffComponent } from './list-staff/list-staff.component';
 import { EditStaffComponent } from './list-staff/edit-staff/edit-staff.component';
-
+import { AppmenuClinicComponent } from './components/appmenu-clinic/appmenu-clinic.component';
+import { ListPatientComponent } from './list-patient/list-patient.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+import { ListTwilioComponent } from './list-twilio/list-twilio.component';
+import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -113,7 +117,6 @@ import { EditStaffComponent } from './list-staff/edit-staff/edit-staff.component
     MatTooltipModule,
     MatTreeModule,
   ],
-  
 })
 export class DemoMaterialModule { }
 
@@ -126,10 +129,13 @@ export class DemoMaterialModule { }
     AppmenuStaffComponent,
     UserListComponent,
     UserEditComponent,
-    ListClinicForStaffComponent,
     ClinicListComponent,
+    ListTwilioComponent,
+    EditTwilioComponent,
     ListLicenseComponent,
     EditLicenseComponent,
+    ListPatientComponent,
+    AppmenuClinicComponent,
     AppheaderComponent,
     AppmenuComponent,
     AppsettingComponent,
@@ -144,11 +150,14 @@ export class DemoMaterialModule { }
     AngularFontAwesomeModule,
     AppRoutingModule,
     HttpClientModule,
+
     DataTablesModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    NgxPermissionsModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   exports: [
     CdkTableModule,

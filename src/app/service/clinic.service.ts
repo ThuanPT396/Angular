@@ -34,7 +34,6 @@ export class ClinicService {
                 authToken:authToken
             })
     }
-
     postClinicForStaff(username, phoneNumber, accountSid, authToken) {
         return this
             .http.post<BaseResponse<Clinic[]>>(`${this.url}/clinic/registerPhoneNumber`, {
@@ -44,7 +43,6 @@ export class ClinicService {
                 authToken: authToken
             })
     }
-
     postResetClinic(username){
         return this
         .http.post<BaseResponse<Clinic[]>>(`${this.url}/clinic/removeTwilioAccount`, {

@@ -17,12 +17,12 @@ export class SignInComponent implements OnInit {
   OnSubmit(username, password) {
     this.userService
       .userAuthentication(username, password)
-
       .subscribe(response => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
           localStorage.setItem('username', tmp.value.username);
           localStorage.setItem('fullName', tmp.value.fullName);
+          localStorage.setItem('clinicName', tmp.value.clinicName);
           localStorage.setItem('role',tmp.value.role);
           this.router.navigate(['/home'])
         } else {
@@ -30,7 +30,7 @@ export class SignInComponent implements OnInit {
         }
       },
         error => {
-          this.dialog.openDialog("Attention", "Cannot connect network!");
+          this.dialog.openDialog("Attention", "Cannot connect network");
         })
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseResponse } from '../model/BaseResponse.model';
 import { Admin } from '../model/user.model';
 import { Final } from '../Const';
+import { Clinic } from '../model/clinic.model';
 
 @Injectable({
     providedIn: 'root'
@@ -89,9 +90,10 @@ export class UserService {
     }
     getUserClaims() {
         const username = localStorage.getItem('username');
-        const fullName = localStorage.getItem('fullName');    
+        const fullName = localStorage.getItem('fullName');   
+        const clinicName = localStorage.getItem('clinicName'); 
         const role = localStorage.getItem('role');   
-        var result = new Admin(username,fullName, 0, role, "","")
+        var result = new Clinic(username,"",fullName, 0, role, "","",clinicName,"","","","","");
         return result
     }
 }

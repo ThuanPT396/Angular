@@ -1,5 +1,6 @@
 <app-appheader></app-appheader>
 <app-appmenu *ngIf="role==0"></app-appmenu>
+<app-appmenu-clinic *ngIf="role==1"></app-appmenu-clinic>
 <app-appmenu-staff *ngIf="role==2"></app-appmenu-staff>
 <div style="padding-top: 50px">
     <router-outlet></router-outlet>

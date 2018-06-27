@@ -9,9 +9,12 @@ import { SignInComponent } from './list-user/sign-in/sign-in.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
 import { DevComponent } from './dev/dev.component';
-import { ListClinicForStaffComponent } from './list-clinic/list-clinic-for-staff/list-clinic-for-staff.component';
 import { EditStaffComponent } from './list-staff/edit-staff/edit-staff.component';
 import { ListStaffComponent } from './list-staff/list-staff.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { ListPatientComponent } from './list-patient/list-patient.component';
+import { ListTwilioComponent } from './list-twilio/list-twilio.component';
+import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
 
 export const appRoutes: Routes = [
     // { path: '', component: UserListComponent },
@@ -22,26 +25,30 @@ export const appRoutes: Routes = [
     // { path: 'licenseAdd',component: EditLicenseComponent},
     // { path: 'licenseList',component:ListLicenseComponent },
 
-
-    { path: 'login', component: SignInComponent},
+    { path: 'login', component: SignInComponent },
     {
-        path: 'home', component: HomeComponent , canActivate: [AuthGuard] 
+        path: 'home', component: HomeComponent,canActivate: [AuthGuard]
     },
+    // { path: 'home', component: HomeComponent },
     {
         path: 'adminAdd', component: HomeComponent,
         children: [{ path: '', component: UserEditComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'adminList', component: HomeComponent,
-        children: [{ path: '', component: UserListComponent, canActivate: [AuthGuard] }]
+        children: [{ path: '', component: UserListComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+            permissions: {
+                only: ['ADMIN'],
+                except: ['STAFF'],
+                redirectTo: '/'
+            }
+        } }]
     },
     {
         path: 'clinicList', component: HomeComponent,
         children: [{ path: '', component: ClinicListComponent, canActivate: [AuthGuard] }]
-    },
-    {
-        path: 'clinicListForStaff', component: HomeComponent,
-        children: [{ path: '', component: ListClinicForStaffComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'licenseAdd', component: HomeComponent,
@@ -60,8 +67,20 @@ export const appRoutes: Routes = [
         children: [{ path: '', component: ListStaffComponent, canActivate: [AuthGuard] }]
     },
     {
+        path: 'twilioAdd', component: HomeComponent,
+        children: [{ path: '', component: EditTwilioComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'twilioList', component: HomeComponent,
+        children: [{ path: '', component: ListTwilioComponent, canActivate: [AuthGuard] }]
+    },
+    {
         path: 'userList', component: HomeComponent,
         children: [{ path: '', component: DevComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'appointmentList', component: HomeComponent,
+        children: [{ path: '', component: ListPatientComponent, canActivate: [AuthGuard] }]
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

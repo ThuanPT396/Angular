@@ -20,7 +20,11 @@ export class AppheaderComponent implements OnInit {
 
   ngOnInit() {
     var result = this.userService.getUserClaims();
-    this.fullName = result.fullName
+    if (localStorage.getItem('role')!='1') {
+      this.fullName = result.fullName
+    }else{
+      this.fullName = result.clinicName
+    }
     this.username = result.username
   }
   logout() {

@@ -25,6 +25,7 @@ export class ListPatientComponent implements OnInit {
   phoneNumber = "";
   username = localStorage.getItem('username')
   disabled = false;
+  selectedDate = new Date();
   // MatPaginator Outputs
   pageEvent: PageEvent;
   selectedRowIndex;
@@ -72,6 +73,11 @@ export class ListPatientComponent implements OnInit {
         })
   }
   onSelect(appID: string, choose: string) {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if(this.selectedDate < today){
+      return;
+    }
     this.appointmentService
       .postCheckStatus(this.username, appID, choose)
       .subscribe((response) => {
@@ -90,6 +96,7 @@ export class ListPatientComponent implements OnInit {
   }
   onGetDate(dateValue: string) {
     var format = this.pipe.transform(dateValue,'yyyy/MM/dd')
+    this.selectedDate = new Date(dateValue);
     // var d = this.date = dateValue;
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();

@@ -15,7 +15,8 @@ table {
     background-color:red;
     } */
 tr.mat-row:nth-child(odd){
-  background-color: rgba(178, 194, 241, 0.247);
+  /* background-color: rgba(178, 194, 241, 0.247); */
+  background-color: rgb(234, 217, 250, 0.347);
   }
 
 .padd-text{
@@ -32,4 +33,13 @@ tr.mat-row:nth-child(odd){
 }
 .fa-ban{
   font-size: 20px;
+}
+.mat-form-field{
+  line-height: 1 !important;
+}
+div.mat-form-field-flex{
+  background-color: white !important;
+  border-radius: 5px !important;
+  /* margin-top: 1px !important; */
+  border: none !important
 }

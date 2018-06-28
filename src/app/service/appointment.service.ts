@@ -3,6 +3,7 @@ import { Final } from "../Const";
 import { HttpClient } from "@angular/common/http";
 import { BaseResponse } from "../model/BaseResponse.model";
 import { Appointment } from "../model/appointment.model";
+import { PhoneNumber } from "../model/phoneNumber.model";
 
 @Injectable()
 export class AppointmentService {
@@ -34,4 +35,9 @@ export class AppointmentService {
             isBlock:isBlock
         });
     }
+
+    getPhoneNumberBlock(clinicName){
+        return this.http.get<BaseResponse<PhoneNumber[]>>(`${this.url}/block/getBlock?clinicUsername=${clinicName}`);
+    }
 }
+

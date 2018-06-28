@@ -5,16 +5,16 @@
   </div>
   <form #loginForm="ngForm" (ngSubmit)="OnSubmit(UserName.value,Password.value)">
     <div class="group">
-      <input type="text" #UserName ngModel name="Username" placeholder="UserName" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Name</label>
+      <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput #UserName ngModel name="Username" placeholder="Nhập bất kì">
+        </mat-form-field>
     </div>
     <div class="group">
-      <input type="password" #Password ngModel name="Password" placeholder="Password" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Password</label>
+      <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" #Password ngModel name="Password" placeholder="Nhập bất kì">
+        </mat-form-field>
     </div>
     <button type="submit" [disabled]="!loginForm.valid" class="button buttonBlue">Sign In
       <div class="ripples buttonRipples">

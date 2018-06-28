@@ -17,7 +17,7 @@ export class ListBlockComponent implements OnInit {
   pageEvent: PageEvent;
   selectedRowIndex;
 
-  displayedColumns = ['position', 'phoneNumber'];
+  displayedColumns = ['position', 'phoneNumber','function'];
   dataSource = new MatTableDataSource<PhoneNumber>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -43,7 +43,26 @@ export class ListBlockComponent implements OnInit {
       } )
 
   }
-
+  onRemovePhoneNumber(phoneNumber:string){
+    const index = this.ELEMENT_DATA.findIndex(user => user.phoneNumber === phoneNumber);
+    this.appointmentService
+    .postBlockNumber(this.username, phoneNumber, 0)
+    .subscribe((response) => {
+      var tmp = JSON.parse(JSON.stringify(response));
+      if (tmp.status == true) {
+        this.toastService.Success("Xóa chặn chặn thành công")
+      }
+      else {
+        this.toastService.Error("Xóa chặn thất bại")
+      }
+    },
+      error => {
+        this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+      }
+    );
+    this.ELEMENT_DATA.splice(index, 1);
+    this.dataSource.filter = "";
+  }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

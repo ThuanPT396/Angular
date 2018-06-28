@@ -20,6 +20,13 @@ tr.mat-row{
  background-color: white;
  padding-bottom: 10px !important;
 }
-.mat-form-field{
-    line-height: 0.9 !important;
+.padd-left-none {
+    padding-left: 0px;
+}
+.padd-right-none {
+    padding-right: 0px;
+}
+
+.mat-form-field>.mat-form-field-wrapper{
+    background-color: white !important
 }

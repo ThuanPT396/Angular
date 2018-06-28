@@ -4,16 +4,10 @@ table {
 }
 
 .mat-form-field {
-  font-size: 14px;
+  font-size: 15px;
   width: 100%;
 }
 
-/* td, th {
-  width: 25%;
-} */
-/* tr.mat-row:nth-child(even){
-    background-color:red;
-    } */
 tr.mat-row:nth-child(odd){
   /* background-color: rgba(178, 194, 241, 0.247); */
   background-color: rgb(234, 217, 250, 0.347);
@@ -21,6 +15,9 @@ tr.mat-row:nth-child(odd){
 
 .padd-text{
   padding-top: 30px;
+}
+.fa-close{
+  font-size: 20px;
 }
 .fa-edit{
   font-size: 20px;
@@ -36,10 +33,4 @@ tr.mat-row:nth-child(odd){
 }
 .mat-form-field{
   line-height: 1 !important;
-}
-div.mat-form-field-flex{
-  background-color: white !important;
-  border-radius: 5px !important;
-  /* margin-top: 1px !important; */
-  border: none !important
 }

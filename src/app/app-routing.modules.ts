@@ -15,6 +15,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ListPatientComponent } from './list-patient/list-patient.component';
 import { ListTwilioComponent } from './list-twilio/list-twilio.component';
 import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
+import { ListBlockComponent } from './list-patient/list-block/list-block.component';
 
 export const appRoutes: Routes = [
     // { path: '', component: UserListComponent },
@@ -77,6 +78,10 @@ export const appRoutes: Routes = [
     {
         path: 'userList', component: HomeComponent,
         children: [{ path: '', component: DevComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'blockList', component: HomeComponent,
+        children: [{ path: '', component: ListBlockComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'appointmentList', component: HomeComponent,

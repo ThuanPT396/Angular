@@ -1,58 +1,74 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { PageEvent, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker } from '@angular/material';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
+import { FormControl } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
   styleUrls: ['./list-patient.component.css'],
-  providers: [AppointmentService],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'vi-VN' }, AppointmentService],
 })
 export class ListPatientComponent implements OnInit {
-  myStyle = "{color:'red'}"
   ELEMENT_DATA: Appointment[] = [];
+  pipe = new DatePipe('en-US');
   d = new Date();
   day = this.d.getDate();
   month = this.d.getMonth() + 1;
   year = this.d.getFullYear();
   currentDate = this.year + "/0" + this.month + "/" + this.day;
-  date = this.currentDate;
+  date=new FormControl(new Date());
+  fullName = "";
+  phoneNumber = "";
   username = localStorage.getItem('username')
-  disabled= false;
+  disabled = false;
   // MatPaginator Outputs
   pageEvent: PageEvent;
   selectedRowIndex;
 
-  displayedColumns = ['position', 'username', 'phoneNumber', 'workingHour', 'function'];
+  displayedColumns = ['position', 'username', 'phoneNumber', 'workingHour', 'attendance', 'function'];
   dataSource = new MatTableDataSource<Appointment>(this.ELEMENT_DATA);
+  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private appointmentService: AppointmentService, private toastService: ToasterService, private dialog: DialogService) { }
   ngOnInit() {
-    var d = this.currentDate
+    this.date;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    var d = this.currentDate;
     this.onGetList(d);
-    console.log(d)
-    
   }
+  deadline(id: number) {
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === id);
+    var appTime = this.ELEMENT_DATA[index].appointmentTime
+    var curTime = this.ELEMENT_DATA[index].currentTime
+    if (appTime == curTime) {
+
+    }
+  };
   onGetList(date: string) {
     this.appointmentService
       .getAppointments(this.username, date)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
+        var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          
-          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.patient, app.currentTime, app.status);
+          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.isBlock);
+          if (!isCurrent && result.appointmentTime >= result.currentTime) {
+            isCurrent = true;
+            result.isCurrentAppointment = true;
+          }
           this.ELEMENT_DATA.push(result);
         }
         this.dataSource.data = this.ELEMENT_DATA;
       },
         error => {
-          this.dialog.openDialog("Attention", "Cannot connect network!");
+          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         })
   }
   onSelect(appID: string, choose: string) {
@@ -61,29 +77,54 @@ export class ListPatientComponent implements OnInit {
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
-          this.toastService.Success("Change Status Successfully")
+          this.toastService.Success("Đổi trạng thái thành công")
         }
         else {
-          this.toastService.Error("Change Status Failure")
+          this.toastService.Error("Đổi trạng thái thất bại")
         }
       },
         error => {
-          this.dialog.openDialog("Attention", "Cannot connect network!");
+          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         }
       );
   }
   onGetDate(dateValue: string) {
+    var format = this.pipe.transform(dateValue,'yyyy/MM/dd')
     // var d = this.date = dateValue;
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    this.onGetList(dateValue);
-    console.log(dateValue)
-    if (dateValue != this.currentDate) {
+    console.log(format , this.currentDate)
+    if (format != this.currentDate) {
       this.disabled = true;
-    }else{
+      console.log(this.disabled)
+    } else {
       this.disabled = false;
+      console.log(this.disabled)
     }
+    this.onGetList(format);
+   
+  }
+  onPopupPhoneNumber(fullName: string, numberPhone: string) {
+    this.fullName = fullName;
+    this.phoneNumber = numberPhone;
+  }
+  onBanPhoneNumber(phoneNumber: string, isBlock: string) {
+    this.appointmentService
+      .postBlockNumber(this.username, phoneNumber, !isBlock)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Đổi trạng thái chặn thành công")
+        }
+        else {
+          this.toastService.Error("Đổi trạng thái chặn thất bại")
+        }
+      },
+        error => {
+          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+        }
+      );
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

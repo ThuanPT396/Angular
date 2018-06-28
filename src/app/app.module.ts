@@ -78,6 +78,7 @@ import { ListPatientComponent } from './list-patient/list-patient.component';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ListTwilioComponent } from './list-twilio/list-twilio.component';
 import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
+import { ListBlockComponent } from './list-patient/list-block/list-block.component';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -130,6 +131,7 @@ export class DemoMaterialModule { }
     UserListComponent,
     UserEditComponent,
     ClinicListComponent,
+    ListBlockComponent,
     ListTwilioComponent,
     EditTwilioComponent,
     ListLicenseComponent,

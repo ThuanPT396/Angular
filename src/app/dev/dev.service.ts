@@ -26,4 +26,10 @@ export class DevService {
                     password: password,
                 })
     }
+
+    getDeleteUser(username){
+        return this
+        .http
+        .get<BaseResponse<User[]>>(`${this.url}/user/delete?username=${username}`);
+    }
 }

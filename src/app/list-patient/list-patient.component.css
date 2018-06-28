@@ -1,16 +1,26 @@
 td,th{
     width: 0% !important;
-   
+}
+table.mat-calendar-table>thead>tr,th{
+    width: 0% !important;
 }
 th{
     font-size: 13px;
     font-weight: bold; 
     color: #222D32;
 }
-tr.mat-row:nth-child(odd){
-  background-color:white;
-  }
 
 .negative {
-    background-color: #F7D0D4;
+    background-color: rgb(224, 224, 224) !important;
 }
+.positive{
+    background-color: rgb(211, 247, 208) !important;
+}
+tr.mat-row{
+ background-color: white;
+ padding-bottom: 10px !important;
+}
+.mat-form-field{
+    line-height: 0.9 !important;
+}
+

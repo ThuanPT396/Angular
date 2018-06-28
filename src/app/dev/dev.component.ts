@@ -71,6 +71,34 @@ export class DevComponent implements OnInit {
     );
     this.dataSource.filter = "";
   }
+
+  onRemoveUser(userName: string) {
+    const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
+    const usernamelocal=localStorage.getItem('username');
+    if (userName!=usernamelocal) {
+      this.devService
+      .getDeleteUser(userName)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Remove User Successfully")
+        }
+        else {
+          this.toastService.Error("Remove User Failure")
+        }
+      },
+        error => {
+          this.dialog.openDialog("Attention", "Cannot connect network!");
+        }
+      );
+    this.ELEMENT_DATA.splice(index, 1);
+    this.dataSource.filter = "";
+    }else{
+      this.toastService.Error("Cannot remove yourself.")
+    }
+   
+  }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches

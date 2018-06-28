@@ -8,9 +8,9 @@ table {
   width: 100%;
 }
 
-td, th {
+/* td, th {
   width: 25%;
-}
+} */
 /* tr.mat-row:nth-child(even){
     background-color:red;
     } */
@@ -28,5 +28,8 @@ tr.mat-row:nth-child(odd){
   font-size: 20px;
 }
 .fa-retweet{
+  font-size: 20px;
+}
+.fa-ban{
   font-size: 20px;
 }

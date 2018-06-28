@@ -5,7 +5,10 @@ export class Appointment {
         public appointmentId: number,
         public appointmentTime: string,
         public no: number,
-        public patient: Patient,
         public currentTime: string,
-        public status: string) { }
+        public status: string,
+        public isCurrentAppointment: Boolean,
+        public patientName: string,
+        public phoneNumber: string,
+        public isBlock: string) { }
 }

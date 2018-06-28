@@ -12,7 +12,7 @@ export class AppointmentService {
     getAppointments(name: string, date: string) {
         return this
             .http
-            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDate?clinicUsername=${name}&date=${date}`);
+            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDateWithBlock?clinicUsername=${name}&date=${date}`);
     }
 
     postCheckStatus(clinicName,appointmentID,status){
@@ -24,5 +24,14 @@ export class AppointmentService {
                 status:status
             });
     
+    }
+    postBlockNumber(clinicName,phoneNumber,isBlock){
+        return this
+        .http
+        .post<BaseResponse<Appointment[]>>(`${this.url}/block/blockNumber`,{
+            clinicUsername:clinicName,
+            phoneNumber:phoneNumber,
+            isBlock:isBlock
+        });
     }
 }

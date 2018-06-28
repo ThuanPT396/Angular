@@ -33,7 +33,7 @@ export class ListBlockComponent implements OnInit {
       var isCurrent = false;
       for (var i in tmp.value) {
         var app = tmp.value[i];
-        var result = new PhoneNumber(app.blockID,app.clinicUsername,app.PhoneNumber,app.isBlock);
+        var result = new PhoneNumber(app.blockID,app.clinicUsername,app.phoneNumber,app.isBlock);
         this.ELEMENT_DATA.push(result);
       }
       this.dataSource.data = this.ELEMENT_DATA;

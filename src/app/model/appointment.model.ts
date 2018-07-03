@@ -1,5 +1,3 @@
-import { Patient } from "./patient.model";
-
 export class Appointment {
     constructor(
         public appointmentId: number,
@@ -10,5 +8,5 @@ export class Appointment {
         public isCurrentAppointment: Boolean,
         public patientName: string,
         public phoneNumber: string,
-        public isBlock: string) { }
+        public isBlock: boolean) { }
 }

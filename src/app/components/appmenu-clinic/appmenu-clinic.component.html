@@ -1,36 +1,20 @@
 <aside class="main-sidebar fixed">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
-    <!-- Sidebar user panel -->
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img src="assets/dist/img/default_user.jpg" class="img-circle" alt="User Image">
-      </div>
-      <div class="pull-left info">
-        <p>{{fullName}}</p>
-        <a>
-          <i class="fa fa-circle text-success"></i>Phòng khám</a>
-      </div>
-    </div>
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
-      <li class="header">MAIN NAVIGATION</li>
-      <li class="active menu-open">
-        <a>
-          <i class="fa fa-heartbeat"></i>
+        <li class="header">
+            <i class="fa fa-heartbeat"></i> &nbsp;
           <span>Phòng khám</span>
-        </a>
-        <ul class="treeview-menu">
+          </li>
           <li>
-            <a class="link" routerLink="/appointmentList" routerLinkActive="active menu">
+            <a class="link" routerLink="/appointmentList" routerLinkActive="active">
               <i class="fa fa-list"></i>Danh sách cuộc hẹn</a>
           </li>
           <li>
-              <a class="link" routerLink="/blockList" routerLinkActive="active menu">
-                <i class="fa fa-list"></i>Danh sách SĐT bị chặn </a>
-            </li>
-        </ul>
-      </li>
+            <a class="link" routerLink="/blockList" routerLinkActive="active">
+              <i class="fa fa-list" aria-hidden="true"></i>Danh sách SĐT bị chặn</a>
+          </li>
     </ul>
   </section>
   <!-- /.sidebar -->

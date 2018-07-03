@@ -1,105 +1,69 @@
 <aside class="main-sidebar fixed">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
-    <!-- Sidebar user panel -->
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img src="assets/dist/img/default_user.jpg" class="img-circle" alt="User Image">
-      </div>
-      <div class="pull-left info">
-        <p>{{fullName}}</p>
-        <a>
-          <i class="fa fa-circle text-success"></i>
-          Administrator</a>
-      </div>
-    </div>
+
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
-      <li class="header">MAIN NAVIGATION</li>
-      <li class="active treeview menu-open">
-        <a href="#">
-          <i class="fa fa-user"></i>
-          <span>Administrator</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li>
-            <a class="link" routerLink="/adminAdd" routerLinkActive="active menu">
-              <i class="fa fa-user-plus"></i>Create Administrator</a>
-          </li>
-          <li>
-            <a class="link" routerLink="/adminList" routerLinkActive="active menu">
-              <i class="fa fa-list" aria-hidden="true"></i>List Administrator</a>
-          </li>
-        </ul>
+     
+      <!-- ***************** -->
+      <li class="header">
+        <i class="fa fa-user"></i>&nbsp;
+        <span>Administrator</span>
       </li>
-      <li class="active treeview menu-open">
-        <a href="#">
-          <i class="fa fa-heartbeat"></i>
-          <span>Clinic</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <!-- <li>
+      <li>
+        <a class="link" routerLink="/adminAdd" routerLinkActive="active menu">
+          <i class="fa fa-user-plus"></i>Create Administrator</a>
+      </li>
+      <li>
+        <a class="link" routerLink="/adminList" routerLinkActive="active menu">
+          <i class="fa fa-list" aria-hidden="true"></i>List Administrator</a>
+      </li>
+      <li class="header">
+        <i class="fa fa-heartbeat"></i>&nbsp;
+        <span>Clinic</span>
+      </li>
+      <!-- <li>
               <a class="link" routerLink="/clinicAdd" routerLinkActive="active menu">
                 <i class="fa fa-circle-o"></i>Register Clinic</a>
             </li> -->
-          <li>
-            <a class="link" routerLink="/clinicList" routerLinkActive="active menu">
-              <i class="fa fa-list" aria-hidden="true"></i>List Clinic</a>
-          </li>
-        </ul>
+      <li>
+        <a class="link" routerLink="/clinicList" routerLinkActive="active menu">
+          <i class="fa fa-list" aria-hidden="true"></i>List Clinic</a>
       </li>
-      <li class="active treeview menu-open">
-        <a href="#">
-          <i class="fa fa-key"></i>
-          <span>License</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li>
-            <a class="link" routerLink="/licenseAdd" routerLinkActive="active">
-              <i class="fa fa-plus" aria-hidden="true"></i>Create License</a>
-          </li>
-          <li>
-            <a class="link" routerLink="/licenseList" routerLinkActive="active">
-              <i class="fa fa-list" aria-hidden="true"></i>List License</a>
-          </li>
-        </ul>
+
+      <li class="header">
+        <i class="fa fa-key"></i>&nbsp;
+        <span>License</span>
       </li>
-      <li class="active treeview menu-open">
-          <a href="#">
-            <i class="fa fa-user"></i>
-            <span>Staff</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li>
-              <a class="link" routerLink="/staffAdd" routerLinkActive="active">
-                <i class="fa fa-user-plus" aria-hidden="true"></i>Create Staff</a>
-            </li>
-            <li>
-              <a class="link" routerLink="/staffList" routerLinkActive="active">
-                <i class="fa fa-list" aria-hidden="true"></i>List Staff</a>
-            </li>
-          </ul>
-        </li>
-    <li class="header">Deverloper</li>
-        <li>
+      <li>
+        <a class="link" routerLink="/licenseAdd" routerLinkActive="active">
+          <i class="fa fa-plus" aria-hidden="true"></i>Create License</a>
+      </li>
+      <li>
+        <a class="link" routerLink="/licenseList" routerLinkActive="active">
+          <i class="fa fa-list" aria-hidden="true"></i>List License</a>
+      </li>
+
+      <li class="header">
+        <i class="fa fa-user"></i>&nbsp;
+        <span>Staff</span>
+      </li>
+      <li>
+        <a class="link" routerLink="/staffAdd" routerLinkActive="active">
+          <i class="fa fa-user-plus" aria-hidden="true"></i>Create Staff</a>
+      </li>
+      <li>
+        <a class="link" routerLink="/staffList" routerLinkActive="active">
+          <i class="fa fa-list" aria-hidden="true"></i>List Staff</a>
+      </li>
+      <li class="header">Deverloper</li>
+      <li>
         <a class="link" routerLink="/userList" routerLinkActive="active">
           <i class="fa fa-circle-o text-red"></i>
           <span>List All User</span>
         </a>
       </li>
-     <!--  <li>
+      <!--  <li>
         <a href="#">
           <i class="fa fa-circle-o text-yellow"></i>
           <span>Warning</span>

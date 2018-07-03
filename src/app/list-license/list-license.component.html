@@ -19,8 +19,9 @@
 
   <!-- Main content -->
   <section class="content">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Input Everything">
     </mat-form-field>
 
     <div class="mat-elevation-z8">
@@ -78,7 +79,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;">
         </tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[25, 100]"></mat-paginator>
     </div>
   </section>
 </div>

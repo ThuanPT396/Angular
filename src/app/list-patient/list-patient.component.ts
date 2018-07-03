@@ -19,7 +19,7 @@ export class ListPatientComponent implements OnInit {
   day = this.d.getDate();
   month = this.d.getMonth() + 1;
   year = this.d.getFullYear();
-  currentDate = this.year + "/0" + this.month + "/" + this.day;
+  currentDate = this.year + "/" + this.month + "/" + this.day;
   date=new FormControl(new Date());
   fullName = "";
   phoneNumber = "";
@@ -95,7 +95,7 @@ export class ListPatientComponent implements OnInit {
       );
   }
   onGetDate(dateValue: string) {
-    var format = this.pipe.transform(dateValue,'yyyy/MM/dd')
+    var format = this.pipe.transform(dateValue,'yyyy/M/d')
     this.selectedDate = new Date(dateValue);
     // var d = this.date = dateValue;
     while (this.ELEMENT_DATA.length > 0) {
@@ -116,13 +116,16 @@ export class ListPatientComponent implements OnInit {
     this.fullName = fullName;
     this.phoneNumber = numberPhone;
   }
-  onBanPhoneNumber(phoneNumber: string, isBlock: string) {
+  onBanPhoneNumber(phoneNumber: string, isBlock: boolean) {
+    const index = this.ELEMENT_DATA.findIndex(app => app.phoneNumber === phoneNumber);
+    this.ELEMENT_DATA[index].isBlock=!isBlock
     this.appointmentService
       .postBlockNumber(this.username, phoneNumber, !isBlock)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
           this.toastService.Success("Đổi trạng thái chặn thành công")
+          console.log(!isBlock)
         }
         else {
           this.toastService.Error("Đổi trạng thái chặn thất bại")

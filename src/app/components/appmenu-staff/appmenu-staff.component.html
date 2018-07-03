@@ -1,53 +1,27 @@
 <aside class="main-sidebar fixed">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
-    <!-- Sidebar user panel -->
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img src="assets/dist/img/default_user.jpg" class="img-circle" alt="User Image">
-      </div>
-      <div class="pull-left info">
-        <p>{{fullName}}</p>
-        <a>
-          <i class="fa fa-circle text-success"></i>Staff</a>
-      </div>
-    </div>
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
-      <li class="header">MAIN NAVIGATION</li>
-      <li class="active menu-open">
-        <a>
-          <i class="fa fa-heartbeat"></i>
-          <span>Clinic</span>
-          <!-- <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span> -->
-        </a>
-        <ul class="treeview-menu">
-          <li>
-                <a class="link" routerLink="/clinicList" routerLinkActive="active menu">
-                  <i class="fa fa-list"></i>List All Clinic</a>
-              </li>
-        </ul>
+      <li class="header">
+        <i class="fa fa-user"></i>&nbsp;
+        <span>Clinic</span>
       </li>
-      <li class="active menu-open">
-        <a>
-          <i class="fa fa-heartbeat"></i>
-          <span>Twilios</span>
-          <!-- <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span> -->
-        </a>
-        <ul class="treeview-menu">
-          <li>
-                <a class="link" routerLink="/twilioAdd" routerLinkActive="active menu">
-                  <i class="fa fa-list"></i>Add Twilios</a>
-              </li>
-          <li>
-            <a class="link" routerLink="/twilioList" routerLinkActive="active menu">
-              <i class="fa fa-list" aria-hidden="true"></i>List Twilios </a>
-          </li>
-        </ul>
+      <li>
+        <a class="link" routerLink="/clinicList" routerLinkActive="active menu">
+          <i class="fa fa-list" aria-hidden="true"></i>List All Clinic</a>
+      </li>
+      <li class="header">
+        <i class="fa fa-heartbeat"></i>&nbsp;
+        <span>Twilios</span>
+      </li>
+      <li>
+        <a class="link" routerLink="/twilioAdd" routerLinkActive="active menu">
+          <i class="fa fa-list" aria-hidden="true"></i>Add Twilios</a>
+      </li>
+      <li>
+        <a class="link" routerLink="/twilioList" routerLinkActive="active menu">
+          <i class="fa fa-list" aria-hidden="true"></i>List Twilios</a>
       </li>
     </ul>
   </section>

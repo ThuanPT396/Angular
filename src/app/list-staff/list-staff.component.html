@@ -19,8 +19,9 @@
   
     <!-- Main content -->
     <section class="content">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+      <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Input Everything">
       </mat-form-field>
   
       <div class="mat-elevation-z8">
@@ -68,7 +69,7 @@
         </table>
         <div *ngIf="pageEvent" style="color: #ADADAD; background-color: white; padding-right: 20px" class="text-right">Page index:{{pageEvent.pageIndex+1}}</div>  
   
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent = $event">  
+        <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">  
         </mat-paginator>
   
         <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"

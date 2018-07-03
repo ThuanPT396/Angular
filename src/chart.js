@@ -47,8 +47,8 @@ export function drawChartForDate(data) {
                 title: 'Số lượng bệnh nhân'
             }
         };
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
+        var chart = new google.charts.Bar(document.getElementById('chart_div'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
     }
 }
 

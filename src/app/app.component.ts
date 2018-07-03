@@ -1,3 +1,4 @@
+
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { NgxRolesService } from 'ngx-permissions';
 import { HttpClient } from '@angular/common/http';
@@ -8,6 +9,7 @@ import { setTheme } from 'ngx-bootstrap';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class AppComponent implements OnInit {
 
   constructor(private permissionsService: NgxRolesService,

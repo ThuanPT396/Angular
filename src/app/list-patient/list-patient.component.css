@@ -34,6 +34,3 @@ tr.mat-row:nth-child(odd){
     /* background-color: rgba(178, 194, 241, 0.247); */
     background:white;
     }
-td.mat-cell, td.mat-footer-cell, th.mat-header-cell{
-    border-bottom-width: 5px !important;
-}

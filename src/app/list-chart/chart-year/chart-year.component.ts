@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../service/appointment.service';
 import { Chart } from '../../model/chart.model';
-
+import * as BB from 'src/assets/dist/js/scripts.js'
 @Component({
   selector: 'app-chart-year',
   templateUrl: './chart-year.component.html',
@@ -14,6 +14,7 @@ export class ChartYearComponent implements OnInit {
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
+  
     this.appointmentService
     .postChartByYear(this.username,"2017-06-06","2019-07-07")
     .subscribe((response) => {

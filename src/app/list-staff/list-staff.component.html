@@ -21,7 +21,7 @@
     <section class="content">
       <mat-form-field appearance="outline">
         <mat-label>Search</mat-label>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Input Everything">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Input Everything" maxlength="30">
       </mat-form-field>
   
       <div class="mat-elevation-z8">

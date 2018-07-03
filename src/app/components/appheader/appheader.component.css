@@ -9,3 +9,12 @@
 .padd-right-none {
     padding-right: 0px;
 }
+.title{
+    width: 70%;
+    float: left;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding-top: 10px;
+    color: white;
+}

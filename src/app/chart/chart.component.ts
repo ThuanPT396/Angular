@@ -5,7 +5,8 @@ import { Chart } from '../model/chart.model';
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
+  providers:[AppointmentService]
 })
 export class ChartComponent implements OnInit {
   username = localStorage.getItem('username')

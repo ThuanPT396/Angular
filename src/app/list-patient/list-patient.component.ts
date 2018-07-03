@@ -6,7 +6,7 @@ import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { Chart } from '../model/chart.model';
+
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',

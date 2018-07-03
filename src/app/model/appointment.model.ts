@@ -1,12 +1,13 @@
 export class Appointment {
     constructor(
         public appointmentId: number,
-        public appointmentTime: string,
+        public appointmentTime: Date,
         public no: number,
-        public currentTime: string,
+        public currentTime: Date,
         public status: string,
         public isCurrentAppointment: Boolean,
         public patientName: string,
         public phoneNumber: string,
-        public isBlock: boolean) { }
+        public isBlock: number,
+        public BisBlock: Boolean) { }
 }

@@ -29,6 +29,7 @@
 
 
     <div class="row">
+        <div id="chart_div"></div>
       <div class="col-md-12">
         <div class="col-md-8 padd-left-none">
           <mat-form-field appearance="outline">
@@ -41,7 +42,6 @@
             <input matInput [matDatepicker]="picker1" placeholder="Chọn ngày" [formControl]="date" (dateChange)="onGetDate($event.target.value)">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker md-mode="month" #picker1></mat-datepicker>
-            
           </mat-form-field>
         </div>
 
@@ -71,15 +71,17 @@
           <td mat-cell *matCellDef="let row"> {{row.appointmentTime | date: 'HH:mm:ss'}} </td>
         </ng-container>
         <ng-container matColumnDef="attendance">
-          <th mat-header-cell *matHeaderCellDef>Điểm danh</th>
+          <th mat-header-cell *matHeaderCellDef>Có mặt</th>
           <td mat-cell *matCellDef="let row">
-            <mat-radio-group >
+            <!-- <mat-radio-group >
               <mat-radio-button color="accent" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
                 [disabled]="disabled">Có mặt</mat-radio-button>
               &nbsp;&nbsp;&nbsp;
               <mat-radio-button color="primary" value="absent" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'2')" [checked]="row.status===2"
                 [disabled]="disabled">Vắng mặt</mat-radio-button>
-            </mat-radio-group>
+            </mat-radio-group> -->
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)" 
+            [disabled]="row.appointmentTime > row.currentTime"></mat-checkbox>
             <!-- <label class="radio-inline">
               <input type="radio" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
                 [disabled]="disabled">Có mặt</label>
@@ -94,7 +96,7 @@
             <!-- <a href="#" data-toggle="modal" data-target="#myModal" (click)="onPopupPhoneNumber(row.patientName,row.phoneNumber)">
               <i class="fa fa-ban" style="color: red"></i>
             </a> -->
-            <mat-slide-toggle [checked]="row.isBlock===1" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.isBlock)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="row.BisBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.BisBlock)"></mat-slide-toggle>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

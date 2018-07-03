@@ -39,5 +39,36 @@ export class AppointmentService {
     getPhoneNumberBlock(clinicName){
         return this.http.get<BaseResponse<PhoneNumber[]>>(`${this.url}/block/getBlock?clinicUsername=${clinicName}`);
     }
+
+
+    postChartByDate(username,startDate,endDate){
+        return this
+        .http
+        .post<BaseResponse<Appointment[]>>(`${this.url}/report/dateReport`,{
+            username:username,
+            startDate:startDate,
+            endDate:endDate
+        });
+    }
+
+    postChartByMonth(username,startDate,endDate){
+        return this
+        .http
+        .post<BaseResponse<Appointment[]>>(`${this.url}/report/monthReport`,{
+            username:username,
+            startDate:startDate,
+            endDate:endDate
+        });
+    }
+
+    postChartByYear(username,startDate,endDate){
+        return this
+        .http
+        .post<BaseResponse<Appointment[]>>(`${this.url}/report/yearReport`,{
+            username:username,
+            startDate:startDate,
+            endDate:endDate
+        });
+    }
 }
 

@@ -79,6 +79,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { ListTwilioComponent } from './list-twilio/list-twilio.component';
 import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
 import { ListBlockComponent } from './list-patient/list-block/list-block.component';
+import { ChartComponent } from './chart/chart.component';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -127,6 +128,7 @@ export class DemoMaterialModule { }
     DevComponent,
     EditStaffComponent,
     ListStaffComponent,
+    ChartComponent,
     AppmenuStaffComponent,
     UserListComponent,
     UserEditComponent,

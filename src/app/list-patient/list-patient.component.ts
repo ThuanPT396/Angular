@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker } from '@angular/material';
+import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Chart } from '../model/chart.model';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
   styleUrls: ['./list-patient.component.css'],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'vi-VN' }, AppointmentService],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'vi-VN' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService],
 })
 export class ListPatientComponent implements OnInit {
   ELEMENT_DATA: Appointment[] = [];
@@ -20,11 +21,12 @@ export class ListPatientComponent implements OnInit {
   month = this.d.getMonth() + 1;
   year = this.d.getFullYear();
   currentDate = this.year + "/" + this.month + "/" + this.day;
-  date=new FormControl(new Date());
+  date = new FormControl(new Date());
   fullName = "";
   phoneNumber = "";
   username = localStorage.getItem('username')
   disabled = false;
+  disabledCheckBox = false;
   selectedDate = new Date();
   // MatPaginator Outputs
   pageEvent: PageEvent;
@@ -42,6 +44,15 @@ export class ListPatientComponent implements OnInit {
     this.dataSource.sort = this.sort;
     var d = this.currentDate;
     this.onGetList(d);
+    this.appointmentService
+    .postChartByYear(this.username,"2017-06-06","2019-07-07")
+    .subscribe((response) => {
+      var tmp = JSON.parse(JSON.stringify(response));
+      for (var i in tmp.value) {
+        var app = tmp.value[i];
+        var result = new Chart(app.total,app.present,app.date);
+      }
+    })
   }
   deadline(id: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === id);
@@ -59,10 +70,13 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.isBlock);
+          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.isBlock, false);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
+          }
+          if (result.isBlock === 1) {
+            result.BisBlock = true
           }
           this.ELEMENT_DATA.push(result);
         }
@@ -72,14 +86,14 @@ export class ListPatientComponent implements OnInit {
           this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         })
   }
-  onSelect(appID: string, choose: string) {
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if(this.selectedDate < today){
+  onSelect(appID: number, choose: string) {
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
+    if (this.ELEMENT_DATA[index].currentTime < this.ELEMENT_DATA[index].appointmentTime) {
+      this.disabledCheckBox = true;
       return;
     }
     this.appointmentService
-      .postCheckStatus(this.username, appID, choose)
+      .postCheckStatus(this.username, appID, !choose)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
@@ -95,13 +109,13 @@ export class ListPatientComponent implements OnInit {
       );
   }
   onGetDate(dateValue: string) {
-    var format = this.pipe.transform(dateValue,'yyyy/M/d')
+    var format = this.pipe.transform(dateValue, 'yyyy/M/d')
     this.selectedDate = new Date(dateValue);
     // var d = this.date = dateValue;
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    console.log(format , this.currentDate)
+    console.log(format, this.currentDate)
     if (format != this.currentDate) {
       this.disabled = true;
       console.log(this.disabled)
@@ -110,22 +124,35 @@ export class ListPatientComponent implements OnInit {
       console.log(this.disabled)
     }
     this.onGetList(format);
-   
+
   }
   onPopupPhoneNumber(fullName: string, numberPhone: string) {
     this.fullName = fullName;
     this.phoneNumber = numberPhone;
   }
-  onBanPhoneNumber(phoneNumber: string, isBlock: boolean) {
+  onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
+    var test = BisBlock ? 0 : 1;
     const index = this.ELEMENT_DATA.findIndex(app => app.phoneNumber === phoneNumber);
-    this.ELEMENT_DATA[index].isBlock=!isBlock
+    for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
+      if (this.ELEMENT_DATA[i].phoneNumber === phoneNumber) {
+        this.ELEMENT_DATA[i].BisBlock = !BisBlock;
+        this.ELEMENT_DATA[i].isBlock = test;
+        // if (this.ELEMENT_DATA[i].BisBlock===true) {
+        //   this.ELEMENT_DATA[i].isBlock = 1;
+        // }else{
+        //   this.ELEMENT_DATA[i].isBlock = 0;
+        // }
+      }
+      console.log(this.ELEMENT_DATA[i]);
+    }
+    console.log(test)
+
     this.appointmentService
-      .postBlockNumber(this.username, phoneNumber, !isBlock)
+      .postBlockNumber(this.username, phoneNumber, test)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
           this.toastService.Success("Đổi trạng thái chặn thành công")
-          console.log(!isBlock)
         }
         else {
           this.toastService.Error("Đổi trạng thái chặn thất bại")
@@ -144,5 +171,7 @@ export class ListPatientComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+
 }
 

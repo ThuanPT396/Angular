@@ -44,15 +44,7 @@ export class ListPatientComponent implements OnInit {
     this.dataSource.sort = this.sort;
     var d = this.currentDate;
     this.onGetList(d);
-    this.appointmentService
-    .postChartByYear(this.username,"2017-06-06","2019-07-07")
-    .subscribe((response) => {
-      var tmp = JSON.parse(JSON.stringify(response));
-      for (var i in tmp.value) {
-        var app = tmp.value[i];
-        var result = new Chart(app.total,app.present,app.date);
-      }
-    })
+    
   }
   deadline(id: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === id);

@@ -10,6 +10,7 @@ import { Chart } from '../model/chart.model';
 })
 export class ChartComponent implements OnInit {
   username = localStorage.getItem('username')
+  
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {

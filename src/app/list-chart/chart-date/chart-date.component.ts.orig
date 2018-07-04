@@ -6,8 +6,22 @@ import { FormControl } from '@angular/forms';
 import * as moment from 'moment'
 import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
 
+<<<<<<< HEAD
+=======
 
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+>>>>>>> 50dc53974f9f1735e77707214a6f5350c7573574
 @Component({
   selector: 'app-chart-date',
   templateUrl: './chart-date.component.html',

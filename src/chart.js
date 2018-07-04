@@ -52,7 +52,6 @@ export function drawChartForDate(data) {
       arr.push([tmp.toString(), data[i].total, data[i].present])
 
     }
-    console.log(arr)
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {

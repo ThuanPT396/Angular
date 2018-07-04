@@ -14,7 +14,7 @@ export function drawChartForDate(data, month) {
     
     for (let i = 0; i < data.length; i++) {
       var format = pipe.transform(data[i].date, 'd');
-      var tmp = parseInt(format - 1);
+      var tmp = parseInt(format-1);
       arr[tmp] = [tmp.toString(), data[i].total, data[i].present];
     }
     var fMonth = pipe.transform(month, 'M/yyyy');

@@ -14,19 +14,27 @@ import { ToasterService } from '../../service/toast/toaster.service';
   providers: [AppointmentService]
 })
 export class ChartYearComponent implements OnInit {
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date(2030, 0, 1);
   startPicker = new FormControl(new Date());
   endPicker = new FormControl(new Date());
   selectedYear = new Date();
   username = localStorage.getItem('username')
-  constructor(private appointmentService: AppointmentService,private toastService: ToasterService) { }
+  constructor(private appointmentService: AppointmentService, private toastService: ToasterService) { }
 
   ngOnInit() {
-    this.loadDataToChart(this.selectedYear,this.selectedYear)
+    this.loadDataToChart(this.selectedYear, this.selectedYear)
   }
 
   chosenYearStartHandler(year: Date, datepicker: MatDatepicker<string>) {
-    if (year > this.endPicker.value){
-      this.toastService.Error("Ngày Bắt đầu phải nhỏ hơn ngày Kết thúc")
+
+    if (this.minDate > year || this.maxDate < year) {
+      this.toastService.Error("Năm bắt đầu phải nằm trong vùng cho phép")
+      datepicker.close();
+      return;
+    }
+    if (year > this.endPicker.value) {
+      this.toastService.Error("Năm bắt đầu phải nhỏ hơn năm kết thúc")
       datepicker.close();
       return;
     }
@@ -36,8 +44,13 @@ export class ChartYearComponent implements OnInit {
   }
 
   chosenYearEndHandler(year: Date, datepicker: MatDatepicker<string>) {
-    if (this.startPicker.value > year){
-      this.toastService.Error("Ngày Kết thúc phải lớn hơn ngày Bắt đầu")
+    if (this.minDate > year || this.maxDate < year) {
+      this.toastService.Error("Năm kết thúc phải nằm trong vùng cho phép")
+      datepicker.close();
+      return;
+    }
+    if (this.startPicker.value > year) {
+      this.toastService.Error("Năm kết thúc phải lớn hơn năm bắt đầu")
       datepicker.close();
       return;
     }
@@ -48,7 +61,7 @@ export class ChartYearComponent implements OnInit {
 
   loadDataToChart(startDate: Date, endDate: Date) {
     var mStart = moment(startDate).startOf("year");;
-    var mEnd = moment(endDate).endOf("year");    
+    var mEnd = moment(endDate).endOf("year");
     this.appointmentService
       .postChartByYear(this.username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {

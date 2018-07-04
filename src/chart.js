@@ -77,9 +77,11 @@ export function drawChartForMonth(data) {
   function drawChart1() {
     var arr = [];
     arr.push(['Tháng trong Năm', 'Tổng', 'Có mặt']);
+    for(let i = 1 ; i <= 12; i++){
+      arr.push([i.toString(), 0, 0]);
+    }
     for (let i = 0; i < data.length; i++) {
-      arr.push([data[i].month.toString(), data[i].total, data[i].present])
-
+      arr[data[i].month] = [data[i].month.toString(), data[i].total, data[i].present];      
     }
     console.log(arr)
     var list = google.visualization.arrayToDataTable(arr);

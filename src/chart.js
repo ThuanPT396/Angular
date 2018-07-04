@@ -1,55 +1,78 @@
+import { DatePipe } from "@angular/common";
+
 export function drawChartForDate(data) {
-    console.log(data);
+    var pipe = new DatePipe('en-US');
+    // google.charts.load('current', { packages: ['corechart', 'bar'] });
+    // google.charts.setOnLoadCallback(drawAnnotations);
 
-    google.charts.load('current', { packages: ['corechart', 'bar'] });
-    google.charts.setOnLoadCallback(drawAnnotations);
+    // function drawAnnotations() {
+    //     var list = new google.visualization.DataTable();
+    //     list.addColumn('timeofday', 'Ngày trong tháng');
+    //     list.addColumn('number', 'Có mặt');
+    //     list.addColumn('number', 'Tổng');
 
-    function drawAnnotations() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('timeofday', 'Ngày trong tháng');
-        data.addColumn('number', 'Có mặt');
-        data.addColumn({ type: 'string', role: 'annotation' });
-        data.addColumn('number', 'Vắng mặt');
-        data.addColumn({ type: 'string', role: 'annotation' });
+    //     for (let i = 0; i < data.length; i++) {
+    //         list.addRows([[{ v: [(i+1), 0, 0] }, data[i].present, data[i].total]])
+    //     }
+    //     var options = {
+    //         title: 'Thống kê các ngày trong tháng',
+    //         subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+    //         annotations: {
+    //             alwaysOutside: true,
+    //             textStyle: {
+    //                 fontSize: 14,
+    //                 color: '#000',
+    //                 auraColor: 'none'
+    //             }
+    //         },
+    //         hAxis: {
+    //             title: 'Ngày trong tháng',
+    //             format: 'd-M-yyyy ',
+    //         },
+    //         vAxis: {
+    //             title: 'Số lượng bệnh nhân'
+    //         }
+    //     };
+    //     var chart = new google.charts.Bar(document.getElementById('chart_div'));
+    //     chart.draw(list, google.charts.Bar.convertOptions(options));
+    // }
+    google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
 
-        data.addRows([
-            [{ v: [8, 0, 0], f: '8 am' }, 1, '1', .25, '.2'],
-            [{ v: [9, 0, 0], f: '9 am' }, 2, '2', .5, '.5'],
-            [{ v: [10, 0, 0], f: '10 am' }, 3, '3', 1, '1'],
-            [{ v: [11, 0, 0], f: '11 am' }, 4, '4', 2.25, '2'],
-            [{ v: [12, 0, 0], f: '12 pm' }, 5, '5', 2.25, '2'],
-            [{ v: [13, 0, 0], f: '1 pm' }, 6, '6', 3, '3'],
-            [{ v: [14, 0, 0], f: '2 pm' }, 7, '7', 3.25, '3'],
-            [{ v: [15, 0, 0], f: '3 pm' }, 8, '8', 5, '5'],
-            [{ v: [16, 0, 0], f: '4 pm' }, 9, '9', 6.5, '6'],
-            [{ v: [17, 0, 0], f: '5 pm' }, 10, '10', 10, '10'],
-        ]);
-
+      function drawChart() {
+          
+        var list = new google.visualization.DataTable();
+        list.addColumn('string', 'Ngày trong tháng');
+        list.addColumn('number', 'Có mặt');
+        list.addColumn('number', 'Tổng');
+        // var list = google.visualization.arrayToDataTable([
+        //   ['Month', 'Sales', 'Expenses'],
+          
+         
+        // ]);
+        for (let i = 0; i < data.length; i++) {
+            var format = pipe.transform(data[i].date, 'd')
+            var tmp=parseInt(format-1)
+            list.addRows([[ tmp.toString(), data[i].present, data[i].total]])
+        }
         var options = {
+          chart: {
             title: 'Thống kê các ngày trong tháng',
-            annotations: {
-                alwaysOutside: true,
-                textStyle: {
-                    fontSize: 14,
-                    color: '#000',
-                    auraColor: 'none'
-                }
-            },
-            hAxis: {
-                title: 'Ngày trong tháng',
-                format: 'h:mm a',
-                viewWindow: {
-                    min: [7, 30, 0],
-                    max: [17, 30, 0]
-                }
-            },
-            vAxis: {
-                title: 'Số lượng bệnh nhân'
-            }
+            subtitle: 'từ tháng '+3+' đến tháng '+2,
+          },
+          hAxis: {
+            title: 'Ngày trong tháng',
+            
+          },
+          vAxis:{
+              title:'Số bệnh nhân'
+          }
         };
-        var chart = new google.charts.Bar(document.getElementById('chart_div'));
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-    }
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(list, google.charts.Bar.convertOptions(options));
+      }
 }
 
 

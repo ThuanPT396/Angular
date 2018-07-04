@@ -7,7 +7,7 @@ export function drawChartForDate(data, month) {
   var daysNum = new Date(month.getYear(), month.getMonth(), 0).getDate();
   function drawChart() {
     var arr = [];
-    arr.push(['Ngày trong tháng', 'Tổng', 'Có mặt']);    
+    arr.push(['Ngày trong tháng', 'Tổng bệnh nhân', 'Có mặt']);    
     for(let i = 1; i <= daysNum; i++){
       arr.push([i.toString(), 0, 0]);
     }
@@ -41,12 +41,12 @@ export function drawChartForMonth(data,year) {
   google.charts.setOnLoadCallback(drawChart1);
   function drawChart1() {
     var arr = [];
-    arr.push(['Tháng trong Năm', 'Tổng', 'Có mặt']);
+    arr.push(['Tháng trong Năm', 'Tổng bệnh nhân', 'Có mặt']);
     for(let i = 1 ; i <= 12; i++){
-      arr.push([i.toString(), 0, 0]);
+      arr.push(['Tháng ' + i, 0, 0]);
     }
     for (let i = 0; i < data.length; i++) {
-      arr[data[i].month] = [data[i].month.toString(), data[i].total, data[i].present];      
+      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].total, data[i].present];      
     }
   
     var list = google.visualization.arrayToDataTable(arr);
@@ -74,7 +74,7 @@ export function drawChartForYear(data, startYear, endYear) {
   
   function drawChart1() {
     var arr = [];
-    arr.push(['Các Năm', 'Tổng', 'Có mặt']);
+    arr.push(['Các Năm', 'Tổng bệnh nhân', 'Có mặt']);
     for(let i = 1; i <= endYear - startYear + 1; i++){
       arr.push([(i - 1 + startYear).toString(), 0, 0]);
     }

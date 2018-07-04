@@ -9,13 +9,6 @@
               panelClass="example-month-picker">
             </mat-datepicker>
           </mat-form-field>
-          <mat-form-field appearance="outline">
-              <input matInput [matDatepicker]="dp1" placeholder="Month and Year" disabled >
-              <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-              <mat-datepicker touchUi #dp1 startView="multi-year" (yearSelected)="chosenYearHandler1($event)" (monthSelected)="chosenMonthHandler1($event, dp)"
-                panelClass="example-month-picker">
-              </mat-datepicker>
-            </mat-form-field>
     </div>
   </div>
   <div id="columnchart_date" style="width: 90%; height: 500px; margin-left: 50px"></div>

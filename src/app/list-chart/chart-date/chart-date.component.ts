@@ -48,7 +48,7 @@ export class ChartDateComponent implements OnInit {
           var result = new Chart(app.total, app.present, app.date, 0, 0);
           this.ELEMENT_DATA.push(result);
         }
-        GGChart.drawChartForDate(this.ELEMENT_DATA);
+        GGChart.drawChartForDate(this.ELEMENT_DATA, month);
       });
   }
 

@@ -1,57 +1,26 @@
 import { DatePipe } from "@angular/common";
 
-export function drawChartForDate(data) {
+export function drawChartForDate(data, month) {
   var pipe = new DatePipe('en-US');
-
-  // google.charts.load('current', { 'packages': ['bar'] });
-  // google.charts.setOnLoadCallback(drawChart);
-
-  // function drawChart() {
-
-  //   var list = new google.visualization.DataTable();
-  //   list.addColumn('string', 'Ngày trong tháng');
-  //   list.addColumn('number', 'Tổng');
-  //   list.addColumn('number', 'Có mặt');
-
-  //   // var list = google.visualization.arrayToDataTable([
-  //   //   ['Month', 'Sales', 'Expenses'],
-  //   // ]);
-  //   for (let i = 0; i < data.length; i++) {
-  //     var format = pipe.transform(data[i].date, 'd')
-  //     var tmp = parseInt(format - 1)
-  //     list.addRows([[tmp.toString(), data[i].total, data[i].present]])
-
-  //   }
-  //   var options = {
-  //     chart: {
-  //       title: 'Thống kê các ngày trong tháng',
-  //       subtitle: 'từ tháng ' + 3 + ' đến tháng ' + 2,
-  //     },
-  //     hAxis: {
-  //       title: 'Ngày trong tháng',
-
-  //     },
-  //     vAxis: {
-  //       title: 'Số bệnh nhân'
-  //     }
-  //   };
-
-  //   var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-
-  //   chart.draw(list, google.charts.Bar.convertOptions(options));
-  // }
   google.charts.load('current', { 'packages': ['bar'] });
-  google.charts.setOnLoadCallback(drawChart);
-
+  google.charts.setOnLoadCallback(drawChart);  
+  var daysNum = new Date(month.getYear(), month.getMonth(), 0).getDate();
   function drawChart() {
     var arr = [];
     arr.push(['Ngày trong tháng', 'Tổng', 'Có mặt']);
-    for (let i = 0; i < data.length; i++) {
-      var format = pipe.transform(data[i].date, 'd')
-      var tmp = parseInt(format - 1)
-      arr.push([tmp.toString(), data[i].total, data[i].present])
 
+    for(let i = 1; i <= daysNum; i++){
+      arr.push([i.toString(), 0, 0]);
     }
+    
+    for (let i = 0; i < data.length; i++) {
+      var format = pipe.transform(data[i].date, 'd');
+      var tmp = parseInt(format - 1);
+      console.log(tmp);
+      console.log(data[i]);
+      arr[tmp] = [tmp.toString(), data[i].total, data[i].present];
+    }
+
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {

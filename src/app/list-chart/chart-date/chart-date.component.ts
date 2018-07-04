@@ -7,22 +7,11 @@ import { Moment } from 'node_modules/moment'
 import { DatePipe } from '@angular/common';
 import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 @Component({
   selector: 'app-chart-date',
   templateUrl: './chart-date.component.html',
   styleUrls: ['./chart-date.component.css'],
-  providers: [AppointmentService,{provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},]
+  providers: [AppointmentService]
 })
 export class ChartDateComponent implements OnInit {
   date = new FormControl(new Date());
@@ -40,7 +29,7 @@ export class ChartDateComponent implements OnInit {
         var data = [];
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Chart(app.total, app.present, app.date);
+          var result = new Chart(app.total, app.present, app.date,0,0);
           data.push(result);
         }
         GGChart.drawChartForDate(data);

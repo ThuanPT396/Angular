@@ -21,7 +21,7 @@ export class ChartYearComponent implements OnInit {
       var tmp = JSON.parse(JSON.stringify(response));
       for (var i in tmp.value) {
         var app = tmp.value[i];
-        var result = new Chart(app.total,app.present,app.date);
+        var result = new Chart(app.total,app.present,app.date,0,0);
         console.log(result)
       }
     })

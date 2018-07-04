@@ -7,8 +7,7 @@ export function drawChartForDate(data, month) {
   var daysNum = new Date(month.getYear(), month.getMonth(), 0).getDate();
   function drawChart() {
     var arr = [];
-    arr.push(['Ngày trong tháng', 'Tổng', 'Có mặt']);
-
+    arr.push(['Ngày trong tháng', 'Tổng', 'Có mặt']);    
     for(let i = 1; i <= daysNum; i++){
       arr.push([i.toString(), 0, 0]);
     }
@@ -71,19 +70,20 @@ export function drawChartForMonth(data) {
 }
 
 
-export function drawChartForYear(data) {
+export function drawChartForYear(data, startYear, endYear) {
   var pipe = new DatePipe('en-US');
   google.charts.load('current', { 'packages': ['bar'] });
   google.charts.setOnLoadCallback(drawChart1);
-  console.log(data)
+  
   function drawChart1() {
     var arr = [];
     arr.push(['Các Năm', 'Tổng', 'Có mặt']);
-    for (let i = 0; i < data.length; i++) {
-      arr.push([data[i].year.toString(), data[i].total, data[i].present])
-
+    for(let i = 1; i <= endYear - startYear + 1; i++){
+      arr.push([(i - 1 + startYear).toString(), 0, 0]);
     }
-    console.log(arr)
+    for (let i = 0; i < data.length; i++) {
+      arr[data[i].year - startYear + 1] = [data[i].year.toString(), data[i].total, data[i].present];
+    }
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {

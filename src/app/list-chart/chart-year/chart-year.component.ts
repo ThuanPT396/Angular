@@ -54,7 +54,7 @@ export class ChartYearComponent implements OnInit {
           var result = new Chart(app.total, app.present, null, 0, app.year);
           data.push(result);
         }
-        GGChart.drawChartForYear(data);
+        GGChart.drawChartForYear(data, mStart.year(), mEnd.year());
       })
   }
 }

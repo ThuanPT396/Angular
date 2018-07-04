@@ -3,9 +3,10 @@ import { AppointmentService } from '../../service/appointment.service';
 import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
 import { FormControl } from '@angular/forms';
-import { Moment } from 'node_modules/moment'
-import { DatePipe } from '@angular/common';
+import * as moment from 'moment'
 import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
+
+
 
 export const MY_FORMATS = {
   parse: {
@@ -25,14 +26,13 @@ export const MY_FORMATS = {
   providers: [AppointmentService,{provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},]
 })
 export class ChartDateComponent implements OnInit {
-  date = new FormControl(new Date());
-  pipe = new DatePipe('en-US');
+  
+  datePicker = new FormControl(new Date());
+  // pipe = new DatePipe('en-US');
   username = localStorage.getItem('username')
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
-    // GGChart.dm(["abc", "cds", "ds"]);
-    this.date;
     this.appointmentService
       .postChartByDate(this.username, "2018-06-01", "2018-07-01")
       .subscribe((response) => {
@@ -47,15 +47,15 @@ export class ChartDateComponent implements OnInit {
       });
   }
 
-  chosenYearHandler(normalizedYear: string) {
-    var format = this.pipe.transform(normalizedYear, 'yyyy')
-    console.log(format) 
-    this.date.setValue(format);
+  chosenYearHandler(normalizedYear: Date) {
+    var mDate = moment(normalizedYear)    
+    this.datePicker.setValue(mDate.toDate());
   }
-  chosenMonthHandler(normlizedMonth: string, datepicker: MatDatepicker<string>) {
-    var format = this.pipe.transform(normlizedMonth, 'MM')
-    console.log(format)
-    this.date.setValue(format);
+  chosenMonthHandler(normlizedMonth: Date, datepicker: MatDatepicker<string>) {
+    var mSelectedDate = moment(this.datePicker.value);
+    var mMonth = moment(normlizedMonth);    
+    mSelectedDate.month(mMonth.month());
+    this.datePicker.setValue(mSelectedDate.toDate());
     datepicker.close();
   }
 }

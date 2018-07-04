@@ -1,24 +1,29 @@
 import { DatePipe } from "@angular/common";
+import * as moment from 'moment'
+
+Date.prototype.monthDays= function(){
+  var d = new Date(this.getFullYear(), this.getMonth()+1, 0);
+  return d.getDate();
+}
 
 export function drawChartForDate(data, month) {
   var pipe = new DatePipe('en-US');
   google.charts.load('current', { 'packages': ['bar'] });
-  google.charts.setOnLoadCallback(drawChart);  
-  var daysNum = new Date(month.getYear(), month.getMonth(), 0).getDate();
+  google.charts.setOnLoadCallback(drawChart); 
+  var daysNum = month.monthDays();
   function drawChart() {
     var arr = [];
     arr.push(['Ngày trong tháng', 'Tổng bệnh nhân', 'Có mặt']);    
     for(let i = 1; i <= daysNum; i++){
       arr.push([i.toString(), 0, 0]);
     }
-    
     for (let i = 0; i < data.length; i++) {
       var format = pipe.transform(data[i].date, 'd');
-      var tmp = parseInt(format - 1);
+      var tmp = parseInt(format);
       arr[tmp] = [tmp.toString(), data[i].total, data[i].present];
-    }
+    }    
     var fMonth = pipe.transform(month, 'M/yyyy');
-    var list = google.visualization.arrayToDataTable(arr);
+    var list = google.visualization.arrayToDataTable(arr);    
     var options = {
       chart: {
         title: 'Thống kê các ngày trong tháng',
@@ -27,8 +32,7 @@ export function drawChartForDate(data, month) {
       vAxis: {
               title: 'Số bệnh nhân'
             }
-    };
-
+    };    
     var chart = new google.charts.Bar(document.getElementById('columnchart_date'));
 
     chart.draw(list, google.charts.Bar.convertOptions(options));

@@ -42,7 +42,7 @@ export class ChartMonthComponent implements OnInit {
           var result = new Chart(app.total, app.present, null, app.month, app.year);
           data.push(result);
         }
-        GGChart.drawChartForMonth(data);
+        GGChart.drawChartForMonth(data,mStart.year());
       });
   }
 }

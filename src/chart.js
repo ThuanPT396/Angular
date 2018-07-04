@@ -15,16 +15,14 @@ export function drawChartForDate(data, month) {
     for (let i = 0; i < data.length; i++) {
       var format = pipe.transform(data[i].date, 'd');
       var tmp = parseInt(format - 1);
-      console.log(tmp);
-      console.log(data[i]);
       arr[tmp] = [tmp.toString(), data[i].total, data[i].present];
     }
-
+    var fMonth = pipe.transform(month, 'M/yyyy');
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {
         title: 'Thống kê các ngày trong tháng',
-        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        subtitle: 'Tháng '+fMonth
       },
       vAxis: {
               title: 'Số bệnh nhân'
@@ -37,11 +35,10 @@ export function drawChartForDate(data, month) {
   }
 }
 
-export function drawChartForMonth(data) {
-  
+export function drawChartForMonth(data,year) {
+  var pipe = new DatePipe('en-US');
   google.charts.load('current', { 'packages': ['bar'] });
   google.charts.setOnLoadCallback(drawChart1);
-  console.log(data)
   function drawChart1() {
     var arr = [];
     arr.push(['Tháng trong Năm', 'Tổng', 'Có mặt']);
@@ -51,12 +48,12 @@ export function drawChartForMonth(data) {
     for (let i = 0; i < data.length; i++) {
       arr[data[i].month] = [data[i].month.toString(), data[i].total, data[i].present];      
     }
-    console.log(arr)
+  
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {
         title: 'Thống kê các tháng trong năm',
-        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        subtitle: 'Năm '+year,
       },
       vAxis: {
         title: 'Số bệnh nhân'
@@ -88,7 +85,7 @@ export function drawChartForYear(data, startYear, endYear) {
     var options = {
       chart: {
         title: 'Thống kê các năm',
-        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        subtitle: 'Từ năm '+startYear+' Đến năm '+endYear,
       },
       vAxis: {
         title: 'Số bệnh nhân'

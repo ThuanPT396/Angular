@@ -1,6 +1,16 @@
 <div class="content-wrapper">
-    <p>
-      chart-month works!
-    </p>
-
+  <div class="container">
+    <div class="col-md-12 text-center">
+        <label for="name" style="margin-right: 25px">Chọn Năm:</label>
+      <mat-form-field appearance="outline">
+        <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="datePicker">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #dp startView="multi-year" (yearSelected)="chosenYearEndHandler($event, dp)" panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+     
+    </div>
   </div>
+
+  <div id="columnchart_month" style="width: 90%; height: 500px; margin-left: 50px"></div>
+</div>

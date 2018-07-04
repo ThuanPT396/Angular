@@ -16,7 +16,6 @@ import { ListPatientComponent } from './list-patient/list-patient.component';
 import { ListTwilioComponent } from './list-twilio/list-twilio.component';
 import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
 import { ListBlockComponent } from './list-patient/list-block/list-block.component';
-import { ChartComponent } from './chart/chart.component';
 import { ChartYearComponent } from './list-chart/chart-year/chart-year.component';
 import { ChartMonthComponent } from './list-chart/chart-month/chart-month.component';
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';

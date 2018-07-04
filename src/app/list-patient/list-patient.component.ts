@@ -25,6 +25,7 @@ export class ListPatientComponent implements OnInit {
   fullName = "";
   phoneNumber = "";
   username = localStorage.getItem('username')
+  clinicName = localStorage.getItem('clinicName')
   disabled = false;
   disabledCheckBox = false;
   selectedDate = new Date();

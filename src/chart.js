@@ -1,7 +1,7 @@
 import { DatePipe } from "@angular/common";
 
 export function drawChartForDate(data) {
-
+  var pipe = new DatePipe('en-US');
 
   // google.charts.load('current', { 'packages': ['bar'] });
   // google.charts.setOnLoadCallback(drawChart);
@@ -45,16 +45,7 @@ export function drawChartForDate(data) {
 
   function drawChart() {
     var arr = [];
-    // var selectedMonth = new Date();
-    // var pipe = new DatePipe('en-US');
-    // var year = this.pipe.transform(selectedMonth, 'yyyy')
-    // var month= this.pipe.transform(selectedMonth,'M')
-    // var lengthMonth= new Date(year,month,0).getDate();
-    // console.log(lengthMonth)
     arr.push(['Ngày trong tháng', 'Tổng', 'Có mặt']);
-    // for(let i = 1 ; i <= lengthMonth; i++){
-    //   arr.push([i.toString(), 0, 0]);
-    // }
     for (let i = 0; i < data.length; i++) {
       var format = pipe.transform(data[i].date, 'd')
       var tmp = parseInt(format - 1)

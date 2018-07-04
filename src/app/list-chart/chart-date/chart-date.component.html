@@ -5,10 +5,17 @@
         <mat-form-field appearance="outline">
             <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="datePicker">
             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-            <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, dp)"
+            <mat-datepicker touchUi #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, dp)"
               panelClass="example-month-picker">
             </mat-datepicker>
           </mat-form-field>
+          <mat-form-field appearance="outline">
+              <input matInput [matDatepicker]="dp1" placeholder="Month and Year" disabled >
+              <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #dp1 startView="multi-year" (yearSelected)="chosenYearHandler1($event)" (monthSelected)="chosenMonthHandler1($event, dp)"
+                panelClass="example-month-picker">
+              </mat-datepicker>
+            </mat-form-field>
     </div>
     
   </div>

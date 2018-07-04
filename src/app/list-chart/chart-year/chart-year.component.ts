@@ -5,6 +5,7 @@ import * as GGChart from "../../../chart.js";
 import { FormControl } from '@angular/forms';
 import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment'
+import { ToasterService } from '../../service/toast/toaster.service';
 
 @Component({
   selector: 'app-chart-year',
@@ -17,19 +18,29 @@ export class ChartYearComponent implements OnInit {
   endPicker = new FormControl(new Date());
   selectedYear = new Date();
   username = localStorage.getItem('username')
-  constructor(private appointmentService: AppointmentService) { }
+  constructor(private appointmentService: AppointmentService,private toastService: ToasterService) { }
 
   ngOnInit() {
     this.loadDataToChart(this.selectedYear,this.selectedYear)
   }
 
   chosenYearStartHandler(year: Date, datepicker: MatDatepicker<string>) {
+    if (year > this.endPicker.value){
+      this.toastService.Error("Ngày Bắt đầu phải nhỏ hơn ngày Kết thúc")
+      datepicker.close();
+      return;
+    }
     this.startPicker.setValue(year);
     datepicker.close();
     this.loadDataToChart(this.startPicker.value, this.endPicker.value);
   }
 
   chosenYearEndHandler(year: Date, datepicker: MatDatepicker<string>) {
+    if (this.startPicker.value > year){
+      this.toastService.Error("Ngày Kết thúc phải lớn hơn ngày Bắt đầu")
+      datepicker.close();
+      return;
+    }
     this.endPicker.setValue(year);
     datepicker.close();
     this.loadDataToChart(this.startPicker.value, this.endPicker.value);
@@ -38,11 +49,6 @@ export class ChartYearComponent implements OnInit {
   loadDataToChart(startDate: Date, endDate: Date) {
     var mStart = moment(startDate).startOf("year");;
     var mEnd = moment(endDate).endOf("year");    
-    if(mStart > mEnd){
-      alert("dm");
-      return;
-    }
-
     this.appointmentService
       .postChartByYear(this.username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {

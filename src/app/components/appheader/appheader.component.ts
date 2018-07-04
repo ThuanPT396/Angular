@@ -42,7 +42,7 @@ export class AppheaderComponent implements OnInit {
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
-          this.textValidPW="Password is valid";
+          this.textValidPW="";
         }else{
           this.textValidPW="Password is invalid";
         }
@@ -62,17 +62,17 @@ export class AppheaderComponent implements OnInit {
         .subscribe((response) => {
           var tmp = JSON.parse(JSON.stringify(response));
           if (tmp.status == true) {
-            this.toastService.Success("Change Password Administrator Successfully")
+            this.toastService.Success("Change Password Successfully")
             this.logout();
           }
           else {
-            this.toastService.Error("Password is invalid. Change Password Administrator Failure.")
+            this.toastService.Error("Password is invalid. Change Password Failure.")
             this.currentpw = ''
           }
         },
       );
     } else {
-      this.toastService.Error("Confirm password not correct. Change Password Administrator Failure.")
+      this.toastService.Error("Confirm password not correct. Change Password Failure.")
       this.newpw = ''
       this.confirmpw = ''
     }

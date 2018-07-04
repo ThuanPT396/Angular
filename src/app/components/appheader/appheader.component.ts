@@ -11,6 +11,7 @@ import { ToasterService } from '../../service/toast/toaster.service';
 export class AppheaderComponent implements OnInit {
   username = ""
   fullName = ""
+  hidden=false;
   currentpw = ""
   newpw = ""
   confirmpw = ""
@@ -22,8 +23,10 @@ export class AppheaderComponent implements OnInit {
     var result = this.userService.getUserClaims();
     if (localStorage.getItem('role')!='1') {
       this.fullName = result.fullName
+      this.hidden=true;
     }else{
       this.fullName = result.clinicName
+      this.hidden=false;
     }
     this.username = result.username
   }

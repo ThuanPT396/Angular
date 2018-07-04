@@ -14,7 +14,9 @@
     float: left;
     text-align: center;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 23px;
     padding-top: 10px;
-    color: white;
+    color: linear-gradient(to right, #473CF8 0%, #2B7FFF 100%); 
+    
+    font-family: inherit
 }

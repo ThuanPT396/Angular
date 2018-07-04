@@ -23,8 +23,8 @@ export class ChartDateComponent implements OnInit {
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
-    var mSelectedMonth = moment(this.selectedMonth);
-    mSelectedMonth.format("MM/YYYY")
+    // var mSelectedMonth = moment(this.selectedMonth);
+    // mSelectedMonth.format("MM/YYYY")
     
     this.loadData(this.selectedMonth);
   }

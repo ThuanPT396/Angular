@@ -15,9 +15,11 @@ import * as moment from 'moment'
 export class ChartMonthComponent implements OnInit {
   datePicker = new FormControl(new Date());
   username = localStorage.getItem('username')
+  selectedYear = new Date();
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
+    this.loadDataToChart(this.selectedYear)
   }
 
   chosenYearEndHandler(year: Date, datepicker: MatDatepicker<string>) {

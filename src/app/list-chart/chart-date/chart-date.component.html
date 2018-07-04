@@ -1,12 +1,16 @@
 <div class="content-wrapper">
   <div class="container">
-    <mat-form-field appearance="outline">
-      <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="datePicker">
-      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-      <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, dp)"
-        panelClass="example-month-picker">
-      </mat-datepicker>
-    </mat-form-field>
+    <div class="col-md-12 text-center">
+        <label for="name" style="margin-right: 25px">Chọn Tháng:</label>
+        <mat-form-field appearance="outline">
+            <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="datePicker">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, dp)"
+              panelClass="example-month-picker">
+            </mat-datepicker>
+          </mat-form-field>
+    </div>
+    
   </div>
   <div id="columnchart_date" style="width: 90%; height: 500px; margin-left: 50px"></div>
 </div>

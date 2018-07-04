@@ -1,3 +1,12 @@
 <div class="content-wrapper">
-  <div id="chart_div"></div>
+  <p>
+    <mat-form-field appearance="outline">
+      <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="datePicker">
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, dp)"
+        panelClass="example-month-picker">
+      </mat-datepicker>
+    </mat-form-field>
+  </p>
+  <div id="columnchart_year" style="width: 90%; height: 500px; margin-left: 50px"></div>
 </div>

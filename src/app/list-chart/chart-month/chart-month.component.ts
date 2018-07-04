@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../service/appointment.service';
 import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-chart-month',
   templateUrl: './chart-month.component.html',
@@ -9,7 +10,7 @@ import * as GGChart from "../../../chart.js";
   providers:[AppointmentService]
 })
 export class ChartMonthComponent implements OnInit {
-
+  datePicker = new FormControl(new Date());
   username = localStorage.getItem('username')
   constructor(private appointmentService: AppointmentService) { }
 

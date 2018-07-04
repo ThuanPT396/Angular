@@ -18,18 +18,6 @@ export class ChartMonthComponent implements OnInit {
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
-    // this.appointmentService
-    // .postChartByMonth(this.username,"2017-06-06","2019-07-07")
-    // .subscribe((response) => {
-    //   var tmp = JSON.parse(JSON.stringify(response));
-    //   var data = [];
-    //   for (var i in tmp.value) {
-    //     var app = tmp.value[i];
-    //     var result = new Chart(app.total,app.present,null,app.month,app.year);
-    //     data.push(result);
-    //   }
-    //   GGChart.drawChartForMonth(data);
-    // })
   }
 
   chosenYearEndHandler(year: Date, datepicker: MatDatepicker<string>) {
@@ -45,12 +33,11 @@ export class ChartMonthComponent implements OnInit {
     this.appointmentService
       .postChartByMonth(this.username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {
-        var tmp = JSON.parse(JSON.stringify(response));
-        console.log(tmp);
+        var tmp = JSON.parse(JSON.stringify(response));        
         var data = [];
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Chart(app.total, app.present, null, 0, app.year);
+          var result = new Chart(app.total, app.present, null, app.month, app.year);
           data.push(result);
         }
         GGChart.drawChartForMonth(data);

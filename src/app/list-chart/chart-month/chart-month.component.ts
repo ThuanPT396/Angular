@@ -3,6 +3,9 @@ import { AppointmentService } from '../../service/appointment.service';
 import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
 import { FormControl } from '@angular/forms';
+import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
+import * as moment from 'moment'
+
 @Component({
   selector: 'app-chart-month',
   templateUrl: './chart-month.component.html',
@@ -15,17 +18,42 @@ export class ChartMonthComponent implements OnInit {
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
+    // this.appointmentService
+    // .postChartByMonth(this.username,"2017-06-06","2019-07-07")
+    // .subscribe((response) => {
+    //   var tmp = JSON.parse(JSON.stringify(response));
+    //   var data = [];
+    //   for (var i in tmp.value) {
+    //     var app = tmp.value[i];
+    //     var result = new Chart(app.total,app.present,null,app.month,app.year);
+    //     data.push(result);
+    //   }
+    //   GGChart.drawChartForMonth(data);
+    // })
+  }
+
+  chosenYearEndHandler(year: Date, datepicker: MatDatepicker<string>) {
+    this.datePicker.setValue(year);    
+    this.loadDataToChart(year);
+    datepicker.close();        
+  }
+
+  loadDataToChart(year: Date) {
+    var mStart = moment(year).startOf("year");;
+    var mEnd = moment(year).endOf("year");
+
     this.appointmentService
-    .postChartByMonth(this.username,"2017-06-06","2019-07-07")
-    .subscribe((response) => {
-      var tmp = JSON.parse(JSON.stringify(response));
-      var data = [];
-      for (var i in tmp.value) {
-        var app = tmp.value[i];
-        var result = new Chart(app.total,app.present,null,app.month,app.year);
-        data.push(result);
-      }
-      GGChart.drawChartForMonth(data);
-    })
+      .postChartByMonth(this.username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        console.log(tmp);
+        var data = [];
+        for (var i in tmp.value) {
+          var app = tmp.value[i];
+          var result = new Chart(app.total, app.present, null, 0, app.year);
+          data.push(result);
+        }
+        GGChart.drawChartForMonth(data);
+      });
   }
 }

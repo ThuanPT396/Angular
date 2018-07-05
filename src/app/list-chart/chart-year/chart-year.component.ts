@@ -3,7 +3,7 @@ import { AppointmentService } from '../../service/appointment.service';
 import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
 import { FormControl } from '@angular/forms';
-import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
+import { MatDatepicker, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment'
 import { ToasterService } from '../../service/toast/toaster.service';
 
@@ -11,7 +11,7 @@ import { ToasterService } from '../../service/toast/toaster.service';
   selector: 'app-chart-year',
   templateUrl: './chart-year.component.html',
   styleUrls: ['./chart-year.component.css'],
-  providers: [AppointmentService]
+  providers: [AppointmentService,]
 })
 export class ChartYearComponent implements OnInit {
   minDate = new Date(2000, 0, 1);

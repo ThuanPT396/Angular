@@ -3,14 +3,14 @@ import { AppointmentService } from '../../service/appointment.service';
 import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
 import { FormControl } from '@angular/forms';
-import { MatDatepicker, MAT_DATE_FORMATS } from '@angular/material';
+import { MatDatepicker, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment'
 
 @Component({
   selector: 'app-chart-month',
   templateUrl: './chart-month.component.html',
   styleUrls: ['./chart-month.component.css'],
-  providers:[AppointmentService]
+  providers:[AppointmentService ]
 })
 export class ChartMonthComponent implements OnInit {
   datePicker = new FormControl(new Date());

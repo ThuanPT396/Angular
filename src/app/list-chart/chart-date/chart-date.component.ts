@@ -4,7 +4,7 @@ import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment'
-import { MatDatepicker } from '@angular/material';
+import { MatDatepicker, MAT_DATE_LOCALE } from '@angular/material';
 import { DatePipe } from '@angular/common';
 
 @Component({

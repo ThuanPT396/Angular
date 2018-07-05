@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, LOCALE_ID } from '@angular/core';
 import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
   styleUrls: ['./list-patient.component.css'],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'vi-VN' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },{ provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService],
 })
 export class ListPatientComponent implements OnInit {
   ELEMENT_DATA: Appointment[] = [];

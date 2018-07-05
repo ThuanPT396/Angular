@@ -1,6 +1,7 @@
 .fixed{
     position: fixed;
     width: 100%;
+    text-align: center;
 }
 
 .padd-left-none {
@@ -10,12 +11,22 @@
     padding-right: 0px;
 }
 .title{
-    width: 70%;
-    float: left;
-    text-align: center;
+   
+    /*  */
+    /* text-align: center; */
     font-weight: bold;
-    font-size: 23px;
-    padding-top: 7px;
+    font-size: 26px;
+    padding-top: 5px;
     color: white; 
-    font-family: inherit
+    font-family: serif
+}
+.nav.nav-center {
+    margin:0;
+    float:none;
+}
+
+.navbar-inner{
+    text-align:center;
+    width: 80%;
+    float: left;
 }

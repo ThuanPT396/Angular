@@ -56,7 +56,7 @@ export class ChartDateComponent implements OnInit {
     var mDate = moment(normalizedYear)
     this.datePicker.setValue(mDate.toDate());
   }
-  chosenMonthHandler(normlizedMonth: Date, datepicker: MatDatepicker<string>) {
+  chosenMonthHandler(normlizedMonth: Date, datepicker: MatDatepicker<Date>) {
     var mSelectedDate = moment(this.datePicker.value);
     var mMonth = moment(normlizedMonth);
     mSelectedDate.month(mMonth.month());

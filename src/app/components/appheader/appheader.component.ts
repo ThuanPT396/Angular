@@ -31,10 +31,10 @@ export class AppheaderComponent implements OnInit {
     this.username = result.username
   }
   logout() {
+    localStorage.removeItem('clinicName');
     localStorage.removeItem('username');
     localStorage.removeItem('fullName');
     localStorage.removeItem('role');
-    this.router.navigate(['/login'])
   }
   checkPassword(username:string, password:string){
       this.userService

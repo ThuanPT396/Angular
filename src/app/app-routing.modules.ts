@@ -20,6 +20,7 @@ import { ChartYearComponent } from './list-chart/chart-year/chart-year.component
 import { ChartMonthComponent } from './list-chart/chart-month/chart-month.component';
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';
 import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
+import { ChartLineYearComponent } from './list-chart/chart-line-year/chart-line-year.component';
 
 export const appRoutes: Routes = [
     // { path: '', component: UserListComponent },
@@ -145,6 +146,10 @@ export const appRoutes: Routes = [
     {
         path: 'chartLineMonth', component: HomeComponent,
         children: [{ path: '', component: ChartLineMonthComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'chartLineYear', component: HomeComponent,
+        children: [{ path: '', component: ChartLineYearComponent, canActivate: [AuthGuard] }]
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

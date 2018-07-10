@@ -3,6 +3,8 @@ import { AppointmentService } from '../../service/appointment.service';
 import * as moment from 'moment'
 import { Chart } from '../../model/chart.model';
 import * as GGChart from "../../../chart.js";
+import { FormControl } from '@angular/forms';
+import { MatDatepicker } from '@angular/material';
 @Component({
   selector: 'app-chart-line-month',
   templateUrl: './chart-line-month.component.html',
@@ -10,13 +12,18 @@ import * as GGChart from "../../../chart.js";
   providers:[AppointmentService ]
 })
 export class ChartLineMonthComponent implements OnInit {
+  datePicker = new FormControl(new Date());
   selectedYear = new Date();
   constructor(private appointmentService: AppointmentService) { }
 
   ngOnInit() {
     this.loadDataToChart(this.selectedYear)
   }
-
+  chosenYearEndHandler(year: Date, datepicker: MatDatepicker<string>) {
+    this.datePicker.setValue(year);    
+    this.loadDataToChart(year);
+    datepicker.close();        
+  }
 
   loadDataToChart(year: Date) {
     var mStart = moment(year).startOf("year");;

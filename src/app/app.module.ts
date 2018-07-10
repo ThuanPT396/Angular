@@ -83,6 +83,7 @@ import { ChartYearComponent } from './list-chart/chart-year/chart-year.component
 import { ChartMonthComponent } from './list-chart/chart-month/chart-month.component';
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';
 import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
+import { ChartLineYearComponent } from './list-chart/chart-line-year/chart-line-year.component';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -137,6 +138,7 @@ export class DemoMaterialModule { }
     ChartDateComponent,
     AppmenuStaffComponent,
     UserListComponent,
+    ChartLineYearComponent,
     UserEditComponent,
     ClinicListComponent,
     ListBlockComponent,

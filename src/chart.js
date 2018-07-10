@@ -104,33 +104,79 @@ export function drawChartForYear(data, startYear, endYear) {
 
 export function drawChartLineForMonth(data,year) {
   var pipe = new DatePipe('en-US');
-  google.charts.load('current', { 'packages': ['bar'] });
+  google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.setOnLoadCallback(drawChart1);
   function drawChart1() {
     var arr = [];
-    arr.push(['Tháng trong Năm', 'Tổng bệnh nhân', 'Có mặt']);
+    arr.push(['Tháng trong Năm', 'Bệnh nhân']);
     for(let i = 1 ; i <= 12; i++){
-      arr.push(['Tháng ' + i, 0, 0]);
+      arr.push(['Tháng ' + i, 0]);
     }
     for (let i = 0; i < data.length; i++) {
-      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].total, data[i].present];      
+      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].present];      
     }
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {
         title: 'Thống kê các tháng trong năm',
-        subtitle: 'Năm '+year,
+        subtitle: 'Năm '+ year,
       },
       vAxis: {
         title: 'Số bệnh nhân'
       }
     };
 
-    // var chart = new google.charts.Bar(document.getElementById('columnchart_month'));
-
+    // var chart = new google.charts.Bar(document.getElementById('curve_chart'));
     // chart.draw(list, google.charts.Bar.convertOptions(options));
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    chart.draw(list, options);
+  }
+}
 
-        chart.draw(list, options);
+export function drawChartLineForYear(data, startYear, endYear) {
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart1);
+  
+  function drawChart1() {
+    var arr = [];
+    arr.push(['Tháng trong Năm', 'Bệnh nhân']);
+    for(let i = 1 ; i <= 12; i++){
+      arr.push(['Tháng ' + i, 0]);
+    }
+    for (let i = 0; i < data.length; i++) {
+      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].present];      
+    }
+    var list = google.visualization.arrayToDataTable(arr);
+    var options = {
+      chart: {
+        
+        title: 'Thống kê các năm',
+        subtitle: 'Từ năm '+startYear+' Đến năm '+endYear,
+      },
+      vAxis: {
+        title: 'Số bệnh nhân'
+      }
+    };
+    // arr.push(['Các Năm', 'Tổng bệnh nhân', 'Có mặt']);
+    // for(let i = 1; i <= endYear - startYear + 1; i++){
+    //   arr.push([(i - 1 + startYear).toString(), 0, 0]);
+    // }
+
+    // for (let i = 0; i < data.length; i++) {
+    //   arr[data[i].year - startYear + 1] = [data[i].year.toString(), data[i].total, data[i].present];
+    // }
+    // var list = google.visualization.arrayToDataTable(arr);
+    // var options = {
+    //   chart: {
+    //     title: 'Thống kê các năm',
+    //     subtitle: 'Từ năm '+startYear+' Đến năm '+endYear,
+    //   },
+    //   vAxis: {
+    //     title: 'Số bệnh nhân'
+    //   }
+    // };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
+    chart.draw(list, options);
   }
 }

@@ -139,44 +139,44 @@ export function drawChartLineForYear(data, startYear, endYear) {
   
   function drawChart1() {
     var arr = [];
-    arr.push(['Tháng trong Năm', 'Bệnh nhân']);
-    for(let i = 1 ; i <= 12; i++){
-      arr.push(['Tháng ' + i, 0]);
-    }
-    for (let i = 0; i < data.length; i++) {
-      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].present];      
-    }
+    for(let i = 0 ; i <= 12; i++){
+      var row = [];
+      for(let j = 0; j <= endYear - startYear + 1; j++){
+        if (i == 0){
+          var label = j == 0 ? "Tháng" : "Năm " + (startYear + j - 1);
+          row.push(label);
+        } else{
+          var label = j == 0 ? "Tháng " + i : getNumberPatientForMonth(startYear + j - 1, i);
+          row.push(label);
+        }
+      }
+      arr.push(row);      
+    }    
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
-      chart: {
-        
+      chart: {        
         title: 'Thống kê các năm',
         subtitle: 'Từ năm '+startYear+' Đến năm '+endYear,
       },
       vAxis: {
         title: 'Số bệnh nhân'
+      },
+      hAxis: {
+        title: "Tháng trong năm"
       }
     };
-    // arr.push(['Các Năm', 'Tổng bệnh nhân', 'Có mặt']);
-    // for(let i = 1; i <= endYear - startYear + 1; i++){
-    //   arr.push([(i - 1 + startYear).toString(), 0, 0]);
-    // }
-
-    // for (let i = 0; i < data.length; i++) {
-    //   arr[data[i].year - startYear + 1] = [data[i].year.toString(), data[i].total, data[i].present];
-    // }
-    // var list = google.visualization.arrayToDataTable(arr);
-    // var options = {
-    //   chart: {
-    //     title: 'Thống kê các năm',
-    //     subtitle: 'Từ năm '+startYear+' Đến năm '+endYear,
-    //   },
-    //   vAxis: {
-    //     title: 'Số bệnh nhân'
-    //   }
-    // };
 
     var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
     chart.draw(list, options);
+  }  
+
+  function getNumberPatientForMonth(year, month){
+    for (var index in data){
+      var item = data[index]
+      if(item.year == year && item.month == month){
+        return item.present;
+      }
+    }
+    return 0
   }
 }

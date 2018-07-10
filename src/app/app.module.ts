@@ -82,6 +82,7 @@ import { ListBlockComponent } from './list-patient/list-block/list-block.compone
 import { ChartYearComponent } from './list-chart/chart-year/chart-year.component';
 import { ChartMonthComponent } from './list-chart/chart-month/chart-month.component';
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';
+import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -129,6 +130,7 @@ export class DemoMaterialModule { }
     AppComponent,
     DevComponent,
     EditStaffComponent,
+    ChartLineMonthComponent,
     ListStaffComponent,
     ChartYearComponent,
     ChartMonthComponent,

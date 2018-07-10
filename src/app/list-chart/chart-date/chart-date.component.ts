@@ -37,7 +37,7 @@ export class ChartDateComponent implements OnInit {
     console.log(startDate);
     console.log(endDate);
     this.appointmentService
-      .postChartByDate(this.username, startDate, endDate)
+      .postChartByDate('hoanghoa', startDate, endDate)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         while (this.ELEMENT_DATA.length > 0) {

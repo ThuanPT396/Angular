@@ -60,10 +60,10 @@ export class ChartYearComponent implements OnInit {
   }
 
   loadDataToChart(startDate: Date, endDate: Date) {
-    var mStart = moment(startDate).startOf("year");;
+    var mStart = moment(startDate).startOf("year");
     var mEnd = moment(endDate).endOf("year");
     this.appointmentService
-      .postChartByYear(this.username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
+      .postChartByYear('hoanghoa', mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         console.log(tmp);

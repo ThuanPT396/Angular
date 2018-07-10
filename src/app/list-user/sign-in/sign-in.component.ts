@@ -24,7 +24,15 @@ export class SignInComponent implements OnInit {
           localStorage.setItem('fullName', tmp.value.fullName);
           localStorage.setItem('clinicName', tmp.value.clinicName);
           localStorage.setItem('role',tmp.value.role);
-          this.router.navigate(['/home'])
+          var role= localStorage.getItem('role');
+          if (role=='0') {
+            this.router.navigate(['/homeadmin'])
+          } else if(role=='1') {
+            this.router.navigate(['/homeclinic'])
+          } else if(role=='2'){
+            this.router.navigate(['/homestaff'])
+          }
+          
         } else {
           this.dialog.openDialog("Attention", "Usename or Password is wrong");
         }

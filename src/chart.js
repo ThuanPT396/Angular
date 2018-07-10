@@ -101,3 +101,36 @@ export function drawChartForYear(data, startYear, endYear) {
     chart.draw(list, google.charts.Bar.convertOptions(options));
   }
 }
+
+export function drawChartLineForMonth(data,year) {
+  var pipe = new DatePipe('en-US');
+  google.charts.load('current', { 'packages': ['bar'] });
+  google.charts.setOnLoadCallback(drawChart1);
+  function drawChart1() {
+    var arr = [];
+    arr.push(['Tháng trong Năm', 'Tổng bệnh nhân', 'Có mặt']);
+    for(let i = 1 ; i <= 12; i++){
+      arr.push(['Tháng ' + i, 0, 0]);
+    }
+    for (let i = 0; i < data.length; i++) {
+      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].total, data[i].present];      
+    }
+    var list = google.visualization.arrayToDataTable(arr);
+    var options = {
+      chart: {
+        title: 'Thống kê các tháng trong năm',
+        subtitle: 'Năm '+year,
+      },
+      vAxis: {
+        title: 'Số bệnh nhân'
+      }
+    };
+
+    // var chart = new google.charts.Bar(document.getElementById('columnchart_month'));
+
+    // chart.draw(list, google.charts.Bar.convertOptions(options));
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(list, options);
+  }
+}

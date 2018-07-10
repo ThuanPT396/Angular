@@ -19,6 +19,7 @@ import { ListBlockComponent } from './list-patient/list-block/list-block.compone
 import { ChartYearComponent } from './list-chart/chart-year/chart-year.component';
 import { ChartMonthComponent } from './list-chart/chart-month/chart-month.component';
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';
+import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
 
 export const appRoutes: Routes = [
     // { path: '', component: UserListComponent },
@@ -31,24 +32,62 @@ export const appRoutes: Routes = [
 
     { path: 'login', component: SignInComponent },
     {
-        path: 'home', component: HomeComponent,canActivate: [AuthGuard]
+        path: 'homeadmin', component: HomeComponent, children: [{
+            path: '', component: UserListComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: {
+                permissions: {
+                    only: ['ADMIN'],
+                    except: ['STAFF','CLINIC'],
+                    redirectTo: '/'
+                }
+            }
+        }]
     },
-    // { path: 'home', component: HomeComponent },
+    {
+        path: 'homeclinic', component: HomeComponent, children: [{
+            path: '', component: ListPatientComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: {
+                permissions: {
+                    only: ['CLINIC'],
+                    except: ['STAFF','ADMIN'],
+                    redirectTo: '/'
+                }
+            }
+        }]
+    },
+    {
+        path: 'homestaff', component: HomeComponent, children: [{
+            path: '', component: ClinicListComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: {
+                permissions: {
+                    only: ['STAFF'],
+                    except: ['CLINIC','ADMIN'],
+                    redirectTo: '/'
+                }
+            }
+        }]
+    },
+    // { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
     {
         path: 'adminAdd', component: HomeComponent,
         children: [{ path: '', component: UserEditComponent, canActivate: [AuthGuard] }]
     },
     {
         path: 'adminList', component: HomeComponent,
-        children: [{ path: '', component: UserListComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: {
-            permissions: {
-                only: ['ADMIN'],
-                except: ['STAFF'],
-                redirectTo: '/'
+        children: [{
+            path: '', component: UserListComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: {
+                permissions: {
+                    only: ['ADMIN'],
+                    except: ['STAFF'],
+                    redirectTo: '/'
+                }
             }
-        } }]
+        }]
     },
     {
         path: 'clinicList', component: HomeComponent,
@@ -74,6 +113,7 @@ export const appRoutes: Routes = [
         path: 'twilioAdd', component: HomeComponent,
         children: [{ path: '', component: EditTwilioComponent, canActivate: [AuthGuard] }]
     },
+
     {
         path: 'twilioList', component: HomeComponent,
         children: [{ path: '', component: ListTwilioComponent, canActivate: [AuthGuard] }]
@@ -101,6 +141,10 @@ export const appRoutes: Routes = [
     {
         path: 'appointmentList', component: HomeComponent,
         children: [{ path: '', component: ListPatientComponent, canActivate: [AuthGuard] }]
+    },
+    {
+        path: 'chartLineMonth', component: HomeComponent,
+        children: [{ path: '', component: ChartLineMonthComponent, canActivate: [AuthGuard] }]
     },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

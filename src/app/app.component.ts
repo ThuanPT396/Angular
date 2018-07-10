@@ -27,6 +27,13 @@ export class AppComponent implements OnInit {
           return false;
         }
       },
+      'CLINIC': () => {
+        if (localStorage.getItem('role') == '1') {
+          return true;
+        }else{
+          return false;
+        }
+      },
       'STAFF': () => {
         if (localStorage.getItem('role') == '2') {
           return true;

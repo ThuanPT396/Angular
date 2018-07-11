@@ -61,9 +61,12 @@ export class ListPatientComponent implements OnInit {
   }
   inputUnit(name: string,position :number) {
     const index = this.medicines.findIndex(med => med.medicineName === name);
-    console.log(this.records[position].medicineName)
+    
     this.records[position].unitName=this.medicines[index].unitName;
+    console.log(this.records[position].medicineName)
     console.log(this.records[position].unitName)
+    console.log(this.records[position].quantity)
+    console.log(this.records)
   }
   onGetMedicine() {
     this.medicineService

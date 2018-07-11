@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, LOCALE_ID } from '@angular/core';
-import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
+import { Component, OnInit, ViewChild, ViewEncapsulation, LOCALE_ID, ElementRef } from '@angular/core';
+import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker, MAT_CHECKBOX_CLICK_ACTION, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 import { AppointmentService } from '../service/appointment.service';
@@ -9,7 +9,9 @@ import { DatePipe } from '@angular/common';
 import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
 import { Record } from '../model/record.model';
-
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -17,8 +19,23 @@ import { Record } from '../model/record.model';
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
+  // multiselect
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = false;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = ['Lemon'];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  @ViewChild('fruitInput') fruitInput: ElementRef;
+  // -------------
+
   records: Record[] = [];
   medicines: Medicine[] = [];
+  disease = [];
   ELEMENT_DATA: Appointment[] = [];
   pipe = new DatePipe('en-US');
   d = new Date();
@@ -28,8 +45,6 @@ export class ListPatientComponent implements OnInit {
   currentDate = this.year + "/" + this.month + "/" + this.day;
   date = new FormControl(new Date());
   fullName = "";
-  test = [];
-  unit = "";
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -44,7 +59,15 @@ export class ListPatientComponent implements OnInit {
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private appointmentService: AppointmentService, private medicineService: MedicineService, private toastService: ToasterService, private dialog: DialogService) { }
+  constructor(private appointmentService: AppointmentService,
+    private medicineService: MedicineService,
+    private toastService: ToasterService,
+    private dialog: DialogService,
+  ) {
+  this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    startWith(null),
+    map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+  }
   ngOnInit() {
     this.date;
     this.dataSource.paginator = this.paginator;
@@ -54,15 +77,15 @@ export class ListPatientComponent implements OnInit {
     this.onGetMedicine();
   }
   onAddMedicine() {
-    this.records.push(new Record("",0,""));
+    this.records.push(new Record("", 0, ""));
   }
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  inputUnit(name: string,position :number) {
+  inputUnit(name: string, position: number) {
     const index = this.medicines.findIndex(med => med.medicineName === name);
-    
-    this.records[position].unitName=this.medicines[index].unitName;
+
+    this.records[position].unitName = this.medicines[index].unitName;
     console.log(this.records[position].medicineName)
     console.log(this.records[position].unitName)
     console.log(this.records[position].quantity)
@@ -159,11 +182,7 @@ export class ListPatientComponent implements OnInit {
       if (this.ELEMENT_DATA[i].phoneNumber === phoneNumber) {
         this.ELEMENT_DATA[i].BisBlock = !BisBlock;
         this.ELEMENT_DATA[i].isBlock = test;
-        // if (this.ELEMENT_DATA[i].BisBlock===true) {
-        //   this.ELEMENT_DATA[i].isBlock = 1;
-        // }else{
-        //   this.ELEMENT_DATA[i].isBlock = 0;
-        // }
+      
       }
       console.log(this.ELEMENT_DATA[i]);
     }
@@ -194,6 +213,45 @@ export class ListPatientComponent implements OnInit {
     }
   }
 
+  // multiselect
+  
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.fruits.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  }
 }
+
+
 

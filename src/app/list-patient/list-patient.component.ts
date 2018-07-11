@@ -247,10 +247,6 @@ export class ListPatientComponent implements OnInit {
   }
 
   onSaveRecord(){
-    console.log(this.appID)
-    console.log(this.remind)
-    console.log(this.listMedicine)
-    console.log(this.diseaseObj.diseasesID)
     var listDis = []
     var disID=this.diseaseObj.diseasesID
     listDis.push(disID);

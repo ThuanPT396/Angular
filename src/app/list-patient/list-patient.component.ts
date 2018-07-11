@@ -46,7 +46,10 @@ export class ListPatientComponent implements OnInit {
   date = new FormControl(new Date());
   fullName = "";
   appID=0;
+  phoneNumber="";
+  address="";
   remind="";
+
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -111,6 +114,18 @@ export class ListPatientComponent implements OnInit {
           var med = tmp.value[i];
           var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive)
           this.medicines.push(result);
+        }
+      })
+  }
+  onGetRecord(patientID){
+    this.medicineService
+      .getMedicalRecord(patientID)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        for (var i in tmp.value) {
+          var re = tmp.value[i];
+          // var result = new Record(,)
+          // this.medicines.push(result);
         }
       })
   }
@@ -186,6 +201,14 @@ export class ListPatientComponent implements OnInit {
   onPushPopupRecord(fullName: string,appID:number) {
     this.fullName = fullName;
     this.appID= appID;
+  }
+  onPushPopupDetail(appID:number){
+    const index = this.ELEMENT_DATA.findIndex(license => license.appointmentId === appID);
+    this.appID= appID;
+    this.fullName= this.ELEMENT_DATA[index].patientName;
+    this.phoneNumber= this.ELEMENT_DATA[index].phoneNumber;
+    this.address=this.ELEMENT_DATA[index].address;
+
   }
   onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
     var test = BisBlock ? 0 : 1;

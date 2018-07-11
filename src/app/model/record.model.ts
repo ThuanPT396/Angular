@@ -1,7 +1,9 @@
 export class Record {
     constructor(
-        public medicineName: string,
-        public quantity: number,
-        public unitName: string,
+        public appointmentID: string,
+        public reminding: number,
+        public description: string,
+        public medicines: any,
+        public disease: any
     ) { }
 }

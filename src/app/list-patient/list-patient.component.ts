@@ -20,7 +20,7 @@ import { Appointment } from '../model/appointment.model';
 import { DatePipe } from '@angular/common';
 import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
-import { Record } from '../model/record.model';
+import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
 
 @Component({
@@ -38,11 +38,11 @@ export class ListPatientComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
+  fruits: string[] = ['1','2','3'];
   allDisease: string[] = ['Apple', 'Lemon', 'Lime'];
   @ViewChild('fruitInput') fruitInput: ElementRef;
-  // ------------------------
-  records: Record[] = [];
+  // --------------------------------------------------------
+  listMedicine: Medicines[] = [];
   medicines: Medicine[] = [];
   ELEMENT_DATA: Appointment[] = [];
   pipe = new DatePipe('en-US');
@@ -53,8 +53,8 @@ export class ListPatientComponent implements OnInit {
   currentDate = this.year + "/" + this.month + "/" + this.day;
   date = new FormControl(new Date());
   fullName = "";
-  test = [];
-  unit = "";
+  appID=0;
+  remind="";
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -75,7 +75,7 @@ export class ListPatientComponent implements OnInit {
     private toastService: ToasterService,
     private dialog: DialogService,
   ) {
-    
+
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allDisease.slice()));
@@ -87,23 +87,20 @@ export class ListPatientComponent implements OnInit {
     var d = this.currentDate;
     this.onGetList(d);
     this.onGetMedicine();
-
+    this.onGetDisease();
 
   }
   onAddMedicine() {
-    this.records.push(new Record("", 0, ""));
+    this.listMedicine.push(new Medicines(0,"","", 0, ""));
+    console.log(this.listMedicine)
   }
   trackByIndex(index: number, obj: any): any {
     return index;
   }
   inputUnit(name: string, position: number) {
     const index = this.medicines.findIndex(med => med.medicineName === name);
-
-    this.records[position].unitName = this.medicines[index].unitName;
-    // console.log(this.records[position].medicineName)
-    // console.log(this.records[position].unitName)
-    // console.log(this.records[position].quantity)
-    // console.log(this.records)
+    this.listMedicine[position].unitName = this.medicines[index].unitName;
+    this.listMedicine[position].medicineID = this.medicines[index].medicineID;
   }
   onGetDisease() {
     this.medicineService
@@ -199,8 +196,9 @@ export class ListPatientComponent implements OnInit {
     this.onGetList(format);
 
   }
-  onPushPopupRecord(fullName: string) {
+  onPushPopupRecord(fullName: string,appID:number) {
     this.fullName = fullName;
+    this.appID= appID;
   }
   onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
     var test = BisBlock ? 0 : 1;
@@ -210,9 +208,7 @@ export class ListPatientComponent implements OnInit {
         this.ELEMENT_DATA[i].BisBlock = !BisBlock;
         this.ELEMENT_DATA[i].isBlock = test;
       }
-      console.log(this.ELEMENT_DATA[i]);
     }
-    console.log(test)
 
     this.appointmentService
       .postBlockNumber(this.username, phoneNumber, test)
@@ -239,6 +235,28 @@ export class ListPatientComponent implements OnInit {
     }
   }
 
+  onSaveRecord(){
+    console.log(this.appID)
+    console.log(this.remind)
+    console.log(this.listMedicine)
+    console.log(this.fruits)
+    this.medicineService
+    .postMedicalRecord(this.appID,this.remind,"",this.listMedicine,this.fruits)
+    .subscribe((response) => {
+      var tmp = JSON.parse(JSON.stringify(response));
+      if (tmp.status == true) {
+        this.toastService.Success("Lưu bệnh án thành công")
+      }
+      else {
+        console.log(tmp.error)
+        this.toastService.Error("Lưu bệnh án thất bại")
+      }
+    },
+      error => {
+        this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+      }
+    );
+  }
   // multiselect
 
   add(event: MatChipInputEvent): void {

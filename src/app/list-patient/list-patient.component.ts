@@ -30,18 +30,10 @@ import { Disease } from '../model/disease.model';
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
-  // multiple select
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = false;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['1','2','3'];
-  allDisease: string[] = ['Apple', 'Lemon', 'Lime'];
-  @ViewChild('fruitInput') fruitInput: ElementRef;
+
   // --------------------------------------------------------
+  diseases: Disease[]=[];
+  diseaseObj;
   listMedicine: Medicines[] = [];
   medicines: Medicine[] = [];
   ELEMENT_DATA: Appointment[] = [];
@@ -75,10 +67,6 @@ export class ListPatientComponent implements OnInit {
     private toastService: ToasterService,
     private dialog: DialogService,
   ) {
-
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allDisease.slice()));
   }
   ngOnInit() {
     this.date;
@@ -92,7 +80,7 @@ export class ListPatientComponent implements OnInit {
   }
   onAddMedicine() {
     this.listMedicine.push(new Medicines(0,"","", 0, ""));
-    console.log(this.listMedicine)
+    
   }
   trackByIndex(index: number, obj: any): any {
     return index;
@@ -110,9 +98,8 @@ export class ListPatientComponent implements OnInit {
         for (var i in tmp.value) {
           var dis = tmp.value[i];
           var result = new Disease(dis.diseasesID, dis.diseasesName, dis.isActive)
-          this.allDisease.push(result.diseasesName);
+          this.diseases.push(result);
         }
-        this.allDisease = this.allDisease;
       })
   }
   onGetMedicine() {
@@ -239,9 +226,10 @@ export class ListPatientComponent implements OnInit {
     console.log(this.appID)
     console.log(this.remind)
     console.log(this.listMedicine)
-    console.log(this.fruits)
+    console.log(this.diseaseObj.diseasesID)
+    var disID=this.diseaseObj.diseasesID
     this.medicineService
-    .postMedicalRecord(this.appID,this.remind,"",this.listMedicine,this.fruits)
+    .postMedicalRecord(this.appID,this.remind,"",this.listMedicine,disID)
     .subscribe((response) => {
       var tmp = JSON.parse(JSON.stringify(response));
       if (tmp.status == true) {
@@ -256,44 +244,6 @@ export class ListPatientComponent implements OnInit {
         this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
       }
     );
-  }
-  // multiselect
-
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || '').trim()) {
-      this.fruits.push(value.trim());
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
-
-    this.fruitCtrl.setValue(null);
-  }
-
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allDisease.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 
 }

@@ -152,33 +152,12 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-10 padd-right-none">
-              <mat-form-field class="example-chip-list">
-                <mat-chip-list #chipList>
-                  <mat-chip
-                    *ngFor="let fruit of fruits"
-                    [selectable]="selectable"
-                    [removable]="removable"
-                    (removed)="remove(fruit)">
-                    {{fruit}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                  </mat-chip>
-                  <input
-                    placeholder="New fruit..."
-                    #fruitInput
-                    [formControl]="fruitCtrl"
-                    [matAutocomplete]="auto"
-                    [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    [matChipInputAddOnBlur]="addOnBlur"
-                    (matChipInputTokenEnd)="add($event)">
-                </mat-chip-list>
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                  <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-                    {{fruit}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-              
+              <!-- <select class="form-control" id="se3" [(ngModel)]="diseaseName">
+                <option *ngFor="let disease of diseases">{{disease.diseasesName}}</option>
+              </select> -->
+              <select class="form-control" id="se3"  [(ngModel)]="diseaseObj">
+                <option *ngFor="let disease of diseases" [ngValue]="disease"> {{disease.diseasesName}} </option>
+              </select>
             </div>
           </div>
           <div class="col-md-12">
@@ -200,18 +179,18 @@
                   <td>
                     <div style="width: 100%;">
                       <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit(listMedicine[index].medicineName,index)">
-                        <option *ngFor="let medicine of medicines" >{{medicine.medicineName}}</option>
+                        <option *ngFor="let medicine of medicines">{{medicine.medicineName}}</option>
                       </select>
                     </div>
                   </td>
                   <td>
                     <div style="width: 100%;">
-                      <textarea rows="4" cols="50" [(ngModel)]="listMedicine[index].description" >
+                      <textarea rows="4" cols="50" [(ngModel)]="listMedicine[index].description">
                         </textarea>
                     </div>
                   </td>
                   <td>
-                    <input class="form-control" type="number" style="width: 100%;" [(ngModel)]="listMedicine[index].quantity"/>
+                    <input class="form-control" type="number" style="width: 100%;" [(ngModel)]="listMedicine[index].quantity" />
                   </td>
                   <td class="text-center">
                     <label style="margin-top: 7px">{{listMedicine[index].unitName}}</label>

@@ -29,11 +29,11 @@
 
 
     <div class="row">
-        
+
       <div class="col-md-12">
         <div class="col-md-8 padd-left-none">
           <mat-form-field appearance="outline">
-           
+
             <input matInput (keyup)="applyFilter($event.target.value)" maxlength="30">
           </mat-form-field>
         </div>
@@ -80,8 +80,7 @@
               <mat-radio-button color="primary" value="absent" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'2')" [checked]="row.status===2"
                 [disabled]="disabled">Vắng mặt</mat-radio-button>
             </mat-radio-group> -->
-            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)" 
-            [disabled]="row.appointmentTime > row.currentTime"></mat-checkbox>
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)" [disabled]="row.appointmentTime > row.currentTime"></mat-checkbox>
             <!-- <label class="radio-inline">
               <input type="radio" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
                 [disabled]="disabled">Có mặt</label>
@@ -90,13 +89,29 @@
                 [disabled]="disabled">Vắng mặt</label> -->
           </td>
         </ng-container>
-        <ng-container matColumnDef="function">
+        <ng-container matColumnDef="block">
           <th mat-header-cell *matHeaderCellDef>Chặn SĐT</th>
           <td mat-cell *matCellDef="let row">
             <!-- <a href="#" data-toggle="modal" data-target="#myModal" (click)="onPopupPhoneNumber(row.patientName,row.phoneNumber)">
               <i class="fa fa-ban" style="color: red"></i>
             </a> -->
             <mat-slide-toggle [checked]="row.BisBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.BisBlock)"></mat-slide-toggle>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="medical">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi toa </th>
+          <td mat-cell *matCellDef="let row">
+            <a (click)="onPushPopupRecord(row.patientName)">
+              <i data-toggle="modal" data-target="#medicalRecord" class="fa fa-plus" style="color: blue"></i>
+            </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="detail">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Chi tiết </th>
+          <td mat-cell *matCellDef="let row">
+            <a (click)="onPushPopup(row.licenseID,row.name,row.price,row.duration,row.description)">
+              <i data-toggle="modal" data-target="#myModal" class="fa fa-edit" style="color: blue"></i>
+            </a>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -112,13 +127,100 @@
     </div>
   </section>
 </div>
-<!-- 
+
+<!-- Popup ghi toa -->
+<div id="medicalRecord" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center"> Ghi toa thuốc</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+          <div class="col-md-12 form-group">
+            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
+              <label for="fullName">Họ và Tên</label>
+            </div>
+            <div class="col-md-10 padd-right-none">
+              <input type="text" id="fullName" class="form-control" disabled [(ngModel)]="fullName">
+            </div>
+          </div>
+          <div class="col-md-12 form-group">
+            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
+              <label for="fullName">Chuẩn đoán</label>
+            </div>
+            <div class="col-md-10 padd-right-none">
+              <select multiple class="form-control" id="sel2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 10% !important">STT</th>
+                  <th class="text-center">Tên thuốc</th>
+                  <th class="text-center" style="width: 10% !important">Số lượng</th>
+                  <th class="text-center" style="width: 15% !important">Đơn vị</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of records;let index = index;trackBy:trackByIndex;">
+                  <td class="text-center">
+                    <label style="margin-top: 7px">{{index+1}}</label>
+                  </td>
+                  <td>
+                    <div style="width: 100%;">
+                      <select class="form-control" id="se4" [(ngModel)]="records[index].medicineName" (change)="inputUnit(records[index].medicineName,index)">
+                        <option *ngFor="let medicine of medicines" >{{medicine.medicineName}}</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <input class="form-control" type="number" style="width: 100%;" />
+                  </td>
+                  <td class="text-center">
+                    <label style="margin-top: 7px">{{records[index].unitName}}</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-12 form-group">
+            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
+              <label for="fullName">Lời dặn</label>
+            </div>
+            <div class="col-md-10 padd-right-none">
+              <textarea rows="4" cols="50" style="width: 100%"></textarea> </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        <button class="btn btn-primary" (click)="onBanPhoneNumber(phoneNumber)" data-dismiss="modal">Tạo</button>
+        <button type="button" class="btn btn-success" (click)="onAddMedicine()">Thêm</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Popup thông tin chi tiết -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center"> Bạn có muốn chặn số điện thoại này không?</h4>
+        <h4 class="modal-title text-center"> Thông tin chi tiết bệnh nhân</h4>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -147,4 +249,4 @@
     </div>
 
   </div>
-</div> -->
+</div>

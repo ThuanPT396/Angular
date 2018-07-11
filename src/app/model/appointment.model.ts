@@ -8,6 +8,9 @@ export class Appointment {
         public isCurrentAppointment: Boolean,
         public patientName: string,
         public phoneNumber: string,
+        public address:string,
+        public yob:Date,
         public isBlock: number,
-        public BisBlock: Boolean) { }
+        public BisBlock: Boolean,
+    ) { }
 }

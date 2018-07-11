@@ -31,6 +31,9 @@ tr.mat-row:nth-child(odd){
 .fa-ban{
   font-size: 20px;
 }
+.fa-plus{
+  font-size: 20px;
+}
 .mat-form-field{
   line-height: 1 !important;
 }

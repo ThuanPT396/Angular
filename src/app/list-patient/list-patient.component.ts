@@ -6,14 +6,19 @@ import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MedicineService } from '../service/medicine.service';
+import { Medicine } from '../model/medicine.model';
+import { Record } from '../model/record.model';
 
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
   styleUrls: ['./list-patient.component.css'],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },{ provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
+  records: Record[] = [];
+  medicines: Medicine[] = [];
   ELEMENT_DATA: Appointment[] = [];
   pipe = new DatePipe('en-US');
   d = new Date();
@@ -23,7 +28,8 @@ export class ListPatientComponent implements OnInit {
   currentDate = this.year + "/" + this.month + "/" + this.day;
   date = new FormControl(new Date());
   fullName = "";
-  phoneNumber = "";
+  test = [];
+  unit = "";
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -33,19 +39,43 @@ export class ListPatientComponent implements OnInit {
   pageEvent: PageEvent;
   selectedRowIndex;
 
-  displayedColumns = ['position', 'username', 'phoneNumber', 'workingHour', 'attendance', 'function'];
+  displayedColumns = ['position', 'username', 'phoneNumber', 'workingHour', 'attendance', 'block', 'medical', 'detail'];
   dataSource = new MatTableDataSource<Appointment>(this.ELEMENT_DATA);
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private appointmentService: AppointmentService, private toastService: ToasterService, private dialog: DialogService) { }
+  constructor(private appointmentService: AppointmentService, private medicineService: MedicineService, private toastService: ToasterService, private dialog: DialogService) { }
   ngOnInit() {
     this.date;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     var d = this.currentDate;
     this.onGetList(d);
-    
+    this.onGetMedicine();
+  }
+  onAddMedicine() {
+    this.records.push(new Record("",0,""));
+  }
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+  inputUnit(name: string,position :number) {
+    const index = this.medicines.findIndex(med => med.medicineName === name);
+    console.log(this.records[position].medicineName)
+    this.records[position].unitName=this.medicines[index].unitName;
+    console.log(this.records[position].unitName)
+  }
+  onGetMedicine() {
+    this.medicineService
+      .getMedicines()
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        for (var i in tmp.value) {
+          var med = tmp.value[i];
+          var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive)
+          this.medicines.push(result);
+        }
+      })
   }
   deadline(id: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === id);
@@ -63,7 +93,7 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.isBlock, false);
+          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.yob, app.isBlock, false);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -108,20 +138,16 @@ export class ListPatientComponent implements OnInit {
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    console.log(format, this.currentDate)
     if (format != this.currentDate) {
       this.disabled = true;
-      console.log(this.disabled)
     } else {
       this.disabled = false;
-      console.log(this.disabled)
     }
     this.onGetList(format);
 
   }
-  onPopupPhoneNumber(fullName: string, numberPhone: string) {
+  onPushPopupRecord(fullName: string) {
     this.fullName = fullName;
-    this.phoneNumber = numberPhone;
   }
   onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
     var test = BisBlock ? 0 : 1;

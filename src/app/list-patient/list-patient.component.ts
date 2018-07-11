@@ -21,6 +21,7 @@ import { DatePipe } from '@angular/common';
 import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
 import { Record } from '../model/record.model';
+import { Disease } from '../model/disease.model';
 
 @Component({
   selector: 'app-list-patient',
@@ -29,8 +30,8 @@ import { Record } from '../model/record.model';
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
-// multiple select
-visible = true;
+  // multiple select
+  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = false;
@@ -38,9 +39,9 @@ visible = true;
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
   fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry','asdnasd','weqqwe','dqwedqwe','asdqwewqe','gcbcvbv'];
-
+  allDisease: string[] = ['Apple', 'Lemon', 'Lime'];
   @ViewChild('fruitInput') fruitInput: ElementRef;
+  // ------------------------
   records: Record[] = [];
   medicines: Medicine[] = [];
   ELEMENT_DATA: Appointment[] = [];
@@ -65,6 +66,7 @@ visible = true;
 
   displayedColumns = ['position', 'username', 'phoneNumber', 'workingHour', 'attendance', 'block', 'medical', 'detail'];
   dataSource = new MatTableDataSource<Appointment>(this.ELEMENT_DATA);
+
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -73,9 +75,10 @@ visible = true;
     private toastService: ToasterService,
     private dialog: DialogService,
   ) {
+    
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allDisease.slice()));
   }
   ngOnInit() {
     this.date;
@@ -84,21 +87,36 @@ visible = true;
     var d = this.currentDate;
     this.onGetList(d);
     this.onGetMedicine();
+
+
   }
   onAddMedicine() {
-    this.records.push(new Record("",0,""));
+    this.records.push(new Record("", 0, ""));
   }
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  inputUnit(name: string,position :number) {
+  inputUnit(name: string, position: number) {
     const index = this.medicines.findIndex(med => med.medicineName === name);
-    
-    this.records[position].unitName=this.medicines[index].unitName;
-    console.log(this.records[position].medicineName)
-    console.log(this.records[position].unitName)
-    console.log(this.records[position].quantity)
-    console.log(this.records)
+
+    this.records[position].unitName = this.medicines[index].unitName;
+    // console.log(this.records[position].medicineName)
+    // console.log(this.records[position].unitName)
+    // console.log(this.records[position].quantity)
+    // console.log(this.records)
+  }
+  onGetDisease() {
+    this.medicineService
+      .getDiseases()
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        for (var i in tmp.value) {
+          var dis = tmp.value[i];
+          var result = new Disease(dis.diseasesID, dis.diseasesName, dis.isActive)
+          this.allDisease.push(result.diseasesName);
+        }
+        this.allDisease = this.allDisease;
+      })
   }
   onGetMedicine() {
     this.medicineService
@@ -257,7 +275,7 @@ visible = true;
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.allDisease.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 
 }

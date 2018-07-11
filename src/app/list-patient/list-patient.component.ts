@@ -38,12 +38,9 @@ visible = true;
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
   fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry','asdnasd','weqqwe','dqwedqwe','asdqwewqe','gcbcvbv'];
 
   @ViewChild('fruitInput') fruitInput: ElementRef;
-
-
-
   records: Record[] = [];
   medicines: Medicine[] = [];
   ELEMENT_DATA: Appointment[] = [];

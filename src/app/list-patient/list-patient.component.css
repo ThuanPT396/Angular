@@ -35,8 +35,10 @@ tr.mat-row:nth-child(odd){
     background:white;
     }
 
-    .example-chip-list {
-        width: 100%;
-      }
-      
+.example-chip-list {
+     width: 100%;
+}
+/* .cdk-overlay-pane{
+    position: fixed !important;
+} */
 /* table medicine */

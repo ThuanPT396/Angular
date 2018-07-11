@@ -31,8 +31,8 @@ export class MedicineService {
                     appointmentID: appointmentID,
                     reminding: reminding,
                     description: description,
-                    medicines: medicine,
-                    diseases: disease
+                    medicine: medicine,
+                    disease: disease
                 })
     }
     getMedicalRecord(patientID) {

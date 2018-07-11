@@ -23,6 +23,7 @@ import { Medicine } from '../model/medicine.model';
 import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
 
+
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -250,9 +251,11 @@ export class ListPatientComponent implements OnInit {
     console.log(this.remind)
     console.log(this.listMedicine)
     console.log(this.diseaseObj.diseasesID)
+    var listDis = []
     var disID=this.diseaseObj.diseasesID
+    listDis.push(disID);
     this.medicineService
-    .postMedicalRecord(this.appID,this.remind,"",this.listMedicine,disID)
+    .postMedicalRecord(this.appID,this.remind,"",this.listMedicine,listDis)
     .subscribe((response) => {
       var tmp = JSON.parse(JSON.stringify(response));
       if (tmp.status == true) {

@@ -4,7 +4,8 @@ import { Final } from "../Const";
 import { BaseResponse } from "../model/BaseResponse.model";
 import { Medicine } from "../model/medicine.model";
 import { Disease } from "../model/disease.model";
-import { Prescription } from "../model/prescription.model";
+import { Record } from "../model/record.model";
+
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class MedicineService {
     postMedicalRecord(appointmentID, reminding, description, medicine, disease) {
         return this
             .http
-            .post<BaseResponse<Prescription[]>>(`${this.url}/medicalRecord/create`,
+            .post<BaseResponse<Record[]>>(`${this.url}/medicalRecord/create`,
                 {
                     appointmentID: appointmentID,
                     reminding: reminding,
@@ -38,7 +39,7 @@ export class MedicineService {
     getMedicalRecord(patientID) {
         return this
             .http
-            .post<BaseResponse<Prescription[]>>(`${this.url}/medicalRecord/getMedicalRecord`,
+            .post<BaseResponse<Record[]>>(`${this.url}/medicalRecord/getMedicalRecord`,
                 {
                     patientID: patientID
                 });

@@ -29,8 +29,8 @@ import { Record } from '../model/record.model';
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
-  // multiselect
-  visible = true;
+// multiple select
+visible = true;
   selectable = true;
   removable = true;
   addOnBlur = false;
@@ -41,11 +41,11 @@ export class ListPatientComponent implements OnInit {
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   @ViewChild('fruitInput') fruitInput: ElementRef;
-  // -------------
+
+
 
   records: Record[] = [];
   medicines: Medicine[] = [];
-  disease = [];
   ELEMENT_DATA: Appointment[] = [];
   pipe = new DatePipe('en-US');
   d = new Date();
@@ -55,6 +55,8 @@ export class ListPatientComponent implements OnInit {
   currentDate = this.year + "/" + this.month + "/" + this.day;
   date = new FormControl(new Date());
   fullName = "";
+  test = [];
+  unit = "";
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -87,15 +89,15 @@ export class ListPatientComponent implements OnInit {
     this.onGetMedicine();
   }
   onAddMedicine() {
-    this.records.push(new Record("", 0, ""));
+    this.records.push(new Record("",0,""));
   }
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  inputUnit(name: string, position: number) {
+  inputUnit(name: string,position :number) {
     const index = this.medicines.findIndex(med => med.medicineName === name);
-
-    this.records[position].unitName = this.medicines[index].unitName;
+    
+    this.records[position].unitName=this.medicines[index].unitName;
     console.log(this.records[position].medicineName)
     console.log(this.records[position].unitName)
     console.log(this.records[position].quantity)
@@ -192,7 +194,6 @@ export class ListPatientComponent implements OnInit {
       if (this.ELEMENT_DATA[i].phoneNumber === phoneNumber) {
         this.ELEMENT_DATA[i].BisBlock = !BisBlock;
         this.ELEMENT_DATA[i].isBlock = test;
-
       }
       console.log(this.ELEMENT_DATA[i]);
     }
@@ -261,7 +262,6 @@ export class ListPatientComponent implements OnInit {
 
     return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
+
 }
-
-
 

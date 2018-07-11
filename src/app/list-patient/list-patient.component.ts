@@ -1,17 +1,27 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, LOCALE_ID, ElementRef } from '@angular/core';
-import { PageEvent, MatTableDataSource, MatSort, MatPaginator, MAT_DATE_LOCALE, MatDatepicker, MAT_CHECKBOX_CLICK_ACTION, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import {
+  PageEvent,
+  MatTableDataSource,
+  MatSort, MatPaginator,
+  MAT_DATE_LOCALE,
+  MatDatepicker,
+  MAT_CHECKBOX_CLICK_ACTION,
+  MatChipInputEvent,
+  MatAutocompleteSelectedEvent
+} from '@angular/material';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
-import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
 import { Record } from '../model/record.model';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -64,9 +74,9 @@ export class ListPatientComponent implements OnInit {
     private toastService: ToasterService,
     private dialog: DialogService,
   ) {
-  this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-    startWith(null),
-    map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
   }
   ngOnInit() {
     this.date;
@@ -182,7 +192,7 @@ export class ListPatientComponent implements OnInit {
       if (this.ELEMENT_DATA[i].phoneNumber === phoneNumber) {
         this.ELEMENT_DATA[i].BisBlock = !BisBlock;
         this.ELEMENT_DATA[i].isBlock = test;
-      
+
       }
       console.log(this.ELEMENT_DATA[i]);
     }
@@ -214,7 +224,7 @@ export class ListPatientComponent implements OnInit {
   }
 
   // multiselect
-  
+
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;

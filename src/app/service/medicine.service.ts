@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Final } from "../Const";
 import { BaseResponse } from "../model/BaseResponse.model";
 import { Medicine } from "../model/medicine.model";
+import { Disease } from "../model/disease.model";
 
 
 @Injectable()
@@ -15,5 +16,10 @@ export class MedicineService{
         return this
         .http
         .get<BaseResponse<Medicine[]>>(`${this.url}/medicine/getAllMedicines`);
+    }
+    getDiseases(){
+        return this
+        .http
+        .get<BaseResponse<Disease[]>>(`${this.url}/disease/getAllDiseases`);
     }
 }

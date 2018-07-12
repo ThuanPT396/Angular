@@ -87,7 +87,7 @@ export class ListPatientComponent implements OnInit {
     this.onGetDisease();
   }
   onAddMedicine() {
-    this.listMedicine.push(new Medicines(0, "", "", 0, ""));
+    this.listMedicine.push(new Medicines(0, "", "",1, ""));
 
   }
   trackByIndex(index: number, obj: any): any {
@@ -277,7 +277,7 @@ export class ListPatientComponent implements OnInit {
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
-          this.toastService.Success("Lưu bệnh án thành công")
+          this.toastService.Success("Tạo bệnh án thành công")
         }
         else {
           this.toastService.Error(tmp.error)
@@ -287,6 +287,10 @@ export class ListPatientComponent implements OnInit {
           this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         }
       );
+  }
+  onRemoveMedicine(nameMedicine:string){
+    const index = this.listMedicine.findIndex(med => med.medicineName === nameMedicine);
+    this.listMedicine.splice(index, 1);
   }
 }
 

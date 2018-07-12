@@ -102,7 +102,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi toa </th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onPushPopupRecord(row.patientName,row.appointmentId)">
-              <i data-toggle="modal" data-target="#medicalRecord" class="fa fa-plus" style="color: blue"></i>
+              <i data-toggle="modal" data-target="#medicalRecord" class="fa fa-plus"></i>
             </a>
           </td>
         </ng-container>
@@ -110,7 +110,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Chi tiết </th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onPushPopupDetail(row.appointmentId)">
-              <i data-toggle="modal" data-target="#detailPopup" class="fa fa-edit" style="color: blue"></i>
+              <i data-toggle="modal" data-target="#detailPopup" class="fa fa-edit"></i>
             </a>
           </td>
         </ng-container>
@@ -153,9 +153,6 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-10 padd-right-none">
-              <!-- <select class="form-control" id="se3" [(ngModel)]="diseaseName">
-                <option *ngFor="let disease of diseases">{{disease.diseasesName}}</option>
-              </select> -->
               <select class="form-control" id="se3" [(ngModel)]="diseaseObj">
                 <option *ngFor="let disease of diseases" [ngValue]="disease"> {{disease.diseasesName}} </option>
               </select>
@@ -175,7 +172,10 @@
               <tbody>
                 <tr *ngFor="let record of listMedicine;let index = index;trackBy:trackByIndex;">
                   <td class="text-center">
-                    <label style="margin-top: 7px">{{index+1}}</label>
+                    <label style="margin-top: 7px">{{index+1}}</label><br/>
+                    <a (click)="onRemoveMedicine(listMedicine[index].medicineName)">
+                      <i class="fa fa-close" style="color: red"></i>
+                    </a>
                   </td>
                   <td>
                     <div style="width: 100%;">

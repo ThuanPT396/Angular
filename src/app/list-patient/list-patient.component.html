@@ -118,7 +118,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'positive' :row.isCurrentAppointment,'negative':row.currentTime>row.appointmentTime}"></tr>
 
       </table>
-      <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">No datas found</div>
+      <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
       <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">
       </mat-paginator>
 
@@ -251,7 +251,7 @@
             <div class="col-md-6 padd-left-none">
               <label for="yob">Ngày sinh</label>
               <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
-              
+
             <div class="col-md-6 padd-right-none">
               <label for="sex">Giới tính</label>
               <select class="form-control" id="sex" [(ngModel)]="genderObj">

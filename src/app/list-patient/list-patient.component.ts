@@ -170,7 +170,7 @@ export class ListPatientComponent implements OnInit {
           this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         })
   }
-  onSelect(appID: number, choose: string) {
+  onSelect(appID: number, choose) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
     if (this.ELEMENT_DATA[index].currentTime < this.ELEMENT_DATA[index].appointmentTime) {
       this.disabledCheckBox = true;
@@ -234,7 +234,6 @@ export class ListPatientComponent implements OnInit {
 
     this.yob = format
     this.onGetRecord(this.ELEMENT_DATA[index].patientID);
-    console.log(this.yob)
   }
   onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
     var test = BisBlock ? 0 : 1;
@@ -305,7 +304,6 @@ export class ListPatientComponent implements OnInit {
     this.listMedicine.splice(index, 1);
   }
   onUpdateDetail(patID) {
-    console.log(patID)
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
     this.ELEMENT_DATA[index].patientName = this.fullName
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber
@@ -332,7 +330,6 @@ export class ListPatientComponent implements OnInit {
         }
         else {
           this.toastService.Error("Update Patient Failure")
-          console.log(tmp.error)
         }
       },
         error => {

@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { BaseResponse } from "../model/BaseResponse.model";
 import { Appointment } from "../model/appointment.model";
 import { PhoneNumber } from "../model/phoneNumber.model";
+import { Patient } from "../model/patient.model";
 
 @Injectable()
 export class AppointmentService {
@@ -68,6 +69,19 @@ export class AppointmentService {
             username:username,
             startDate:startDate,
             endDate:endDate
+        });
+    }
+
+    postUpdatePatient(patientID,phoneNumber,fullName,address,yob,gender){
+        return this
+        .http
+        .post<BaseResponse<Appointment[]>>(`${this.url}/patient/update`,{
+            patientID:patientID,
+            phoneNumber:phoneNumber,
+            fullName:fullName,
+            address:address,
+            yob:yob,
+            gender:gender
         });
     }
 }

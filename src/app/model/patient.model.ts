@@ -1,8 +1,10 @@
 export class Patient{
 constructor(
-    public patientId: number,
-    public username: string,
+    public patientID: number,
+    public fullName: string,
     public phoneNumber: string,
     public address: string,
+    public yob:Date,
+    public gender:number
 ){}
 }

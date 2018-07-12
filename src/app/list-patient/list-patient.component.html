@@ -172,7 +172,8 @@
               <tbody>
                 <tr *ngFor="let record of listMedicine;let index = index;trackBy:trackByIndex;">
                   <td class="text-center">
-                    <label style="margin-top: 7px">{{index+1}}</label><br/>
+                    <label style="margin-top: 7px">{{index+1}}</label>
+                    <br/>
                     <a (click)="onRemoveMedicine(listMedicine[index].medicineName)">
                       <i class="fa fa-close" style="color: red"></i>
                     </a>
@@ -249,8 +250,8 @@
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
               <label for="yob">Ngày sinh</label>
-              <!-- <input type="date" name="bday">  -->
               <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
+              
             <div class="col-md-6 padd-right-none">
               <label for="sex">Giới tính</label>
               <select class="form-control" id="sex" [(ngModel)]="genderObj">
@@ -260,7 +261,7 @@
           </div>
           <div class="col-md-12 form-group text-right">
 
-            <button class="btn btn-primary" (click)="onUpdateDetail(fullName)" data-dismiss="modal">Cập nhật thông tin</button>
+            <button class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin</button>
           </div>
           <div class="col-md-12">
             <table class="table table-bordered">
@@ -345,9 +346,9 @@
             </table>
           </div>
           <div class="col-md-12 form-group">
-              <label for="remind" class=" padd-left-none">Lời nhắc</label>
-              <textarea type="text" id="remind" class="form-control" disabled [(ngModel)]="remind"></textarea>
-            </div>
+            <label for="remind" class=" padd-left-none">Lời nhắc</label>
+            <textarea type="text" id="remind" class="form-control" disabled [(ngModel)]="remind"></textarea>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

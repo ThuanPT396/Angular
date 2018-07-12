@@ -17,13 +17,14 @@ import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
 import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
 import { Record } from '../model/record.model';
-
+import { parseDate } from 'ngx-bootstrap/chronos';
+import { moment } from 'ngx-bootstrap/chronos/test/chain';
 
 @Component({
   selector: 'app-list-patient',
@@ -34,9 +35,9 @@ import { Record } from '../model/record.model';
 export class ListPatientComponent implements OnInit {
 
   // --------------------------------------------------------
-  genders=["Nam","Nữ"]
+  genders = ["Nam", "Nữ", "Khác"]
   genderObj;
-  yob= new Date();
+  yob = "";
   records: Record[] = [];
   diseases: Disease[] = [];
   diseaseObj;
@@ -55,7 +56,7 @@ export class ListPatientComponent implements OnInit {
   phoneNumber = "";
   address = "";
   remind = "";
-
+  patID = 0;
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -87,7 +88,7 @@ export class ListPatientComponent implements OnInit {
     this.onGetDisease();
   }
   onAddMedicine() {
-    this.listMedicine.push(new Medicines(0, "", "",1, ""));
+    this.listMedicine.push(new Medicines(0, "", "", 1, ""));
 
   }
   trackByIndex(index: number, obj: any): any {
@@ -132,7 +133,7 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var re = tmp.value[i];
-          var result = new Record(re.appointmentID,re.appointmentTime, re.no, re.status,re.reminding, re.medicalMedicines, re.medicalDisease);
+          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease);
           this.records.push(result);
         }
       })
@@ -153,7 +154,7 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID,app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address,app.gender, app.yob, app.isBlock, false);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -207,7 +208,7 @@ export class ListPatientComponent implements OnInit {
 
   }
   onPushPopupRecord(fullName: string, appID: number) {
-    this.remind=""
+    this.remind = ""
     this.fullName = fullName;
     this.appID = appID;
     while (this.listMedicine.length > 0) {
@@ -215,16 +216,25 @@ export class ListPatientComponent implements OnInit {
     }
   }
   onPushPopupDetail(appID: number) {
-    const index = this.ELEMENT_DATA.findIndex(license => license.appointmentId === appID);
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === appID);
     this.appID = appID;
+    this.patID = this.ELEMENT_DATA[index].patientID;
     this.fullName = this.ELEMENT_DATA[index].patientName;
     this.phoneNumber = this.ELEMENT_DATA[index].phoneNumber;
     this.address = this.ELEMENT_DATA[index].address;
-    this.genderObj = this.ELEMENT_DATA[index].gender;
-    this.yob = this.ELEMENT_DATA[index].yob;
+    if (this.ELEMENT_DATA[index].gender == "1") {
+      this.genderObj = "Nam"
+    } else if (this.ELEMENT_DATA[index].gender == "2") {
+      this.genderObj = "Nữ"
+    } else {
+      this.genderObj = "Khác"
+    } 
+    
+    var format = this.pipe.transform(this.ELEMENT_DATA[index].yob, 'yyyy-MM-dd')
+
+    this.yob = format
     this.onGetRecord(this.ELEMENT_DATA[index].patientID);
-    console.log(this.ELEMENT_DATA[index].patientID)
-    console.log(this.records)
+    console.log(this.yob)
   }
   onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
     var test = BisBlock ? 0 : 1;
@@ -260,20 +270,20 @@ export class ListPatientComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  getIndexRecord(indexRecord){
+  getIndexRecord(indexRecord) {
     // while (this.listMedicine.length > 0) {
     //   this.listMedicine.pop();
     // }
-    this.listMedicine=this.records[indexRecord].medicines
-    this.remind=this.records[indexRecord].remind;
-    console.log(this.records[indexRecord].medicines );
-    console.log(this.records[indexRecord].remind );
+    this.listMedicine = this.records[indexRecord].medicines
+    this.remind = this.records[indexRecord].remind;
+    console.log(this.records[indexRecord].medicines);
+    console.log(this.records[indexRecord].remind);
   }
   onSaveRecord() {
     var listDis = []
     var disID = this.diseaseObj.diseasesID
     listDis.push(disID);
-    
+
     this.medicineService
       .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, listDis)
       .subscribe((response) => {
@@ -290,9 +300,46 @@ export class ListPatientComponent implements OnInit {
         }
       );
   }
-  onRemoveMedicine(nameMedicine:string){
+  onRemoveMedicine(nameMedicine: string) {
     const index = this.listMedicine.findIndex(med => med.medicineName === nameMedicine);
     this.listMedicine.splice(index, 1);
+  }
+  onUpdateDetail(patID) {
+    console.log(patID)
+    const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
+    this.ELEMENT_DATA[index].patientName = this.fullName
+    this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber
+    this.ELEMENT_DATA[index].address = this.address
+    this.ELEMENT_DATA[index].yob = new Date(this.yob) 
+    if (this.genderObj == "Nam") {
+      this.ELEMENT_DATA[index].gender = "1";
+    } else if (this.genderObj == "Nữ") {
+      this.ELEMENT_DATA[index].gender = "2";
+    } else {
+      this.ELEMENT_DATA[index].gender = "0";
+    }
+    this.appointmentService
+      .postUpdatePatient(this.ELEMENT_DATA[index].patientID,
+        this.ELEMENT_DATA[index].phoneNumber,
+        this.ELEMENT_DATA[index].patientName,
+        this.ELEMENT_DATA[index].address,
+        this.ELEMENT_DATA[index].yob,
+        this.ELEMENT_DATA[index].gender)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Update Patient Successfully")
+        }
+        else {
+          this.toastService.Error("Update Patient Failure")
+          console.log(tmp.error)
+        }
+      },
+        error => {
+          this.dialog.openDialog("Attention", "Cannot connect network!");
+        }
+      );
+    this.dataSource.filter = "";
   }
 }
 

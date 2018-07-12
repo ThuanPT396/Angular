@@ -132,7 +132,7 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var re = tmp.value[i];
-          var result = new Record(re.appointmentID,re.appointmentTime, re.no, re.status, re.medicalMedicines, re.medicalDisease);
+          var result = new Record(re.appointmentID,re.appointmentTime, re.no, re.status,re.reminding, re.medicalMedicines, re.medicalDisease);
           this.records.push(result);
         }
       })
@@ -265,7 +265,9 @@ export class ListPatientComponent implements OnInit {
       this.listMedicine.pop();
     }
     this.listMedicine=this.records[indexRecord].medicines
+    this.remind=this.records[indexRecord].remind;
     console.log(this.records[indexRecord].medicines );
+    console.log(this.records[indexRecord].remind );
   }
   onSaveRecord() {
     var listDis = []

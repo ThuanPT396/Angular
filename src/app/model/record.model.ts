@@ -7,6 +7,7 @@ export class Record {
         public appointmentTime:Date,
         public no:number,
         public status:number,
+        public remind:string,
         public medicines: Medicines[],
         public disease: Disease[]
     ) { }

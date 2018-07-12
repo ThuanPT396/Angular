@@ -59,6 +59,8 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'positive' :row.isCurrentAppointment,'negative':row.currentTime>row.appointmentTime}"></tr>
   
         </table>
+        <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
+
         <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">
         </mat-paginator>
   

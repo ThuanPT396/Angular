@@ -168,7 +168,7 @@ export function drawChartLineForYear(data, startYear, endYear) {
 
     var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
     chart.draw(list, options);
-  }  
+  }
 
   function getNumberPatientForMonth(year, month){
     for (var index in data){

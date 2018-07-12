@@ -14,14 +14,16 @@ import { Chart } from '../../model/chart.model';
 })
 export class ChartLineYearComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
-  maxDate = new Date(2030, 0, 1);
-  startPicker = new FormControl(new Date());
-  endPicker = new FormControl(new Date());
+  maxDate = new Date(2030, 0, 1);  
+  endDate =  new Date();
+  startDate = new Date(this.endDate.getFullYear() - 2, this.endDate.getMonth(), this.endDate.getDate());
+  startPicker = new FormControl(this.startDate);
+  endPicker = new FormControl(this.endDate);
   selectedYear = new Date();
   constructor(private appointmentService: AppointmentService, private toastService: ToasterService) { }
 
   ngOnInit() {
-    this.loadDataToChart(this.selectedYear, this.selectedYear)
+    this.loadDataToChart(this.startDate, this.endDate)
   }
   chosenYearStartHandler(year: Date, datepicker: MatDatepicker<string>) {
 

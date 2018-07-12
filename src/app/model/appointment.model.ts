@@ -10,6 +10,7 @@ export class Appointment {
         public patientName: string,
         public phoneNumber: string,
         public address:string,
+        public gender:string,
         public yob:Date,
         public isBlock: number,
         

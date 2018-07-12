@@ -118,6 +118,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'positive' :row.isCurrentAppointment,'negative':row.currentTime>row.appointmentTime}"></tr>
 
       </table>
+      <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">No datas found</div>
       <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">
       </mat-paginator>
 
@@ -155,7 +156,7 @@
               <!-- <select class="form-control" id="se3" [(ngModel)]="diseaseName">
                 <option *ngFor="let disease of diseases">{{disease.diseasesName}}</option>
               </select> -->
-              <select class="form-control" id="se3"  [(ngModel)]="diseaseObj">
+              <select class="form-control" id="se3" [(ngModel)]="diseaseObj">
                 <option *ngFor="let disease of diseases" [ngValue]="disease"> {{disease.diseasesName}} </option>
               </select>
             </div>
@@ -199,6 +200,9 @@
               </tbody>
             </table>
           </div>
+          <div class="col-md-12 form-group text-right">
+            <button type="button" class="btn btn-success" (click)="onAddMedicine()">Thêm thuốc</button>
+          </div>
           <div class="col-md-12 form-group">
             <div class="col-md-2 padd-left-none" style="padding-top: 7px">
               <label for="fullName">Lời dặn</label>
@@ -214,7 +218,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
         <button class="btn btn-primary" (click)="onSaveRecord()" data-dismiss="modal">Tạo</button>
-        <button type="button" class="btn btn-success" (click)="onAddMedicine()">Thêm</button>
       </div>
     </div>
 
@@ -226,33 +229,38 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center"> Thông tin chi tiết bệnh nhân</h4>
+        <h4 class="modal-title text-center"> Lịch sử khám bệnh</h4>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12 form-group">
-            <div class="col-md-4" style="padding-top: 7px">
-              <label for="fullName">Họ và Tên</label>
-            </div>
-            <div class="col-md-8">
-              <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName">
-            </div>
-          </div>
-          <div class="col-md-12 form-group">
-            <div class="col-md-4" style="padding-top: 7px">
-              <label for="phoneNumber">Số điện thoại</label>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-6 padd-left-none">
+              <label for="username">Họ và Tên</label>
+              <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName"> </div>
+            <div class="col-md-6 padd-right-none">
+              <label for="fullName">Số điện thoại</label>
               <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
             </div>
           </div>
           <div class="col-md-12 form-group">
-            <div class="col-md-4" style="padding-top: 7px">
-              <label for="address">Địa chỉ</label>
+            <label for="username" class=" padd-left-none">Địa chỉ</label>
+            <input type="text" id="address" class="form-control" [(ngModel)]="address">
+          </div>
+          <div class="col-md-12 form-group">
+            <div class="col-md-6 padd-left-none">
+              <label for="yob">Ngày sinh</label>
+              <!-- <input type="date" name="bday">  -->
+              <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
+            <div class="col-md-6 padd-right-none">
+              <label for="sex">Giới tính</label>
+              <select class="form-control" id="sex" [(ngModel)]="genderObj">
+                <option *ngFor="let gender of genders" [ngValue]="gender"> {{gender}} </option>
+              </select>
             </div>
-            <div class="col-md-8">
-              <input type="text" id="address" class="form-control" [(ngModel)]="address">
-            </div>
+          </div>
+          <div class="col-md-12 form-group text-right">
+
+            <button class="btn btn-primary" (click)="onUpdateDetail(fullName)" data-dismiss="modal">Cập nhật thông tin</button>
           </div>
           <div class="col-md-12">
             <table class="table table-bordered">
@@ -261,7 +269,7 @@
                   <th class="text-center" style="width: 10% !important">STT</th>
                   <th class="text-center">Tên Bệnh</th>
                   <th class="text-center" style="width: 45% !important">Thời gian</th>
-                  <th class="text-center" style="width: 10% !important">Toa thuốc</th>
+                  <th class="text-center" style="width: 10% !important">Chi tiết</th>
                 </tr>
               </thead>
               <tbody>
@@ -278,8 +286,8 @@
                     <label style="margin-top: 7px">{{records[index].appointmentTime | date}}</label>
                   </td>
                   <td class="text-center">
-                    <a style="margin-top: 7px">
-                      <i data-toggle="modal" data-target="#PrescriptionModal" (click)="getIndexRecord(index)" class="fa fa-eye" style="color: blue"></i>
+                    <a>
+                      <i style="margin-top: 7px" data-toggle="modal" data-target="#PrescriptionModal" (click)="getIndexRecord(index)" class="fa fa-eye"></i>
                     </a>
                   </td>
                 </tr>
@@ -290,7 +298,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-        <button class="btn btn-primary" data-dismiss="modal">Update</button>
       </div>
     </div>
 
@@ -303,7 +310,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center"> Thông tin đơn thuốc</h4>
+        <h4 class="modal-title text-center"> Toa thuốc</h4>
       </div>
       <div class="modal-body">
         <div class="row">

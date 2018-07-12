@@ -34,6 +34,9 @@ import { Record } from '../model/record.model';
 export class ListPatientComponent implements OnInit {
 
   // --------------------------------------------------------
+  genders=["Nam","Nữ"]
+  genderObj;
+  yob= new Date();
   records: Record[] = [];
   diseases: Disease[] = [];
   diseaseObj;
@@ -150,7 +153,7 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID,app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.yob, app.isBlock, false);
+          var result = new Appointment(app.appointmentID,app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address,app.gender, app.yob, app.isBlock, false);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -217,7 +220,8 @@ export class ListPatientComponent implements OnInit {
     this.fullName = this.ELEMENT_DATA[index].patientName;
     this.phoneNumber = this.ELEMENT_DATA[index].phoneNumber;
     this.address = this.ELEMENT_DATA[index].address;
-
+    this.genderObj = this.ELEMENT_DATA[index].gender;
+    this.yob = this.ELEMENT_DATA[index].yob;
     this.onGetRecord(this.ELEMENT_DATA[index].patientID);
     console.log(this.ELEMENT_DATA[index].patientID)
     console.log(this.records)

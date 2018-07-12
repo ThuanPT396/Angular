@@ -1,78 +1,237 @@
-* { box-sizing:border-box; }
+.m-b-40 {margin-bottom: 40px;}
+.m-b-30 {margin-bottom: 30px;}
 
-body {
-  font-family: Helvetica;
-	background: #eee;
-  -webkit-font-smoothing: antialiased;
+/*//////////////////////////////////////////////////////////////////
+[ RESTYLE TAG ]*/
+
+* {
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
 }
 
-.top{ 
-	text-align:center;
-	margin-top: 4em;
-}
-
-/* h1, h3 { font-weight: 300; } */
-
-h1 { color: #636363; }
-
-h3 { color: #2B7FFF; }
-
-form {
-	width: 380px;
-	margin: 4em auto;
-	padding: 3em 2em 2em 2em;
-	background: #fafafa;
-	border: 1px solid #ebebeb;
-	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0, 0, 0, 0.473) 0px 1px 2px 0px;
-}
-
-.group { 
-	position: relative; 
-	margin-bottom: 30px; 
+body, html {
+	height: 100%;
+  font-family: sans-serif;
+  
 }
 
 
-/* Button */
 
-.button {
+/*---------------------------------------------*/
+input {
+	outline: none;
+	border: none;
+}
+
+
+
+/*---------------------------------------------*/
+button {
+	outline: none !important;
+	border: none;
+	background: transparent;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+iframe {
+	border: none !important;
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ login ]*/
+
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container-login100 {
+  width: 100%;  
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #ebeeef;
+}
+
+
+.wrap-login100 {
+  width: 670px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
   position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  margin: .3em 0 1em 0;
+}
+
+/*==================================================================
+[ Title form ]*/
+.login100-form-title {
   width: 100%;
-  vertical-align: middle;
+  position: relative;
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  padding: 70px 15px 74px 15px;
+}
+
+.login100-form-title-1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
   color: #fff;
-  font-size: 16px;
-  line-height: 20px;
-  -webkit-font-smoothing: antialiased;
+  text-transform: uppercase;
+  line-height: 1.2;
   text-align: center;
-  letter-spacing: 1px;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid linear-gradient(to right, #473CF8 0%, #2B7FFF 100%);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.button:focus { outline: 0; }
-
-
-/* Button modifiers */
-
-.buttonBlue {
-  background: linear-gradient(to right, #473CF8 0%, #2B7FFF 100%);
-  text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
 }
 
-.buttonBlue:hover { background: linear-gradient(to right, rgb(63, 52, 216) 0%, rgb(36, 106, 211) 100%); }
-
-
-/* .test-bg{
-  background-image: url(../../../assets/dist/img/background-pictures.jpg);
-  height: 100%;
-} */
-
-.mat-form-field {
-
-  font-size: 20px !important;
+.login100-form-title::before {
+  /* background-image: url(../../../assets/dist/img/photo2.png); */
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
   width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(54,84,99,0.7);
 }
+
+
+/*==================================================================
+[ Form ]*/
+
+.login100-form {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 43px 88px 93px 190px;
+}
+
+
+/*------------------------------------------------------------------
+[ Input ]*/
+
+.wrap-input100 {
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #b2b2b2;
+}
+
+.label-input100 {
+  font-family: sans-serif;
+  font-size: 18px;
+  color: #808080;
+  line-height: 1.2;
+  text-align: right;
+  position: absolute;
+  top: 14px;
+  left: -105px;
+  width: 80px;
+
+}
+
+/*---------------------------------------------*/
+.input100 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #555555;
+  line-height: 3;
+  
+  display: block;
+  width: 100%;
+  background: transparent;
+  padding: 0 5px;
+}
+
+
+/*------------------------------------------------------------------
+[ Button ]*/
+.container-login100-form-btn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.login100-form-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  min-width: 160px;
+  height: 50px;
+  background:linear-gradient(to right, #473CF8 0%, #2B7FFF 100%);
+  border-radius: 25px;
+
+  font-family: sans-serif;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.2;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.login100-form-btn:hover {
+  background: #333333;
+}
+
+
+/*------------------------------------------------------------------
+[ Responsive ]*/
+
+@media (max-width: 576px) {
+  .login100-form {
+    padding: 43px 15px 57px 117px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login100-form {
+    padding: 43px 15px 57px 15px;
+  }
+
+  .label-input100 {
+    text-align: left;
+    position: unset;
+    top: unset;
+    left: unset;
+    width: 100%;
+    padding: 0 5px;
+  }
+}
+
+
+
+

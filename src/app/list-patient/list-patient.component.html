@@ -191,7 +191,7 @@
                     </div>
                   </td>
                   <td>
-                    <input class="form-control" type="number" style="width: 100%;" [(ngModel)]="listMedicine[index].quantity" />
+                    <input class="form-control" type="number" min="1" style="width: 100%;" [(ngModel)]="listMedicine[index].quantity" />
                   </td>
                   <td class="text-center">
                     <label style="margin-top: 7px">{{listMedicine[index].unitName}}</label>

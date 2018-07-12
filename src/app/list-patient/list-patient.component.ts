@@ -261,9 +261,9 @@ export class ListPatientComponent implements OnInit {
     }
   }
   getIndexRecord(indexRecord){
-    while (this.listMedicine.length > 0) {
-      this.listMedicine.pop();
-    }
+    // while (this.listMedicine.length > 0) {
+    //   this.listMedicine.pop();
+    // }
     this.listMedicine=this.records[indexRecord].medicines
     this.remind=this.records[indexRecord].remind;
     console.log(this.records[indexRecord].medicines );

@@ -1,9 +1,13 @@
+import { Medicines } from "./medicines.model";
+import { Disease } from "./disease.model";
+
 export class Record {
     constructor(
         public appointmentID: string,
-        public reminding: number,
-        public description: string,
-        public medicines: any,
-        public disease: any
+        public appointmentTime:Date,
+        public no:number,
+        public status:number,
+        public medicines: Medicines[],
+        public disease: Disease[]
     ) { }
 }

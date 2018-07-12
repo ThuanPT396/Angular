@@ -22,6 +22,7 @@ import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
 import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
+import { Record } from '../model/record.model';
 
 
 @Component({
@@ -33,7 +34,8 @@ import { Disease } from '../model/disease.model';
 export class ListPatientComponent implements OnInit {
 
   // --------------------------------------------------------
-  diseases: Disease[]=[];
+  records: Record[] = [];
+  diseases: Disease[] = [];
   diseaseObj;
   listMedicine: Medicines[] = [];
   medicines: Medicine[] = [];
@@ -46,10 +48,10 @@ export class ListPatientComponent implements OnInit {
   currentDate = this.year + "/" + this.month + "/" + this.day;
   date = new FormControl(new Date());
   fullName = "";
-  appID=0;
-  phoneNumber="";
-  address="";
-  remind="";
+  appID = 0;
+  phoneNumber = "";
+  address = "";
+  remind = "";
 
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
@@ -80,11 +82,10 @@ export class ListPatientComponent implements OnInit {
     this.onGetList(d);
     this.onGetMedicine();
     this.onGetDisease();
-
   }
   onAddMedicine() {
-    this.listMedicine.push(new Medicines(0,"","", 0, ""));
-    
+    this.listMedicine.push(new Medicines(0, "", "", 0, ""));
+
   }
   trackByIndex(index: number, obj: any): any {
     return index;
@@ -118,15 +119,18 @@ export class ListPatientComponent implements OnInit {
         }
       })
   }
-  onGetRecord(patientID){
+  onGetRecord(patientID) {
+    while (this.records.length > 0) {
+      this.records.pop();
+    }
     this.medicineService
       .getMedicalRecord(patientID)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var re = tmp.value[i];
-          // var result = new Record(,)
-          // this.medicines.push(result);
+          var result = new Record(re.appointmentID,re.appointmentTime, re.no, re.status, re.medicalMedicines, re.medicalDisease);
+          this.records.push(result);
         }
       })
   }
@@ -146,7 +150,7 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.yob, app.isBlock, false);
+          var result = new Appointment(app.appointmentID,app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.yob, app.isBlock, false);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -199,17 +203,24 @@ export class ListPatientComponent implements OnInit {
     this.onGetList(format);
 
   }
-  onPushPopupRecord(fullName: string,appID:number) {
+  onPushPopupRecord(fullName: string, appID: number) {
+    this.remind=""
     this.fullName = fullName;
-    this.appID= appID;
+    this.appID = appID;
+    while (this.listMedicine.length > 0) {
+      this.listMedicine.pop();
+    }
   }
-  onPushPopupDetail(appID:number){
+  onPushPopupDetail(appID: number) {
     const index = this.ELEMENT_DATA.findIndex(license => license.appointmentId === appID);
-    this.appID= appID;
-    this.fullName= this.ELEMENT_DATA[index].patientName;
-    this.phoneNumber= this.ELEMENT_DATA[index].phoneNumber;
-    this.address=this.ELEMENT_DATA[index].address;
+    this.appID = appID;
+    this.fullName = this.ELEMENT_DATA[index].patientName;
+    this.phoneNumber = this.ELEMENT_DATA[index].phoneNumber;
+    this.address = this.ELEMENT_DATA[index].address;
 
+    this.onGetRecord(this.ELEMENT_DATA[index].patientID);
+    console.log(this.ELEMENT_DATA[index].patientID)
+    console.log(this.records)
   }
   onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
     var test = BisBlock ? 0 : 1;
@@ -245,28 +256,33 @@ export class ListPatientComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  onSaveRecord(){
-    var listDis = []
-    var disID=this.diseaseObj.diseasesID
-    listDis.push(disID);
-    this.medicineService
-    .postMedicalRecord(this.appID,this.remind,"",this.listMedicine,listDis)
-    .subscribe((response) => {
-      var tmp = JSON.parse(JSON.stringify(response));
-      if (tmp.status == true) {
-        this.toastService.Success("Lưu bệnh án thành công")
-      }
-      else {
-        console.log(tmp.error)
-        this.toastService.Error("Lưu bệnh án thất bại")
-      }
-    },
-      error => {
-        this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
-      }
-    );
+  getIndexRecord(indexRecord){
+    while (this.listMedicine.length > 0) {
+      this.listMedicine.pop();
+    }
+    this.listMedicine=this.records[indexRecord].medicines
+    console.log(this.records[indexRecord].medicines );
   }
-
+  onSaveRecord() {
+    var listDis = []
+    var disID = this.diseaseObj.diseasesID
+    listDis.push(disID);
+    
+    this.medicineService
+      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, listDis)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Lưu bệnh án thành công")
+        }
+        else {
+          this.toastService.Error(tmp.error)
+        }
+      },
+        error => {
+          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+        }
+      );
+  }
 }
 

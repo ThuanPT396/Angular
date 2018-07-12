@@ -1,6 +1,7 @@
 export class Appointment {
     constructor(
         public appointmentId: number,
+        public patientID: number,
         public appointmentTime: Date,
         public no: number,
         public currentTime: Date,
@@ -11,6 +12,7 @@ export class Appointment {
         public address:string,
         public yob:Date,
         public isBlock: number,
+        
         public BisBlock: Boolean,
     ) { }
 }

@@ -235,7 +235,7 @@
               <label for="fullName">Họ và Tên</label>
             </div>
             <div class="col-md-8">
-              <input type="text" id="fullName" class="form-control" disabled [(ngModel)]="fullName">
+              <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName">
             </div>
           </div>
           <div class="col-md-12 form-group">
@@ -243,7 +243,7 @@
               <label for="phoneNumber">Số điện thoại</label>
             </div>
             <div class="col-md-8">
-              <input type="text" id="phoneNumber" class="form-control" disabled [(ngModel)]="phoneNumber">
+              <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
             </div>
           </div>
           <div class="col-md-12 form-group">
@@ -251,7 +251,7 @@
               <label for="address">Địa chỉ</label>
             </div>
             <div class="col-md-8">
-              <input type="text" id="address" class="form-control" disabled [(ngModel)]="address">
+              <input type="text" id="address" class="form-control" [(ngModel)]="address">
             </div>
           </div>
           <div class="col-md-12">
@@ -259,35 +259,28 @@
               <thead>
                 <tr>
                   <th class="text-center" style="width: 10% !important">STT</th>
-                  <th class="text-center">Tên thuốc</th>
-                  <th class="text-center" style="width: 25% !important">Mô tả</th>
-                  <th class="text-center" style="width: 10% !important">Số lượng</th>
-                  <th class="text-center" style="width: 15% !important">Đơn vị</th>
+                  <th class="text-center">Tên Bệnh</th>
+                  <th class="text-center" style="width: 45% !important">Thời gian</th>
+                  <th class="text-center" style="width: 10% !important">Toa thuốc</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let record of listMedicine;let index = index;trackBy:trackByIndex;">
+                <tr *ngFor="let record of records;let index = index;trackBy:trackByIndex;">
                   <td class="text-center">
                     <label style="margin-top: 7px">{{index+1}}</label>
                   </td>
                   <td>
-                    <div style="width: 100%;">
-                      <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit(listMedicine[index].medicineName,index)">
-                        <option *ngFor="let medicine of medicines">{{medicine.medicineName}}</option>
-                      </select>
+                    <div class="text-center">
+                      <label style="margin-top: 7px">{{records[index].disease[0].diseasesName}}</label>
                     </div>
-                  </td>
-                  <td>
-                    <div style="width: 100%;">
-                      <textarea rows="4" cols="50" [(ngModel)]="listMedicine[index].description">
-                        </textarea>
-                    </div>
-                  </td>
-                  <td>
-                    <input class="form-control" type="number" style="width: 100%;" [(ngModel)]="listMedicine[index].quantity" />
                   </td>
                   <td class="text-center">
-                    <label style="margin-top: 7px">{{listMedicine[index].unitName}}</label>
+                    <label style="margin-top: 7px">{{records[index].appointmentTime | date}}</label>
+                  </td>
+                  <td class="text-center">
+                    <a style="margin-top: 7px">
+                      <i data-toggle="modal" data-target="#PrescriptionModal" (click)="getIndexRecord(index)" class="fa fa-eye" style="color: blue"></i>
+                    </a>
                   </td>
                 </tr>
               </tbody>
@@ -297,7 +290,57 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-        <button class="btn btn-danger" (click)="onBanPhoneNumber(phoneNumber)" data-dismiss="modal">Cấm</button>
+        <button class="btn btn-primary" data-dismiss="modal">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Popup Đơn thuốc -->
+<div id="PrescriptionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center"> Thông tin đơn thuốc</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 10% !important">STT</th>
+                  <th class="text-center">Tên Thuốc</th>
+                  <th class="text-center" style="width: 45% !important">Nhắc nhở</th>
+                  <th class="text-center" style="width: 10% !important">Số lượng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let prescription of listMedicine;let index = index">
+                  <td class="text-center">
+                    <label style="margin-top: 7px">{{index+1}}</label>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <label style="margin-top: 7px">{{prescription.medicineName}}</label>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <label style="margin-top: 7px">{{prescription.description}}</label>
+                  </td>
+                  <td class="text-center">
+                    <label style="margin-top: 7px">{{prescription.quantity}}</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
       </div>
     </div>
 

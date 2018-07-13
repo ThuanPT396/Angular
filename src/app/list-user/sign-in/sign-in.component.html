@@ -9,17 +9,17 @@
       </div>
       <form class="login100-form validate-form" #loginForm="ngForm" (ngSubmit)="OnSubmit(UserName.value,Password.value)">
         <div class="wrap-input100 validate-input m-b-40" data-validate="Username is required">
-          <span class="label-input100">Username</span>
-          <input class="input100" matInput #UserName ngModel name="Username" placeholder="Enter username">
+          <span class="label-input100">Tên đăng nhập</span>
+          <input class="input100" matInput #UserName ngModel name="Username" placeholder="Nhập tên đăng nhập">
         </div>
         <div class="wrap-input100 validate-input m-b-30" data-validate="Password is required">
-          <span class="label-input100">Password</span>
-          <input class="input100" matInput type="password" #Password ngModel name="Password" placeholder="Enter password">
+          <span class="label-input100">Mật khẩu</span>
+          <input class="input100" matInput type="password" #Password ngModel name="Password" placeholder="Nhập mật khẩu">
         </div>
 
         <div class="container-login100-form-btn">
           <button type="submit" [disabled]="!loginForm.valid" class="login100-form-btn">
-            Login
+              Đăng nhập
           </button>
         </div>
 

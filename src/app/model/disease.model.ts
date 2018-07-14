@@ -1,6 +1,6 @@
 export class Disease{
     constructor(
-        public diseasesID: number,
+        public diseasesID: string,
         public diseasesName: string,
         public isActive: string,
     ){}

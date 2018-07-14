@@ -33,7 +33,7 @@
       <div class="col-md-12">
         <div class="col-md-8 padd-left-none">
           <mat-form-field appearance="outline">
-              <mat-label>Tìm kiếm</mat-label>
+            <mat-label>Tìm kiếm</mat-label>
             <input matInput (keyup)="applyFilter($event.target.value)" maxlength="30">
           </mat-form-field>
         </div>
@@ -80,7 +80,7 @@
               <mat-radio-button color="primary" value="absent" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'2')" [checked]="row.status===2"
                 [disabled]="disabled">Vắng mặt</mat-radio-button>
             </mat-radio-group> -->
-            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)" [disabled]="row.appointmentTime > row.currentTime"></mat-checkbox>
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)"></mat-checkbox>
             <!-- <label class="radio-inline">
               <input type="radio" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
                 [disabled]="disabled">Có mặt</label>
@@ -153,9 +153,9 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-10 padd-right-none">
-              <select class="form-control" id="se3" [(ngModel)]="diseaseObj">
-                <option *ngFor="let disease of diseases" [ngValue]="disease"> {{disease.diseasesName}} </option>
-              </select>
+              <ng-select [options]="myOptions" multiple="true" [(ngModel)]="selectedDisease">
+              </ng-select>
+            
             </div>
           </div>
           <div class="col-md-12">
@@ -218,7 +218,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-        <button class="btn btn-primary" (click)="onSaveRecord()" data-dismiss="modal">Tạo</button>
+        <button class="btn btn-primary" (click)="onSaveRecord()" data-dismiss="modal">Tạo toa thuốc</button>
       </div>
     </div>
 
@@ -230,7 +230,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center"> Lịch sử khám bệnh</h4>
+        <h3 class="modal-title text-center"> Thông tin chi tiết bệnh nhân</h3>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -259,10 +259,17 @@
               </select>
             </div>
           </div>
-          <div class="col-md-12 form-group text-right">
 
-            <button class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin</button>
+          
+          <div class="col-md-12 form-group text-right">
+            <button class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin bệnh nhân</button>
           </div>
+          
+          <div class="col-md-12 form-group text-center">
+              <label for="address" ><h3>
+                  <label></label>
+              </h3></label>
+            </div>
           <div class="col-md-12">
             <table class="table table-bordered">
               <thead>
@@ -280,7 +287,7 @@
                   </td>
                   <td>
                     <div class="text-center">
-                      <label style="margin-top: 7px">{{records[index].disease[0].diseasesName}}</label>
+                      <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
                     </div>
                   </td>
                   <td class="text-center">
@@ -333,6 +340,7 @@
                   <td>
                     <div class="text-center">
                       <label style="margin-top: 7px">{{prescription.medicineName}}</label>
+
                     </div>
                   </td>
                   <td class="text-center">

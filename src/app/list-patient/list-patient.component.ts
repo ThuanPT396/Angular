@@ -1,6 +1,6 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { IOption } from 'ng-select';
 import {
   PageEvent,
   MatTableDataSource,
@@ -8,23 +8,18 @@ import {
   MAT_DATE_LOCALE,
   MatDatepicker,
   MAT_CHECKBOX_CLICK_ACTION,
-  MatChipInputEvent,
-  MatAutocompleteSelectedEvent
 } from '@angular/material';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
 import { AppointmentService } from '../service/appointment.service';
 import { Appointment } from '../model/appointment.model';
-import { DatePipe, formatDate } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MedicineService } from '../service/medicine.service';
 import { Medicine } from '../model/medicine.model';
 import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
 import { Record } from '../model/record.model';
-import { parseDate } from 'ngx-bootstrap/chronos';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
+import { Observable, Subject, concat } from 'rxjs';
 
 @Component({
   selector: 'app-list-patient',
@@ -33,6 +28,10 @@ import { moment } from 'ngx-bootstrap/chronos/test/chain';
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
+  myOptions: Array<IOption> = [
+
+  ];
+  selectedDisease = [];
 
   // --------------------------------------------------------
   genders = ["Nam", "Nữ", "Khác"]
@@ -65,6 +64,7 @@ export class ListPatientComponent implements OnInit {
   // MatPaginator Outputs
   pageEvent: PageEvent;
   selectedRowIndex;
+
 
   displayedColumns = ['position', 'username', 'phoneNumber', 'workingHour', 'attendance', 'block', 'medical', 'detail'];
   dataSource = new MatTableDataSource<Appointment>(this.ELEMENT_DATA);
@@ -104,11 +104,19 @@ export class ListPatientComponent implements OnInit {
       .getDiseases()
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
+        var list: Array<IOption> = [];
         for (var i in tmp.value) {
           var dis = tmp.value[i];
-          var result = new Disease(dis.diseasesID, dis.diseasesName, dis.isActive)
+          var result = new Disease(dis.diseasesID, dis.diseasesName, dis.isActive);
+          list.push({
+            label: dis.diseasesName,
+            value: dis.diseasesID
+          });
           this.diseases.push(result);
         }
+        this.myOptions = list;
+
+
       })
   }
   onGetMedicine() {
@@ -133,7 +141,12 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var re = tmp.value[i];
-          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease);
+          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease, "");
+          for (var index in result.disease) {
+            var item = result.disease[index];
+
+            result.presentDiseases += (parseInt(index) != result.disease.length - 1) ? item.diseasesName + ", " : item.diseasesName;
+          }
           this.records.push(result);
         }
       })
@@ -172,12 +185,12 @@ export class ListPatientComponent implements OnInit {
   }
   onSelect(appID: number, choose) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
-    if (this.ELEMENT_DATA[index].currentTime < this.ELEMENT_DATA[index].appointmentTime) {
-      this.disabledCheckBox = true;
-      return;
-    }
+    if (choose == 1) {
+      choose = 0;
+    } else choose = 1;
+    this.ELEMENT_DATA[index].status = choose;
     this.appointmentService
-      .postCheckStatus(this.username, appID, !choose)
+      .postCheckStatus(this.username, appID, choose)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
@@ -228,8 +241,8 @@ export class ListPatientComponent implements OnInit {
       this.genderObj = "Nữ"
     } else {
       this.genderObj = "Khác"
-    } 
-    
+    }
+
     var format = this.pipe.transform(this.ELEMENT_DATA[index].yob, 'yyyy-MM-dd')
 
     this.yob = format
@@ -279,12 +292,8 @@ export class ListPatientComponent implements OnInit {
     console.log(this.records[indexRecord].remind);
   }
   onSaveRecord() {
-    var listDis = []
-    var disID = this.diseaseObj.diseasesID
-    listDis.push(disID);
-
     this.medicineService
-      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, listDis)
+      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
@@ -308,7 +317,7 @@ export class ListPatientComponent implements OnInit {
     this.ELEMENT_DATA[index].patientName = this.fullName
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber
     this.ELEMENT_DATA[index].address = this.address
-    this.ELEMENT_DATA[index].yob = new Date(this.yob) 
+    this.ELEMENT_DATA[index].yob = new Date(this.yob)
     if (this.genderObj == "Nam") {
       this.ELEMENT_DATA[index].gender = "1";
     } else if (this.genderObj == "Nữ") {
@@ -338,5 +347,7 @@ export class ListPatientComponent implements OnInit {
       );
     this.dataSource.filter = "";
   }
+
+
 }
 

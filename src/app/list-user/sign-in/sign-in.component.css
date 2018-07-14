@@ -234,6 +234,13 @@ iframe {
   }
 }
 
-
+/* .mat-spinner{
+  width: 30px !important;
+  height: 30px !important;
+}
+.mat-progress-spinner svg{
+  width: none !important;
+  height: none !important;
+} */
 
 

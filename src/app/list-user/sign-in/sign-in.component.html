@@ -3,8 +3,9 @@
     <div class="wrap-login100">
       <div class="login100-form-title" style="background-image: url(../../../assets/dist/img/callcenter2.jpg);">
         <span class="login100-form-title-1">
-            <span class="logo-lg">
-                <b>Call</b>Center </span><i class="fa fa-phone" style="color: white"></i>
+          <span class="logo-lg">
+            <b>Call</b>Center </span>
+          <i class="fa fa-phone" style="color: white"></i>
         </span>
       </div>
       <form class="login100-form validate-form" #loginForm="ngForm" (ngSubmit)="OnSubmit(UserName.value,Password.value)">
@@ -19,8 +20,12 @@
 
         <div class="container-login100-form-btn">
           <button type="submit" [disabled]="!loginForm.valid" class="login100-form-btn">
-              Đăng nhập
+            Đăng nhập&nbsp;
+            <div [hidden]="isLogin">
+              <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
           </button>
+
         </div>
 
       </form>

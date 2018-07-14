@@ -6,6 +6,8 @@ import { MatDatepicker } from '@angular/material';
 import * as moment from 'moment'
 import * as GGChart from "../../../chart.js";
 import { Chart } from '../../model/chart.model';
+import { bind } from '../../../../node_modules/@angular/core/src/render3/instructions';
+import { basename } from 'path';
 @Component({
   selector: 'app-chart-line-month',
   templateUrl: './chart-line-month.component.html',
@@ -14,8 +16,8 @@ import { Chart } from '../../model/chart.model';
 })
 export class ChartLineMonthComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
-  maxDate = new Date(2030, 0, 1);  
-  endDate =  new Date();
+  maxDate = new Date(2030, 0, 1);
+  endDate = new Date();
   startDate = new Date(this.endDate.getFullYear() - 2, this.endDate.getMonth(), this.endDate.getDate());
   startPicker = new FormControl(this.startDate);
   endPicker = new FormControl(this.endDate);
@@ -66,15 +68,57 @@ export class ChartLineMonthComponent implements OnInit {
       .postChartByMonth(username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
-        console.log(tmp);
-        var data = [];
+        var datas = [];
         for (var i in tmp.value) {
           var app = tmp.value[i];
           var result = new Chart(app.total, app.present, null, app.month, app.year);
-          data.push(result);
-          console.log(result)
+          datas.push(result);
         }
-        GGChart.drawChartLineForYear(data, mStart.year(), mEnd.year());
+        console.log("kietnlt datas");
+        console.log(datas);
+        // tinh tong so nam
+        // datas is List<Chart>()
+        var peopleInMonths = []
+        // init value
+        for (var a = 1; a < 13; ++a) {
+          peopleInMonths[a] = 0;
+        }
+        for (var i in datas) {
+          var data = datas[i];
+          if (data.month) {
+            peopleInMonths[data.month] = data.present + peopleInMonths[data.month];
+          }
+        }
+
+        var totalYears = mEnd.year() - mStart.year() + 1;
+        if (totalYears <= 0) {
+          totalYears = 1;
+        }
+        console.log("kietnlt totalYears: " + totalYears);
+        var dataAvg = [];
+        for (var b = 1; b < 13; ++b) {
+          dataAvg.push(new Chart(
+            "0",
+            peopleInMonths[b] / totalYears, //present            
+            null, //date
+            b, //month
+            2018//year
+          ));
+        }
+        console.log("kietnlt dataAvg");
+        console.log(dataAvg);
+        console.log("kietnlt peopleInMonths");
+        console.log(peopleInMonths);
+
+        /**     Chart:
+         *          public total: string,
+                    public present: number,
+                    public date: Date,
+                    public month: number,
+                    public year:number
+         */
+
+        GGChart.drawChartLineAvg(dataAvg, mStart.year(), mEnd.year());
       })
   }
 }

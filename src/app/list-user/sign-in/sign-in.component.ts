@@ -37,15 +37,16 @@ export class SignInComponent implements OnInit {
 
         } else {
           this.dialog.openDialog("Chú ý", "Tên đăng nhập hoặc mật khẩu không chính xác");
+          this.isLogin=true;
         }
       },
       error => {
-        
+        this.dialog.openDialog("Chú ý", "Không thể kết nối với máy chủ");
+        this.isLogin=true;
       }
     )
-    setTimeout(() => {
-      this.dialog.openDialog("Chú ý", "Không thể kết nối với máy chủ");
-      this.isLogin=true;
-    }, 3000);
+    // setTimeout(() => {
+     
+    // }, 3000);
   }
 }

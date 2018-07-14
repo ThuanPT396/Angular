@@ -149,7 +149,6 @@ export class ListPatientComponent implements OnInit {
           }
           this.records.push(result);
         }
-        console.log(tmp.value);
       })
   }
   deadline(id: number) {
@@ -177,7 +176,6 @@ export class ListPatientComponent implements OnInit {
             result.BisBlock = true
           }
           this.ELEMENT_DATA.push(result);
-          console.log(result.status)
         }
         this.dataSource.data = this.ELEMENT_DATA;
       },

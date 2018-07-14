@@ -115,7 +115,7 @@ export class ListPatientComponent implements OnInit {
           this.diseases.push(result);
         }
         this.myOptions = list;
-        console.log(this.myOptions);
+
 
       })
   }
@@ -177,6 +177,7 @@ export class ListPatientComponent implements OnInit {
             result.BisBlock = true
           }
           this.ELEMENT_DATA.push(result);
+          console.log(result.status)
         }
         this.dataSource.data = this.ELEMENT_DATA;
       },
@@ -186,12 +187,12 @@ export class ListPatientComponent implements OnInit {
   }
   onSelect(appID: number, choose) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
-    if (this.ELEMENT_DATA[index].currentTime < this.ELEMENT_DATA[index].appointmentTime) {
-      this.disabledCheckBox = true;
-      return;
-    }
+    if (choose == 1) {
+      choose = 0;
+    } else choose = 1;
+    this.ELEMENT_DATA[index].status = choose;
     this.appointmentService
-      .postCheckStatus(this.username, appID, !choose)
+      .postCheckStatus(this.username, appID, choose)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {

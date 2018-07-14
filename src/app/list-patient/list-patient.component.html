@@ -80,7 +80,7 @@
               <mat-radio-button color="primary" value="absent" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'2')" [checked]="row.status===2"
                 [disabled]="disabled">Vắng mặt</mat-radio-button>
             </mat-radio-group> -->
-            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)" [disabled]="row.appointmentTime > row.currentTime"></mat-checkbox>
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)"></mat-checkbox>
             <!-- <label class="radio-inline">
               <input type="radio" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
                 [disabled]="disabled">Có mặt</label>

@@ -5,7 +5,7 @@ export class Appointment {
         public appointmentTime: Date,
         public no: number,
         public currentTime: Date,
-        public status: string,
+        public status: number,
         public isCurrentAppointment: Boolean,
         public patientName: string,
         public phoneNumber: string,

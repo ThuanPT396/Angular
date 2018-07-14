@@ -182,7 +182,7 @@ export class ListPatientComponent implements OnInit {
           this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         })
   }
-  onSelect(appID: number, choose) {
+  onSelect(appID: number, choose: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
     if (choose == 1) {
       choose = 0;
@@ -224,9 +224,12 @@ export class ListPatientComponent implements OnInit {
     this.fullName = fullName;
     this.appID = appID;
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
-    console.log(this.ELEMENT_DATA[index].status)
-    while (this.listMedicine.length > 0) {
+    while (this.listMedicine.length > 0 ) {
       this.listMedicine.pop();
+     
+    }
+    while(this.selectedDisease.length > 0 ){
+      this.selectedDisease=[];
     }
   }
   onPushPopupDetail(appID: number) {
@@ -294,8 +297,8 @@ export class ListPatientComponent implements OnInit {
   }
   onSaveRecord() {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
-    if (this.ELEMENT_DATA[index].status == "1") {
-      this.ELEMENT_DATA[index].status = "0"
+    if (this.ELEMENT_DATA[index].status == 1) {
+      this.ELEMENT_DATA[index].status = 0
     }
     console.log(this.ELEMENT_DATA[index].status)
     this.onSelect(this.appID, this.ELEMENT_DATA[index].status)

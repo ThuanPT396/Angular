@@ -224,12 +224,12 @@ export class ListPatientComponent implements OnInit {
     this.fullName = fullName;
     this.appID = appID;
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
-    while (this.listMedicine.length > 0 ) {
+    while (this.listMedicine.length > 0) {
       this.listMedicine.pop();
-     
+
     }
-    while(this.selectedDisease.length > 0 ){
-      this.selectedDisease=[];
+    while (this.selectedDisease.length > 0) {
+      this.selectedDisease = [];
     }
   }
   onPushPopupDetail(appID: number) {
@@ -318,6 +318,7 @@ export class ListPatientComponent implements OnInit {
           this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         }
       );
+
   }
   onRemoveMedicine(nameMedicine: string) {
     const index = this.listMedicine.findIndex(med => med.medicineName === nameMedicine);
@@ -344,8 +345,11 @@ export class ListPatientComponent implements OnInit {
         this.ELEMENT_DATA[index].yob,
         this.ELEMENT_DATA[index].gender)
       .subscribe((response) => {
+
         var tmp = JSON.parse(JSON.stringify(response));
+        console.log(tmp)
         if (tmp.status == true) {
+          this.onRefreshData();
           this.toastService.Success("Update Patient Successfully")
         }
         else {
@@ -358,7 +362,14 @@ export class ListPatientComponent implements OnInit {
       );
     this.dataSource.filter = "";
   }
-
+  onRefreshData() {
+    while(this.ELEMENT_DATA.length>0){
+      this.ELEMENT_DATA.pop();
+    }
+    this.onGetList(this.currentDate);
+    this.onGetMedicine();
+    this.onGetDisease();
+  }
 
 }
 

@@ -135,7 +135,7 @@ export function drawChartLineForMonth(data,year) {
 
 export function drawChartLineAvg(data, startYear, endYear) {
   var pipe = new DatePipe('en-US');
-  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.load('current', {'packages':['line']});
   google.charts.setOnLoadCallback(drawChart1);
   function drawChart1() {
     var arr = [];
@@ -149,28 +149,27 @@ export function drawChartLineAvg(data, startYear, endYear) {
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {
-        // todo: fix bug khong hien title
-        // title: 'Thống kê các tháng trong năm',
-        // subtitle: 'sub title',
+        title: 'Thống kê trung bình qua các năm ' ,
+        subtitle: 'từ năm '+ startYear + ' tới năm '+ endYear,
       },
       vAxis: {
         title: 'Số bệnh nhân'
       },
       hAxis: {
-        title: 'Biểu đồ trung bình từ năm ' + startYear + ' tới năm '+ endYear,
+        title: "Tháng trong năm"
       },
     };
 
     // biểu đồ cột 
     // var chart = new google.charts.Bar(document.getElementById('curve_chart'));
     // chart.draw(list, google.charts.Bar.convertOptions(options));
-    var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
-    chart.draw(list, options);
+    var chart = new google.charts.Line(document.getElementById('curve1_chart'));
+    chart.draw(list, google.charts.Line.convertOptions(options));
   }
 }
 
 export function drawChartLineForYear(data, startYear, endYear) {
-  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.load('current', {'packages':['line']});
   google.charts.setOnLoadCallback(drawChart1);
   
   function drawChart1() {
@@ -204,8 +203,11 @@ export function drawChartLineForYear(data, startYear, endYear) {
       }
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
-    chart.draw(list, options);
+    // var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
+    // chart.draw(list, options); vẽ biểu đồ thường , còn ở dưới vẽ bằng meterial 
+    var chart = new google.charts.Line(document.getElementById('curve1_chart'));
+
+      chart.draw(list, google.charts.Line.convertOptions(options));
   }
 
   function getNumberPatientForMonth(year, month){

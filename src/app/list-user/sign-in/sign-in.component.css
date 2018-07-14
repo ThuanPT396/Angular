@@ -180,6 +180,8 @@ iframe {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
+  padding-left: 20%;
+  margin-top: 20px;
 }
 
 .login100-form-btn {
@@ -191,7 +193,7 @@ iframe {
   height: 50px;
   background-color:#473CF8;
   border-radius: 25px;
-
+  
   font-family: sans-serif;
   font-size: 16px;
   color: #fff;

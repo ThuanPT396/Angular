@@ -61,8 +61,9 @@ export class ChartLineYearComponent implements OnInit {
   loadDataToChart(startDate: Date, endDate: Date) {
     var mStart = moment(startDate).startOf("year");
     var mEnd = moment(endDate).endOf("year");
+    var username = localStorage.getItem('username');
     this.appointmentService
-      .postChartByMonth('hoanghoa', mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
+      .postChartByMonth(username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         console.log(tmp);

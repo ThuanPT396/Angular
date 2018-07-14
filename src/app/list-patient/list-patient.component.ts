@@ -349,7 +349,7 @@ export class ListPatientComponent implements OnInit {
           this.toastService.Success("Update Patient Successfully")
         }
         else {
-          this.toastService.Error("Update Patient Failure")
+          this.toastService.Error(tmp.error)
         }
       },
         error => {

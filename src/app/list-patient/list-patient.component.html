@@ -33,7 +33,7 @@
       <div class="col-md-12">
         <div class="col-md-8 padd-left-none">
           <mat-form-field appearance="outline">
-              <mat-label>Tìm kiếm</mat-label>
+            <mat-label>Tìm kiếm</mat-label>
             <input matInput (keyup)="applyFilter($event.target.value)" maxlength="30">
           </mat-form-field>
         </div>
@@ -153,9 +153,9 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-10 padd-right-none">
-              <select class="form-control" id="se3" [(ngModel)]="diseaseObj">
-                <option *ngFor="let disease of diseases" [ngValue]="disease"> {{disease.diseasesName}} </option>
-              </select>
+              <ng-select [options]="myOptions" multiple="true" [(ngModel)]="selectedDisease">
+              </ng-select>
+            
             </div>
           </div>
           <div class="col-md-12">
@@ -280,7 +280,7 @@
                   </td>
                   <td>
                     <div class="text-center">
-                      <label style="margin-top: 7px">{{records[index].disease[0].diseasesName}}</label>
+                      <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
                     </div>
                   </td>
                   <td class="text-center">
@@ -333,6 +333,7 @@
                   <td>
                     <div class="text-center">
                       <label style="margin-top: 7px">{{prescription.medicineName}}</label>
+
                     </div>
                   </td>
                   <td class="text-center">

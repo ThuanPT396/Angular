@@ -9,6 +9,7 @@ export class Record {
         public status:number,
         public remind:string,
         public medicines: Medicines[],
-        public disease: Disease[]
+        public disease: Disease[],
+        public presentDiseases: string,
     ) { }
 }

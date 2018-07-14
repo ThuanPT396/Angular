@@ -76,6 +76,7 @@ import { EditStaffComponent } from './list-staff/edit-staff/edit-staff.component
 import { AppmenuClinicComponent } from './components/appmenu-clinic/appmenu-clinic.component';
 import { ListPatientComponent } from './list-patient/list-patient.component';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import {SelectModule} from 'ng-select';
 import { ListTwilioComponent } from './list-twilio/list-twilio.component';
 import { EditTwilioComponent } from './list-twilio/edit-twilio/edit-twilio.component';
 import { ListBlockComponent } from './list-patient/list-block/list-block.component';
@@ -159,10 +160,10 @@ export class DemoMaterialModule { }
     BrowserModule,
     FormsModule,
     HttpModule,
+    SelectModule,
     AngularFontAwesomeModule,
     AppRoutingModule,
     HttpClientModule,
-
     DataTablesModule,
     BrowserAnimationsModule,
     DemoMaterialModule,

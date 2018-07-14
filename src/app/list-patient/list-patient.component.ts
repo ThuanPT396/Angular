@@ -156,7 +156,6 @@ export class ListPatientComponent implements OnInit {
     var appTime = this.ELEMENT_DATA[index].appointmentTime
     var curTime = this.ELEMENT_DATA[index].currentTime
     if (appTime == curTime) {
-
     }
   };
   onGetList(date: string) {
@@ -224,6 +223,8 @@ export class ListPatientComponent implements OnInit {
     this.remind = ""
     this.fullName = fullName;
     this.appID = appID;
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
+    console.log(this.ELEMENT_DATA[index].status)
     while (this.listMedicine.length > 0) {
       this.listMedicine.pop();
     }
@@ -292,6 +293,13 @@ export class ListPatientComponent implements OnInit {
     console.log(this.records[indexRecord].remind);
   }
   onSaveRecord() {
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
+    if (this.ELEMENT_DATA[index].status == "1") {
+      this.ELEMENT_DATA[index].status = "0"
+    }
+    console.log(this.ELEMENT_DATA[index].status)
+    this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
+    console.log(this.ELEMENT_DATA[index].status)
     this.medicineService
       .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease)
       .subscribe((response) => {

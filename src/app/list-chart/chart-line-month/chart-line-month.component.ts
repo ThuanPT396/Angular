@@ -74,8 +74,6 @@ export class ChartLineMonthComponent implements OnInit {
           var result = new Chart(app.total, app.present, null, app.month, app.year);
           datas.push(result);
         }
-        console.log("kietnlt datas");
-        console.log(datas);
         // tinh tong so nam
         // datas is List<Chart>()
         var peopleInMonths = []
@@ -94,21 +92,16 @@ export class ChartLineMonthComponent implements OnInit {
         if (totalYears <= 0) {
           totalYears = 1;
         }
-        console.log("kietnlt totalYears: " + totalYears);
         var dataAvg = [];
         for (var b = 1; b < 13; ++b) {
           dataAvg.push(new Chart(
             "0",
-            peopleInMonths[b] / totalYears, //present            
+            Math.round((peopleInMonths[b] / totalYears)), //present            
             null, //date
-            b, //month
+            b, //month 
             2018//year
           ));
         }
-        console.log("kietnlt dataAvg");
-        console.log(dataAvg);
-        console.log("kietnlt peopleInMonths");
-        console.log(peopleInMonths);
 
         /**     Chart:
          *          public total: string,

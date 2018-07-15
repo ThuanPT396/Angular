@@ -363,10 +363,10 @@ export class ListPatientComponent implements OnInit {
     this.dataSource.filter = "";
   }
   onRefreshData() {
-    while(this.ELEMENT_DATA.length>0){
+    while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    this.onGetList(this.currentDate);
+    this.onGetList(this.selectedDate.toString());
     this.onGetMedicine();
     this.onGetDisease();
   }

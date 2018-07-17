@@ -147,7 +147,10 @@ export class ListPatientComponent implements OnInit {
 
             result.presentDiseases += (parseInt(index) != result.disease.length - 1) ? item.diseasesName + ", " : item.diseasesName;
           }
+
           this.records.push(result);
+          this.records.sort((pre, post) => { return  new Date(post.appointmentTime).getTime() - new Date(pre.appointmentTime).getTime() })
+         
         }
       })
   }

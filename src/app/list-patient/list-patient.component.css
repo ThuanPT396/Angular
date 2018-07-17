@@ -42,3 +42,7 @@ tr.mat-row:nth-child(odd){
     position: fixed !important;
 } */
 /* table medicine */
+div.scroll {
+    height: 200px;
+    overflow: auto;
+}

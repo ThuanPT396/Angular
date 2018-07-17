@@ -88,8 +88,7 @@ export class ListPatientComponent implements OnInit {
     this.onGetDisease();
   }
   onAddMedicine() {
-    this.listMedicine.push(new Medicines(0, "", "", 1, ""));
-
+    this.listMedicine.push(new Medicines(0, "", "", 1, "", "", 0));
   }
   trackByIndex(index: number, obj: any): any {
     return index;
@@ -107,10 +106,10 @@ export class ListPatientComponent implements OnInit {
         var list: Array<IOption> = [];
         for (var i in tmp.value) {
           var dis = tmp.value[i];
-          var result = new Disease(dis.diseasesID, dis.diseasesName, dis.isActive);
+          var result = new Disease(dis.diseaseID, dis.diseaseName, dis.isActive);
           list.push({
-            label: dis.diseasesName,
-            value: dis.diseasesID
+            label: dis.diseaseName,
+            value: dis.diseaseID
           });
           this.diseases.push(result);
         }
@@ -145,22 +144,15 @@ export class ListPatientComponent implements OnInit {
           for (var index in result.disease) {
             var item = result.disease[index];
 
-            result.presentDiseases += (parseInt(index) != result.disease.length - 1) ? item.diseasesName + ", " : item.diseasesName;
+            result.presentDiseases += (parseInt(index) != result.disease.length - 1) ? item.diseaseName + ", " : item.diseaseName;
           }
 
           this.records.push(result);
-          this.records.sort((pre, post) => { return  new Date(post.appointmentTime).getTime() - new Date(pre.appointmentTime).getTime() })
-         
+          this.records.sort((pre, post) => { return new Date(post.appointmentTime).getTime() - new Date(pre.appointmentTime).getTime() })
+
         }
       })
   }
-  deadline(id: number) {
-    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === id);
-    var appTime = this.ELEMENT_DATA[index].appointmentTime
-    var curTime = this.ELEMENT_DATA[index].currentTime
-    if (appTime == curTime) {
-    }
-  };
   onGetList(date: string) {
     this.appointmentService
       .getAppointments(this.username, date)
@@ -299,13 +291,18 @@ export class ListPatientComponent implements OnInit {
     console.log(this.records[indexRecord].remind);
   }
   onSaveRecord() {
+
+    for (let i = 0; i < this.listMedicine.length; i++) {
+      if (this.listMedicine[i].medicineName == "") {
+        this.toastService.Error("Vui lòng nhập tên thuốc")
+        return;
+      }
+    }
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
     if (this.ELEMENT_DATA[index].status == 1) {
       this.ELEMENT_DATA[index].status = 0
     }
-    console.log(this.ELEMENT_DATA[index].status)
     this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
-    console.log(this.ELEMENT_DATA[index].status)
     this.medicineService
       .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease)
       .subscribe((response) => {

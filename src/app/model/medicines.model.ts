@@ -5,5 +5,7 @@ export class Medicines {
         public description: string,
         public quantity: number,
         public unitName: string,
+        public defaultDescription: string,
+        public defaultQuantity:number,
     ) { }
 }

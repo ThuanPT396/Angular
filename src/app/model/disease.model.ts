@@ -1,7 +1,7 @@
-export class Disease{
+export class Disease {
     constructor(
-        public diseasesID: string,
-        public diseasesName: string,
+        public diseaseID: string,
+        public diseaseName: string,
         public isActive: string,
-    ){}
-    }
+    ) { }
+}

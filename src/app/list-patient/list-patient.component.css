@@ -43,11 +43,11 @@ tr.mat-row:nth-child(odd){
 } */
 /* table medicine */
 div.scroll {
-    height: 200px;
+    height: 350px;
     overflow: auto;
 }
 
-.symtom{
+.symptom{
 border: 0.5px solid;
 border-color: #DDDDDD;
 padding: 5px;

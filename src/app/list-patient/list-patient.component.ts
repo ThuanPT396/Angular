@@ -33,9 +33,8 @@ export class ListPatientComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  symptoms = [
-  ];
+  readonly separatorKeysCodes: number[] = [ENTER];
+  symptoms = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -50,8 +49,6 @@ export class ListPatientComponent implements OnInit {
     if (input) {
       input.value = '';
     }
-    console.log("add")
-    console.log(this.symptoms)
   }
 
   remove(fruit): void {
@@ -60,8 +57,6 @@ export class ListPatientComponent implements OnInit {
     if (index >= 0) {
       this.symptoms.splice(index, 1);
     }
-    console.log("remove")
-    console.log(this.symptoms)
   }
  //---------------------------------------------------------
   myOptions: Array<IOption> = [];
@@ -122,15 +117,21 @@ export class ListPatientComponent implements OnInit {
     this.onGetDisease();
   }
   onAddMedicine() {
-    this.listMedicine.push(new Medicines(0, "", "", 1, "", "", 0));
+    this.listMedicine.push(new Medicines(0, "", "", 1, ""));
   }
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  inputUnit(name: string, position: number) {
-    const index = this.medicines.findIndex(med => med.medicineName === name);
-    this.listMedicine[position].unitName = this.medicines[index].unitName;
-    this.listMedicine[position].medicineID = this.medicines[index].medicineID;
+  inputUnit(id: any, position: number) {
+    console.log(position)
+    console.log(id)
+    // const index = this.medicines.findIndex(med => med.medicineID === id);
+    // this.listMedicine[position].unitName = this.medicines[index].unitName;
+    // this.listMedicine[position].medicineID = this.medicines[index].medicineID;
+    // this.listMedicine[position].description= this.medicines[index].defaultDescription;
+    // this.listMedicine[position].quantity= this.medicines[index].defaultQuantity;
+    
+    // console.log(this.medicines[index])
   }
   onGetDisease() {
     this.medicineService
@@ -159,9 +160,11 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var med = tmp.value[i];
-          var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive)
+          var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive,med.defaultDescription,med.defaultQuantity)
           this.medicines.push(result);
+          
         }
+        console.log(this.medicines)
       })
   }
   onGetRecord(patientID) {
@@ -338,7 +341,7 @@ export class ListPatientComponent implements OnInit {
     }
     this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
     this.medicineService
-      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease)
+      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease,this.symptoms)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {

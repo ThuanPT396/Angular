@@ -162,18 +162,16 @@
               <label for="fullName">Triệu chứng lâm sàng</label>
             </div>
             <div class="col-md-9 padd-right-none ">
-              <div class="symtom">
+              <div class="symptom">
                 <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let symptom of symptoms" [selectable]="selectable"
-                           [removable]="removable" (removed)="remove(symptom)">
+                  <mat-chip *ngFor="let symptom of symptoms" [selectable]="selectable" [removable]="removable" (removed)="remove(symptom)">
                     {{symptom.name}}
-                    <mat-icon matChipRemove *ngIf="removable"><i class="fa fa-times"></i></mat-icon>
+                    <mat-icon matChipRemove *ngIf="removable">
+                      <i class="fa fa-times"></i>
+                    </mat-icon>
                   </mat-chip>
-                  <input placeholder="New symptom..."
-                         [matChipInputFor]="chipList"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                         [matChipInputAddOnBlur]="addOnBlur"
-                         (matChipInputTokenEnd)="add($event)">
+                  <input placeholder="New symptom..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)">
                 </mat-chip-list>
               </div>
             </div>
@@ -200,8 +198,8 @@
                   </td>
                   <td>
                     <div style="width: 100%;">
-                      <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit(listMedicine[index].medicineName,index)">
-                        <option *ngFor="let medicine of medicines">{{medicine.medicineName}}</option>
+                      <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit($event.target.value ,index)">
+                        <option *ngFor="let medicine of medicines" [ngValue]="medicine.medicineID">{{medicine.medicineName}}</option>
                       </select>
                     </div>
                   </td>
@@ -225,10 +223,10 @@
             <button type="button" class="btn btn-success" (click)="onAddMedicine()">Thêm thuốc</button>
           </div>
           <div class="col-md-12 form-group">
-            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
+            <div class="col-md-3 padd-left-none" style="padding-top: 7px">
               <label for="fullName">Lời dặn</label>
             </div>
-            <div class="col-md-10 padd-right-none">
+            <div class="col-md-9 padd-right-none">
               <textarea [(ngModel)]="remind" rows="4" cols="50" style="width: 100%"></textarea> </div>
           </div>
 
@@ -254,76 +252,87 @@
       </div>
       <div class="modal-body">
         <div class="row">
-           
-          <div class="col-md-12 form-group">
-            <div class="col-md-6 padd-left-none">
-              <label for="username">Họ và Tên</label>
-              <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName"> </div>
-            <div class="col-md-6 padd-right-none">
-              <label for="fullName">Số điện thoại</label>
-              <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a data-toggle="tab" href="#home">Thông tin cá nhân</a>
+            </li>
+            <li>
+              <a data-toggle="tab" href="#menu1">Lịch sử khám bệnh</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+              <div class="col-md-12 form-group" style="margin-top: 20px">
+                <div class="col-md-6 padd-left-none">
+                  <label for="username">Họ và Tên</label>
+                  <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName"> </div>
+                <div class="col-md-6 padd-right-none">
+                  <label for="fullName">Số điện thoại</label>
+                  <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
+                </div>
+              </div>
+              <div class="col-md-12 form-group">
+                <label for="address" class=" padd-left-none">Địa chỉ</label>
+                <input type="text" id="address" class="form-control" [(ngModel)]="address">
+              </div>
+              <div class="col-md-12 form-group">
+                <div class="col-md-6 padd-left-none">
+                  <label for="yob">Ngày sinh</label>
+                  <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
+
+                <div class="col-md-6 padd-right-none">
+                  <label for="sex">Giới tính</label>
+                  <select class="form-control" id="sex" [(ngModel)]="genderObj">
+                    <option *ngFor="let gender of genders" [ngValue]="gender"> {{gender}} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12 form-group text-right">
+                <button class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin bệnh nhân</button>
+              </div>
             </div>
-          </div>
-          <div class="col-md-12 form-group">
-            <label for="address" class=" padd-left-none">Địa chỉ</label>
-            <input type="text" id="address" class="form-control" [(ngModel)]="address">
-          </div>
-          <div class="col-md-12 form-group">
-            <div class="col-md-6 padd-left-none">
-              <label for="yob">Ngày sinh</label>
-              <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
-
-            <div class="col-md-6 padd-right-none">
-              <label for="sex">Giới tính</label>
-              <select class="form-control" id="sex" [(ngModel)]="genderObj">
-                <option *ngFor="let gender of genders" [ngValue]="gender"> {{gender}} </option>
-              </select>
+            <div id="menu1" class="tab-pane fade">
+              <div class="col-md-12 form-group text-center">
+                <label>
+                  <h3>
+                    Lịch sử khám bệnh của {{fullName}}
+                  </h3>
+                </label>
+              </div>
+              <div class="col-md-12 scroll">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 10% !important">STT</th>
+                      <th class="text-center">Tên Bệnh</th>
+                      <th class="text-center" style="width: 45% !important">Thời gian</th>
+                      <th class="text-center" style="width: 10% !important">Chi tiết</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let record of records;let index = index;trackBy:trackByIndex;">
+                      <td class="text-center">
+                        <label style="margin-top: 7px">{{index+1}}</label>
+                      </td>
+                      <td>
+                        <div class="text-center">
+                          <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <label style="margin-top: 7px">{{records[index].appointmentTime | date:'dd/MM/yyyy'}}</label>
+                      </td>
+                      <td class="text-center">
+                        <a>
+                          <i style="margin-top: 7px" data-toggle="modal" data-target="#PrescriptionModal" (click)="getIndexRecord(index)" class="fa fa-eye"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-
-
-          <div class="col-md-12 form-group text-right">
-            <button class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin bệnh nhân</button>
-          </div>
-
-          <div class="col-md-12 form-group text-center">
-            <label>
-              <h3>
-                Lịch sử khám bệnh
-              </h3>
-            </label>
-          </div>
-          <div class="col-md-12 scroll">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th class="text-center" style="width: 10% !important">STT</th>
-                  <th class="text-center">Tên Bệnh</th>
-                  <th class="text-center" style="width: 45% !important">Thời gian</th>
-                  <th class="text-center" style="width: 10% !important">Chi tiết</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let record of records;let index = index;trackBy:trackByIndex;">
-                  <td class="text-center">
-                    <label style="margin-top: 7px">{{index+1}}</label>
-                  </td>
-                  <td>
-                    <div class="text-center">
-                      <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <label style="margin-top: 7px">{{records[index].appointmentTime | date:'dd/MM/yyyy'}}</label>
-                  </td>
-                  <td class="text-center">
-                    <a>
-                      <i style="margin-top: 7px" data-toggle="modal" data-target="#PrescriptionModal" (click)="getIndexRecord(index)" class="fa fa-eye"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ export class MedicineService {
             .http
             .get<BaseResponse<Disease[]>>(`${this.url}/disease/getAllDiseases`);
     }
-    postMedicalRecord(appointmentID, reminding, description, medicine, disease) {
+    postMedicalRecord(appointmentID, reminding, description, medicine, disease,symptom) {
         return this
             .http
             .post<BaseResponse<Prescription[]>>(`${this.url}/medicalRecord/create`,
@@ -33,7 +33,8 @@ export class MedicineService {
                     reminding: reminding,
                     description: description,
                     medicines: medicine,
-                    diseases: disease
+                    diseases: disease,
+                    symptom:symptom
                 })
     }
     getMedicalRecord(patientID) {

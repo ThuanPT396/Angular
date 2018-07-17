@@ -8,6 +8,7 @@ import {
   MAT_DATE_LOCALE,
   MatDatepicker,
   MAT_CHECKBOX_CLICK_ACTION,
+  MatChipInputEvent,
 } from '@angular/material';
 import { ToasterService } from '../service/toast/toaster.service';
 import { DialogService } from '../service/dialog/dialog.service';
@@ -20,7 +21,7 @@ import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
 import { Record } from '../model/record.model';
 import { Observable, Subject, concat } from 'rxjs';
-
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -28,9 +29,42 @@ import { Observable, Subject, concat } from 'rxjs';
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
 })
 export class ListPatientComponent implements OnInit {
-  myOptions: Array<IOption> = [
-
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  symptoms = [
   ];
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.symptoms.push({name: value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    console.log("add")
+    console.log(this.symptoms)
+  }
+
+  remove(fruit): void {
+    const index = this.symptoms.indexOf(fruit);
+
+    if (index >= 0) {
+      this.symptoms.splice(index, 1);
+    }
+    console.log("remove")
+    console.log(this.symptoms)
+  }
+ //---------------------------------------------------------
+  myOptions: Array<IOption> = [];
   selectedDisease = [];
 
   // --------------------------------------------------------

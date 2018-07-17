@@ -46,3 +46,9 @@ div.scroll {
     height: 200px;
     overflow: auto;
 }
+
+.symtom{
+border: 0.5px solid;
+border-color: #DDDDDD;
+padding: 5px;
+}

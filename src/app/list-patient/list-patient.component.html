@@ -141,28 +141,41 @@
         <div class="row">
 
           <div class="col-md-12 form-group">
-            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
+            <div class="col-md-3 padd-left-none" style="padding-top: 7px">
               <label for="fullName">Họ và Tên</label>
             </div>
-            <div class="col-md-10 padd-right-none">
+            <div class="col-md-9 padd-right-none">
               <input type="text" id="fullName" class="form-control" disabled [(ngModel)]="fullName">
             </div>
           </div>
           <div class="col-md-12 form-group">
-            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
+            <div class="col-md-3 padd-left-none" style="padding-top: 7px">
               <label for="fullName">Chuẩn đoán</label>
             </div>
-            <div class="col-md-10 padd-right-none">
+            <div class="col-md-9 padd-right-none">
               <ng-select [options]="myOptions" multiple="true" [(ngModel)]="selectedDisease">
               </ng-select>
             </div>
           </div>
           <div class="col-md-12 form-group">
-            <div class="col-md-2 padd-left-none" style="padding-top: 7px">
-              <label for="fullName">Lâm sàn</label>
+            <div class="col-md-3 padd-left-none" style="padding-top: 7px">
+              <label for="fullName">Triệu chứng lâm sàng</label>
             </div>
-            <div class="col-md-10 padd-right-none">
-              <input multiple="multiple" />
+            <div class="col-md-9 padd-right-none ">
+              <div class="symtom">
+                <mat-chip-list #chipList>
+                  <mat-chip *ngFor="let symptom of symptoms" [selectable]="selectable"
+                           [removable]="removable" (removed)="remove(symptom)">
+                    {{symptom.name}}
+                    <mat-icon matChipRemove *ngIf="removable"><i class="fa fa-times"></i></mat-icon>
+                  </mat-chip>
+                  <input placeholder="New symptom..."
+                         [matChipInputFor]="chipList"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         [matChipInputAddOnBlur]="addOnBlur"
+                         (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+              </div>
             </div>
           </div>
           <div class="col-md-12">
@@ -241,6 +254,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
+           
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
               <label for="username">Họ và Tên</label>

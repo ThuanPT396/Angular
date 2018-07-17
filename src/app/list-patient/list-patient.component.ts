@@ -21,7 +21,7 @@ import { Medicines } from '../model/medicines.model';
 import { Disease } from '../model/disease.model';
 import { Record } from '../model/record.model';
 import { Observable, Subject, concat } from 'rxjs';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -35,6 +35,7 @@ export class ListPatientComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER];
   symptoms = [];
+  resultSymptoms = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -42,13 +43,15 @@ export class ListPatientComponent implements OnInit {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.symptoms.push({name: value.trim()});
+      this.symptoms.push({ name: value.trim() });
+      this.resultSymptoms.push(value);
     }
 
     // Reset the input value
     if (input) {
       input.value = '';
     }
+    console.log(this.symptoms)
   }
 
   remove(fruit): void {
@@ -56,9 +59,10 @@ export class ListPatientComponent implements OnInit {
 
     if (index >= 0) {
       this.symptoms.splice(index, 1);
+      this.resultSymptoms.splice(index, 1);
     }
   }
- //---------------------------------------------------------
+  //---------------------------------------------------------
   myOptions: Array<IOption> = [];
   selectedDisease = [];
 
@@ -66,6 +70,7 @@ export class ListPatientComponent implements OnInit {
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
   yob = "";
+  recordSymptoms;
   records: Record[] = [];
   diseases: Disease[] = [];
   diseaseObj;
@@ -123,14 +128,15 @@ export class ListPatientComponent implements OnInit {
     return index;
   }
   inputUnit(id: any, position: number) {
-    console.log(position)
-    console.log(id)
-    // const index = this.medicines.findIndex(med => med.medicineID === id);
-    // this.listMedicine[position].unitName = this.medicines[index].unitName;
-    // this.listMedicine[position].medicineID = this.medicines[index].medicineID;
-    // this.listMedicine[position].description= this.medicines[index].defaultDescription;
-    // this.listMedicine[position].quantity= this.medicines[index].defaultQuantity;
-    
+    var index = this.medicines.findIndex(med => med.medicineID == id);
+    if (index >= 0 && index < this.medicines.length) {
+      this.listMedicine[position].unitName = this.medicines[index].unitName;
+      this.listMedicine[position].medicineID = this.medicines[index].medicineID;
+      this.listMedicine[position].description = this.medicines[index].defaultDescription;
+      this.listMedicine[position].quantity = this.medicines[index].defaultQuantity;
+    }
+
+
     // console.log(this.medicines[index])
   }
   onGetDisease() {
@@ -160,9 +166,9 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var med = tmp.value[i];
-          var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive,med.defaultDescription,med.defaultQuantity)
+          var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive, med.defaultDescription, med.defaultQuantity)
           this.medicines.push(result);
-          
+
         }
         console.log(this.medicines)
       })
@@ -177,7 +183,7 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var re = tmp.value[i];
-          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease, "");
+          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease, "",re.symptoms);
           for (var index in result.disease) {
             var item = result.disease[index];
 
@@ -263,6 +269,10 @@ export class ListPatientComponent implements OnInit {
     while (this.selectedDisease.length > 0) {
       this.selectedDisease = [];
     }
+    while (this.resultSymptoms.length > 0) {
+      this.resultSymptoms.pop();
+      this.symptoms.pop();
+    }
   }
   onPushPopupDetail(appID: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === appID);
@@ -324,8 +334,7 @@ export class ListPatientComponent implements OnInit {
     // }
     this.listMedicine = this.records[indexRecord].medicines
     this.remind = this.records[indexRecord].remind;
-    console.log(this.records[indexRecord].medicines);
-    console.log(this.records[indexRecord].remind);
+    this.recordSymptoms=this.records[indexRecord].symptoms;
   }
   onSaveRecord() {
 
@@ -341,7 +350,7 @@ export class ListPatientComponent implements OnInit {
     }
     this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
     this.medicineService
-      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease,this.symptoms)
+      .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease, this.resultSymptoms)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {

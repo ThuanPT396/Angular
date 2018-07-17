@@ -34,7 +34,7 @@ export class MedicineService {
                     description: description,
                     medicines: medicine,
                     diseases: disease,
-                    symptom:symptom
+                    clinicalSymptom:symptom
                 })
     }
     getMedicalRecord(patientID) {

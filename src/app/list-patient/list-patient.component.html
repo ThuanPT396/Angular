@@ -170,7 +170,7 @@
                       <i class="fa fa-times"></i>
                     </mat-icon>
                   </mat-chip>
-                  <input placeholder="New symptom..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                  <input placeholder="Thêm triệu chứng" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                     (matChipInputTokenEnd)="add($event)">
                 </mat-chip-list>
               </div>
@@ -199,7 +199,7 @@
                   <td>
                     <div style="width: 100%;">
                       <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit($event.target.value ,index)">
-                        <option *ngFor="let medicine of medicines" [ngValue]="medicine.medicineID">{{medicine.medicineName}}</option>
+                        <option *ngFor="let medicine of medicines" [value]="medicine.medicineID">{{medicine.medicineName}}</option>
                       </select>
                     </div>
                   </td>
@@ -388,6 +388,20 @@
           <div class="col-md-12 form-group">
             <label for="remind" class=" padd-left-none">Lời nhắc</label>
             <textarea type="text" id="remind" class="form-control" disabled [(ngModel)]="remind"></textarea>
+          </div>
+          <div class="col-md-12 form-group">
+            <label for="symptom" class=" padd-left-none">Triệu chứng lâm sàng</label>
+            <div class="symptom">
+              <mat-chip-list #chipList>
+
+                <mat-chip *ngFor="let symptom of recordSymptoms">
+                  {{symptom}}
+                                    <!-- <div *ngIf="recordSymptoms.length === 0" style="font-size: 16px">Không có kết quả để hiển thị</div> -->
+
+                </mat-chip>
+
+              </mat-chip-list>
+            </div>
           </div>
         </div>
       </div>

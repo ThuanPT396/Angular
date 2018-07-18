@@ -52,3 +52,6 @@ border: 0.5px solid;
 border-color: #DDDDDD;
 padding: 5px;
 }
+ul.nav-tabs>li.active{
+   font-weight: bold
+}

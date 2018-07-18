@@ -11,6 +11,7 @@ export class Record {
         public medicines: Medicines[],
         public disease: Disease[],
         public presentDiseases: string,
-        public symptoms:string[]
+        public symptoms:string[],
+        public presentSymptoms: string,
     ) { }
 }

@@ -183,11 +183,12 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var re = tmp.value[i];
-          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease, "",re.symptoms);
+          var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease, "", re.symptoms, "");
           for (var index in result.disease) {
             var item = result.disease[index];
 
             result.presentDiseases += (parseInt(index) != result.disease.length - 1) ? item.diseaseName + ", " : item.diseaseName;
+            result.presentSymptoms = result.symptoms.toString();
           }
 
           this.records.push(result);
@@ -334,7 +335,7 @@ export class ListPatientComponent implements OnInit {
     // }
     this.listMedicine = this.records[indexRecord].medicines
     this.remind = this.records[indexRecord].remind;
-    this.recordSymptoms=this.records[indexRecord].symptoms;
+    this.recordSymptoms = this.records[indexRecord].symptoms;
   }
   onSaveRecord() {
 

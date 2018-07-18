@@ -73,20 +73,7 @@
         <ng-container matColumnDef="attendance">
           <th mat-header-cell *matHeaderCellDef>Có mặt</th>
           <td mat-cell *matCellDef="let row">
-            <!-- <mat-radio-group >
-              <mat-radio-button color="accent" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
-                [disabled]="disabled">Có mặt</mat-radio-button>
-              &nbsp;&nbsp;&nbsp;
-              <mat-radio-button color="primary" value="absent" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'2')" [checked]="row.status===2"
-                [disabled]="disabled">Vắng mặt</mat-radio-button>
-            </mat-radio-group> -->
             <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentId,row.status)"></mat-checkbox>
-            <!-- <label class="radio-inline">
-              <input type="radio" value="present" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'1')" [checked]="row.status===1"
-                [disabled]="disabled">Có mặt</label>
-            <label class="radio-inline">
-              <input type="radio" value="absent" name="optradio{{row.no}}" (click)="onSelect(row.appointmentId,'2')" [checked]="row.status===2"
-                [disabled]="disabled">Vắng mặt</label> -->
           </td>
         </ng-container>
         <ng-container matColumnDef="block">
@@ -294,19 +281,18 @@
             </div>
             <div id="menu1" class="tab-pane fade">
               <div class="col-md-12 form-group text-center">
-                <label>
-                  <h3>
-                    Lịch sử khám bệnh của {{fullName}}
-                  </h3>
-                </label>
+                <h3>
+                  Bệnh nhân {{fullName}}
+                </h3>
               </div>
               <div class="col-md-12 scroll">
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th class="text-center" style="width: 10% !important">STT</th>
+                      <th class="text-center" style="width: 5% !important">STT</th>
                       <th class="text-center">Tên Bệnh</th>
-                      <th class="text-center" style="width: 45% !important">Thời gian</th>
+                      <th class="text-center" style="width: 30% !important">Biểu hiện lâm sàng</th>
+                      <th class="text-center" style="width: 20% !important">Thời gian</th>
                       <th class="text-center" style="width: 10% !important">Chi tiết</th>
                     </tr>
                   </thead>
@@ -319,6 +305,9 @@
                         <div class="text-center">
                           <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
                         </div>
+                      </td>
+                      <td class="text-center" >
+                          <label style="margin-top: 7px">{{records[index].presentSymptoms}}</label>
                       </td>
                       <td class="text-center">
                         <label style="margin-top: 7px">{{records[index].appointmentTime | date:'dd/MM/yyyy'}}</label>
@@ -396,9 +385,8 @@
 
                 <mat-chip *ngFor="let symptom of recordSymptoms">
                   {{symptom}}
-                                    <!-- <div *ngIf="recordSymptoms.length === 0" style="font-size: 16px">Không có kết quả để hiển thị</div> -->
-
                 </mat-chip>
+                <!-- <div *ngIf="recordSymptoms.length === 0" style="font-size: 16px">Không có kết quả để hiển thị</div> -->
 
               </mat-chip-list>
             </div>

@@ -256,7 +256,7 @@
                   <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName"> </div>
                 <div class="col-md-6 padd-right-none">
                   <label for="fullName">Số điện thoại</label>
-                  <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber">
+                  <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber" disabled>
                 </div>
               </div>
               <div class="col-md-12 form-group">
@@ -306,8 +306,8 @@
                           <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
                         </div>
                       </td>
-                      <td class="text-center" >
-                          <label style="margin-top: 7px">{{records[index].presentSymptoms}}</label>
+                      <td class="text-center">
+                        <label style="margin-top: 7px">{{records[index].presentSymptoms}}</label>
                       </td>
                       <td class="text-center">
                         <label style="margin-top: 7px">{{records[index].appointmentTime | date:'dd/MM/yyyy'}}</label>
@@ -381,12 +381,13 @@
           <div class="col-md-12 form-group">
             <label for="symptom" class=" padd-left-none">Triệu chứng lâm sàng</label>
             <div class="symptom">
+              <div *ngIf="recordSymptoms.length === 0 " style="font-size: 16px; margin-bottom: 5px">Không có kết quả để hiển thị</div>
+
               <mat-chip-list #chipList>
 
                 <mat-chip *ngFor="let symptom of recordSymptoms">
                   {{symptom}}
                 </mat-chip>
-                <!-- <div *ngIf="recordSymptoms.length === 0" style="font-size: 16px">Không có kết quả để hiển thị</div> -->
 
               </mat-chip-list>
             </div>

@@ -13,7 +13,8 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+    crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="assets/bower_components/Ionicons/css/ionicons.min.css"> -->
   <!-- jvectormap -->
   <link rel="stylesheet" href="assets/bower_components/jvectormap/jquery-jvectormap.css">
@@ -24,7 +25,7 @@
   <link rel="stylesheet" href="assets/dist/css/skins/_all-skins.min.css">
   <!--Toast-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-  
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -53,5 +54,51 @@
   <!--Toast-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <!-- firebase -->
+  <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase-app.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase-messaging.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDfHYz3IsP_vaUIHPtsJIoAQP2tuXt4Y3o",
+      authDomain: "callcenter2-79faf.firebaseapp.com",
+      databaseURL: "https://callcenter2-79faf.firebaseio.com",
+      projectId: "callcenter2-79faf",
+      storageBucket: "callcenter2-79faf.appspot.com",
+      messagingSenderId: "437377487737"
+    };
+    var myapp = firebase.initializeApp(config);
+    console.log(myapp.name);
+    const messaging = firebase.messaging();
+    messaging.onMessage(function (payload) {
+      console.log('Message received. ', payload);
+
+      // ...
+    });
+    initToken();
+    async function initToken() {
+      var token = await messaging.getToken();
+      console.log(token);
+    }
+    function subscribeTokenToTopic(token, topic) {
+      fetch('https://iid.googleapis.com/iid/v1/' + token + '/rel/topics/' + topic, {
+        method: 'POST',
+        headers: new Headers({
+          'Authorization': 'key=' + config.apiKey
+        })
+      }).then(response => {
+        if (response.status < 200 || response.status >= 400) {
+          throw 'Error subscribing to topic: ' + response.status + ' - ' + response.text();
+        }
+        console.log('Subscribed to "' + topic + '"');
+      }).catch(error => {
+        console.error(error);
+      })
+    }
+  </script>
 </body>
+
 </html>

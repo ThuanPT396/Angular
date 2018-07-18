@@ -65,12 +65,11 @@ export class ListPatientComponent implements OnInit {
   //---------------------------------------------------------
   myOptions: Array<IOption> = [];
   selectedDisease = [];
-
   // --------------------------------------------------------
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
   yob = "";
-  recordSymptoms;
+  recordSymptoms=[];
   records: Record[] = [];
   diseases: Disease[] = [];
   diseaseObj;
@@ -117,6 +116,7 @@ export class ListPatientComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     var d = this.currentDate;
+    
     this.onGetList(d);
     this.onGetMedicine();
     this.onGetDisease();
@@ -170,7 +170,6 @@ export class ListPatientComponent implements OnInit {
           this.medicines.push(result);
 
         }
-        console.log(this.medicines)
       })
   }
   onGetRecord(patientID) {
@@ -336,6 +335,7 @@ export class ListPatientComponent implements OnInit {
     this.listMedicine = this.records[indexRecord].medicines
     this.remind = this.records[indexRecord].remind;
     this.recordSymptoms = this.records[indexRecord].symptoms;
+
   }
   onSaveRecord() {
 
@@ -396,11 +396,13 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         console.log(tmp)
         if (tmp.status == true) {
+          
           this.onRefreshData();
           this.toastService.Success("Update Patient Successfully")
         }
         else {
           this.toastService.Error(tmp.error)
+          console.log("loi update detail")
         }
       },
         error => {

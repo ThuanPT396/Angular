@@ -51,6 +51,7 @@ export class ListPatientComponent implements OnInit {
     if (input) {
       input.value = '';
     }
+    console.log(this.symptoms)
   }
 
   remove(fruit): void {
@@ -68,7 +69,7 @@ export class ListPatientComponent implements OnInit {
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
   yob = "";
-  recordSymptoms = [];
+  recordSymptoms=[];
   records: Record[] = [];
   diseases: Disease[] = [];
   diseaseObj;
@@ -115,7 +116,7 @@ export class ListPatientComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     var d = this.currentDate;
-
+    
     this.onGetList(d);
     this.onGetMedicine();
     this.onGetDisease();
@@ -371,7 +372,6 @@ export class ListPatientComponent implements OnInit {
     this.listMedicine.splice(index, 1);
   }
   onUpdateDetail(patID) {
-    
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
     this.ELEMENT_DATA[index].patientName = this.fullName
     this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber
@@ -392,13 +392,17 @@ export class ListPatientComponent implements OnInit {
         this.ELEMENT_DATA[index].yob,
         this.ELEMENT_DATA[index].gender)
       .subscribe((response) => {
+
         var tmp = JSON.parse(JSON.stringify(response));
+        console.log(tmp)
         if (tmp.status == true) {
+          
           this.onRefreshData();
           this.toastService.Success("Update Patient Successfully")
         }
         else {
           this.toastService.Error(tmp.error)
+          console.log("loi update detail")
         }
       },
         error => {
@@ -411,9 +415,7 @@ export class ListPatientComponent implements OnInit {
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    var pipe = new DatePipe('en-US');
-    var format = pipe.transform(this.selectedDate, 'yyyy/M/dd');
-    this.onGetList(format);
+    this.onGetList(this.selectedDate.toString());
     this.onGetMedicine();
     this.onGetDisease();
   }

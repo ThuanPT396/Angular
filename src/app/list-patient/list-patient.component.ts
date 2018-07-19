@@ -51,7 +51,6 @@ export class ListPatientComponent implements OnInit {
     if (input) {
       input.value = '';
     }
-    console.log(this.symptoms)
   }
 
   remove(fruit): void {
@@ -197,13 +196,11 @@ export class ListPatientComponent implements OnInit {
       })
   }
   onGetList(date: string) {
-    console.log(date)
     this.appointmentService
       .getAppointments(this.username, date)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         var isCurrent = false;
-        console.log(tmp)
         for (var i in tmp.value) {
           var app = tmp.value[i];
           var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false);
@@ -416,7 +413,6 @@ export class ListPatientComponent implements OnInit {
     }
     var pipe = new DatePipe('en-US');
     var format = pipe.transform(this.selectedDate, 'yyyy/M/dd');
-    console.log(format)
     this.onGetList(format);
     this.onGetMedicine();
     this.onGetDisease();

@@ -54,7 +54,76 @@
   <!--Toast-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyDfHYz3IsP_vaUIHPtsJIoAQP2tuXt4Y3o",
+      authDomain: "callcenter2-79faf.firebaseapp.com",
+      databaseURL: "https://callcenter2-79faf.firebaseio.com",
+      projectId: "callcenter2-79faf",
+      storageBucket: "callcenter2-79faf.appspot.com",
+      messagingSenderId: "437377487737"
+    };
+    firebase.initializeApp(config);
 
+    const messaging = firebase.messaging();
+    // navigator.serviceWorker.register('firebase-messaging-sw.js').then(function (registration) {
+    //   console.log('Service Worker Registered!', registration);
+    // }).catch(function (err) {
+    //   console.error('Service Worker registration failed', err);
+    // });
+    // messaging.usePublicVapidKey("BJ8_qa62na6ICgqhhwAuETH9DvV0ZPduokYJevrolT7NR4S7mEZUinOglURS3cUgPija6ADC4XV0IRDob3kjQak");
+
+    messaging.requestPermission().then(function () {
+      console.log('Notification permission granted.');
+
+
+      messaging.getToken().then(function (currentToken) {
+        if (currentToken) {
+          console.log(currentToken);
+          sendTokenToServer(currentToken, "hoanghoa");
+        } else {
+          // Show permission request.
+          console.log('No Instance ID token available. Request permission to generate one.');
+
+        }
+      }).catch(function (err) {
+        console.log('An error occurred while retrieving token. ', err);
+
+      });
+
+    }).catch(function (err) {
+      console.log('Unable to get permission to notify.', err);
+    });
+
+    messaging.onMessage(function (payload) {
+      console.log('Message received. ', payload);
+      // ...
+    });
+
+    function sendTokenToServer(token, topic) {
+      var request = $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: 'http://27.74.245.84:8080/clinic/subscribeTopic',
+        data: {
+          'token': token,
+          'topic': topic
+        }
+      });
+      request.done(function (msg) {
+        console.log(msg);
+      });
+
+      request.fail(function (jqXHR, textStatus) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        alert("Request failed: " + textStatus);
+      });
+    }
+  </script>
 </body>
 
 </html>

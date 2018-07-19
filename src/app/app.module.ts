@@ -85,10 +85,6 @@ import { ChartMonthComponent } from './list-chart/chart-month/chart-month.compon
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';
 import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
 import { ChartLineYearComponent } from './list-chart/chart-line-year/chart-line-year.component';
-import { environment } from '../environments/environment';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 
 @NgModule({
   exports: [
@@ -183,10 +179,6 @@ export const config = {
     ReactiveFormsModule,
     NgxPermissionsModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    AngularFireDatabaseModule,               
-    AngularFireAuthModule ,
-    AngularFireModule.initializeApp(config)
-    // AngularFireModule.initializeApp(environment.firebase),
   ],
   exports: [
     CdkTableModule,

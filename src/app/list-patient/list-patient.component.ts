@@ -415,7 +415,9 @@ export class ListPatientComponent implements OnInit {
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    this.onGetList(this.selectedDate.toString());
+    var pipe = new DatePipe('en-US');
+    var format = pipe.transform(this.selectedDate, 'yyyy/M/dd');
+    this.onGetList(format);
     this.onGetMedicine();
     this.onGetDisease();
   }

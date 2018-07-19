@@ -29,15 +29,16 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-    <div id="snackbar"></div>
+  <div id="snackbar"></div>
   <app-root>
     <div class="wrapper">
 
-    <!-- The actual snackbar -->
-    
+      <!-- The actual snackbar -->
+
     </div>
-    
+
   </app-root>
+
   <!-- jQuery 3 -->
   <script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
@@ -73,11 +74,30 @@
     const messaging = firebase.messaging();
     messaging.requestPermission().then(function () {
       console.log('Notification permission granted.');
-      getFirebaseToken();
+
+      var username = localStorage.getItem('username');
+      if (username) {
+      } else {
+        messaging.getToken().then(function (currentToken) {
+          if (currentToken) {
+            var username = localStorage.getItem('username');
+            if (username) {
+
+            } else {
+              saveToken(currentToken);
+            }
+          } else {
+            console.log('No Instance ID token available. Request permission to generate one.');
+
+          }
+        }).catch(function (err) {
+          console.log('An error occurred while retrieving token. ', err);
+        });
+      }
     }).catch(function (err) {
       console.log('Unable to get permission to notify.', err);
     });
-
+    
     messaging.onTokenRefresh(function () {
       getFirebaseToken();
     });
@@ -149,17 +169,15 @@
     }
 
     function showToast(message) {
-    // Get the snackbar DIV
-    var x = document.getElementById("snackbar");
+      // Get the snackbar DIV
+      var x = document.getElementById("snackbar");
       x.innerHTML = message;
-    // Add the "show" class to DIV
-    x.className = "show";
+      // Add the "show" class to DIV
+      x.className = "show";
 
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-  </script>
-  
+      // After 3 seconds, remove the show class from DIV
+      setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }  </script>
 </body>
 
 </html>

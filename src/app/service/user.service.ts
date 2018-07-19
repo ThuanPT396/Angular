@@ -92,8 +92,9 @@ export class UserService {
         const username = localStorage.getItem('username');
         const fullName = localStorage.getItem('fullName');   
         const clinicName = localStorage.getItem('clinicName'); 
+        const phoneNumber = localStorage.getItem('phoneNumber'); 
         const role = localStorage.getItem('role');   
-        var result = new Clinic(username,"",fullName, 0, role, "","",clinicName,"","","","","");
+        var result = new Clinic(username,"",fullName,phoneNumber, role, "","",clinicName,"","","","","");
         return result
     }
 

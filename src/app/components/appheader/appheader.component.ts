@@ -11,6 +11,7 @@ import { ToasterService } from '../../service/toast/toaster.service';
 export class AppheaderComponent implements OnInit {
   username = ""
   fullName = ""
+  phoneNumber=""
   hidden=false;
   currentpw = ""
   newpw = ""
@@ -29,6 +30,7 @@ export class AppheaderComponent implements OnInit {
       this.hidden=false;
     }
     this.username = result.username
+    this.phoneNumber=result.phoneNumber
   }
   logout() {
     this.userService.postUnsubscribe(localStorage.getItem('firebaseToken'),localStorage.getItem('username'))

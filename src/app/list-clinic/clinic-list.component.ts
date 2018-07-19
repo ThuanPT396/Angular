@@ -15,7 +15,7 @@ export class ClinicListComponent implements OnInit {
     ELEMENT_DATA: Clinic[] = [];
     active = 0;
     userName = "";
-    phoneNumber = 0;
+    phoneNumber = "";
     fullName = "";
     email = "";
     address = "";
@@ -107,7 +107,7 @@ export class ClinicListComponent implements OnInit {
         // this.ELEMENT_DATA.splice(index,1,Clinic[index].value);
         this.dataSource.filter = "";
     }
-    onPushPopupUpdate(userName: string, phoneNumber: number, address: string, clinicName: string, email: string) {
+    onPushPopupUpdate(userName: string, phoneNumber: string, address: string, clinicName: string, email: string) {
         const index = this.ELEMENT_DATA.findIndex(user => user.username === userName);
         this.userName = userName;
         this.phoneNumber = phoneNumber;

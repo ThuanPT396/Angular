@@ -29,6 +29,7 @@ export class SignInComponent implements OnInit {
           localStorage.setItem('username', tmp.value.username);
           localStorage.setItem('fullName', tmp.value.fullName);
           localStorage.setItem('clinicName', tmp.value.clinicName);
+          localStorage.setItem('phoneNumber',tmp.value.phoneNumber);
           localStorage.setItem('role', tmp.value.role);
           var role = localStorage.getItem('role');
           if (role == '0') {

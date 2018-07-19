@@ -3,7 +3,7 @@ export class Clinic {
         public username: string,
         public password: string,
         public fullName:string,
-        public phoneNumber: number,
+        public phoneNumber: string,
         public role: string,
         public isActive: string,
         public address: string,

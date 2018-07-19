@@ -80,12 +80,7 @@
       } else {
         messaging.getToken().then(function (currentToken) {
           if (currentToken) {
-            var username = localStorage.getItem('username');
-            if (username) {
-
-            } else {
-              saveToken(currentToken);
-            }
+            saveToken(currentToken);
           } else {
             console.log('No Instance ID token available. Request permission to generate one.');
 

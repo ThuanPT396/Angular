@@ -31,10 +31,16 @@ export class AppheaderComponent implements OnInit {
     this.username = result.username
   }
   logout() {
+    this.userService.postUnsubscribe(localStorage.getItem('firebaseToken'),localStorage.getItem('username'))
+    .subscribe(res => {
+      console.log(res)
+    })
     localStorage.removeItem('clinicName');
     localStorage.removeItem('username');
     localStorage.removeItem('fullName');
     localStorage.removeItem('role');
+    localStorage.removeItem('firebaseToken')
+    
   }
   checkPassword(username:string, password:string){
       this.userService

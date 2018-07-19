@@ -22,6 +22,10 @@ export class SignInComponent implements OnInit {
       .subscribe(response => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
+          this.userService.postSendTokenToServer(localStorage.getItem('firebaseToken'), username)
+          .subscribe(res => {
+            console.log(res)
+          })
           localStorage.setItem('username', tmp.value.username);
           localStorage.setItem('fullName', tmp.value.fullName);
           localStorage.setItem('clinicName', tmp.value.clinicName);
@@ -37,16 +41,16 @@ export class SignInComponent implements OnInit {
 
         } else {
           this.dialog.openDialog("Chú ý", "Tên đăng nhập hoặc mật khẩu không chính xác");
-          this.isLogin=true;
+          this.isLogin = true;
         }
       },
-      error => {
-        this.dialog.openDialog("Chú ý", "Không thể kết nối với máy chủ");
-        this.isLogin=true;
-      }
-    )
+        error => {
+          this.dialog.openDialog("Chú ý", "Không thể kết nối với máy chủ");
+          this.isLogin = true;
+        }
+      )
     // setTimeout(() => {
-     
+
     // }, 3000);
   }
 }

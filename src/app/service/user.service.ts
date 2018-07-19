@@ -96,4 +96,24 @@ export class UserService {
         var result = new Clinic(username,"",fullName, 0, role, "","",clinicName,"","","","","");
         return result
     }
+
+    postSendTokenToServer(token, topic){
+        return this
+        .http
+        .post<BaseResponse<Admin[]>>(`${this.url}/clinic/subscribeTopic`,
+        {
+            token: token,
+            topic: topic
+        })
+    }
+
+    postUnsubscribe(token, topic){
+        return this
+        .http
+        .post<BaseResponse<Admin[]>>(`${this.url}/clinic/unsubscribeTopic`,
+        {
+            token: token,
+            topic: topic
+        })
+    }
 }

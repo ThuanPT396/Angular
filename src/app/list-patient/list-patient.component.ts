@@ -421,6 +421,8 @@ export class ListPatientComponent implements OnInit {
     this.onGetMedicine();
     this.onGetDisease();
   }
-
+  resetData(){
+    this.onRefreshData();
+  }
 }
 

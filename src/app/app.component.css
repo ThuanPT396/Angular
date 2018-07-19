@@ -21,6 +21,7 @@ tr.mat-row:nth-child(odd){
 }
 .fa-edit{
   font-size: 20px;
+  color: #2B7FFF
 }
 .fa-trash{
   font-size: 20px;
@@ -33,9 +34,11 @@ tr.mat-row:nth-child(odd){
 }
 .fa-plus{
   font-size: 20px;
+  color: #2B7FFF
 }
 .fa-eye{
   font-size: 20px;
+  color: #2B7FFF
 }
 .mat-form-field{
   line-height: 1 !important;

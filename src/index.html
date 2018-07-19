@@ -29,7 +29,10 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-  <div id="snackbar"></div>
+  <div id="snackbar">
+    <p class="title-popup" id="snackbar-title">Tittle</p>
+    <div class="col-md-12" id="snackbar-message"></div>
+  </div>
   <app-root>
     <div class="wrapper">
 
@@ -92,14 +95,14 @@
     }).catch(function (err) {
       console.log('Unable to get permission to notify.', err);
     });
-    
+
     messaging.onTokenRefresh(function () {
       getFirebaseToken();
     });
 
     messaging.onMessage(function (payload) {
       console.log('Message received. ', payload);
-      showToast(payload.notification.body)
+      showToast(payload.notification.body, payload.notification.title)
 
     });
 
@@ -163,15 +166,18 @@
       localStorage.setItem("firebaseToken", token);
     }
 
-    function showToast(message) {
+    function showToast(message,title) {
       // Get the snackbar DIV
       var x = document.getElementById("snackbar");
-      x.innerHTML = message;
+      var titleTag = document.getElementById("snackbar-title");
+      var messageTag = document.getElementById("snackbar-message");
+      titleTag.innerHTML = title;
+      messageTag.innerHTML = message;
       // Add the "show" class to DIV
       x.className = "show";
 
       // After 3 seconds, remove the show class from DIV
-      setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+      setTimeout(function () { x.className = x.className.replace("show", ""); }, 7000);
     }  </script>
 </body>
 

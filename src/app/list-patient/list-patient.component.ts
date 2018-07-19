@@ -22,11 +22,15 @@ import { Disease } from '../model/disease.model';
 import { Record } from '../model/record.model';
 import { Observable, Subject, concat } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
   styleUrls: ['./list-patient.component.css'],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }, { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' }, AppointmentService, MedicineService],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
+  { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },
+    AppointmentService,
+    MedicineService],
 })
 export class ListPatientComponent implements OnInit {
   visible = true;
@@ -69,7 +73,7 @@ export class ListPatientComponent implements OnInit {
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
   yob = "";
-  recordSymptoms=[];
+  recordSymptoms = [];
   records: Record[] = [];
   diseases: Disease[] = [];
   diseaseObj;
@@ -109,14 +113,16 @@ export class ListPatientComponent implements OnInit {
     private medicineService: MedicineService,
     private toastService: ToasterService,
     private dialog: DialogService,
+    private spinner: NgxSpinnerService
   ) {
   }
   ngOnInit() {
+
     this.date;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     var d = this.currentDate;
-    
+
     this.onGetList(d);
     this.onGetMedicine();
     this.onGetDisease();
@@ -197,9 +203,11 @@ export class ListPatientComponent implements OnInit {
       })
   }
   onGetList(date: string) {
+    this.spinner.show();
     this.appointmentService
       .getAppointments(this.username, date)
       .subscribe((response) => {
+        this.spinner.hide();
         var tmp = JSON.parse(JSON.stringify(response));
         var isCurrent = false;
         for (var i in tmp.value) {
@@ -217,6 +225,7 @@ export class ListPatientComponent implements OnInit {
         this.dataSource.data = this.ELEMENT_DATA;
       },
         error => {
+          this.spinner.hide();
           this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
         })
   }
@@ -257,10 +266,11 @@ export class ListPatientComponent implements OnInit {
     this.onGetList(format);
 
   }
-  onPushPopupRecord(fullName: string, appID: number) {
+  onPushPopupRecord(fullName: string, appID: number,phoneNumber:string) {
     this.remind = ""
     this.fullName = fullName;
     this.appID = appID;
+    this.phoneNumber= phoneNumber
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
     while (this.listMedicine.length > 0) {
       this.listMedicine.pop();
@@ -346,6 +356,7 @@ export class ListPatientComponent implements OnInit {
       }
     }
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
+
     if (this.ELEMENT_DATA[index].status == 1) {
       this.ELEMENT_DATA[index].status = 0
     }
@@ -355,10 +366,13 @@ export class ListPatientComponent implements OnInit {
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
+         
           this.toastService.Success("Tạo bệnh án thành công")
         }
         else {
+          this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
           this.toastService.Error(tmp.error)
+
         }
       },
         error => {
@@ -396,7 +410,7 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         console.log(tmp)
         if (tmp.status == true) {
-          
+
           this.onRefreshData();
           this.toastService.Success("Update Patient Successfully")
         }
@@ -421,7 +435,7 @@ export class ListPatientComponent implements OnInit {
     this.onGetMedicine();
     this.onGetDisease();
   }
-  resetData(){
+  resetData() {
     this.onRefreshData();
   }
 }

@@ -85,7 +85,7 @@ import { ChartMonthComponent } from './list-chart/chart-month/chart-month.compon
 import { ChartDateComponent } from './list-chart/chart-date/chart-date.component';
 import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
 import { ChartLineYearComponent } from './list-chart/chart-line-year/chart-line-year.component';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -127,14 +127,6 @@ import { ChartLineYearComponent } from './list-chart/chart-line-year/chart-line-
   ],
 })
 export class DemoMaterialModule { }
-export const config = {
-  apiKey: "AIzaSyDfHYz3IsP_vaUIHPtsJIoAQP2tuXt4Y3o",
-  authDomain: "callcenter2-79faf.firebaseapp.com",
-  databaseURL: "https://callcenter2-79faf.firebaseio.com",
-  projectId: "callcenter2-79faf",
-  storageBucket: "callcenter2-79faf.appspot.com",
-  messagingSenderId: "437377487737"
-};
 @NgModule({
   declarations: [
     AppComponent,
@@ -179,6 +171,7 @@ export const config = {
     ReactiveFormsModule,
     NgxPermissionsModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    NgxSpinnerModule
   ],
   exports: [
     CdkTableModule,

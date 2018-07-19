@@ -40,12 +40,12 @@
         <div class="col-md-3 ">
           <mat-form-field appearance="outline">
             <input matInput [matDatepicker]="picker1" placeholder="Chọn ngày" [formControl]="date" (dateChange)="onGetDate($event.target.value)">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="picker1" style="margin-top: 10px"></mat-datepicker-toggle>
             <mat-datepicker md-mode="month" #picker1></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="col-md-2" style="padding-top: 4px">
-          <button type="button" class="btn btn-success btn-lg" (click)="resetData()">
+          <button type="button" class="btn btn-primary btn-lg" (click)="resetData()">
             Làm mới dữ liệu
           </button>
         </div>
@@ -363,7 +363,6 @@
                   <td>
                     <div class="text-center">
                       <label style="margin-top: 7px">{{prescription.medicineName}}</label>
-
                     </div>
                   </td>
                   <td class="text-center">
@@ -384,13 +383,10 @@
             <label for="symptom" class=" padd-left-none">Triệu chứng lâm sàng</label>
             <div class="symptom">
               <div *ngIf="recordSymptoms.length === 0 " style="font-size: 16px; margin-bottom: 5px">Không có kết quả để hiển thị</div>
-
               <mat-chip-list #chipList>
-
                 <mat-chip *ngFor="let symptom of recordSymptoms">
                   {{symptom}}
                 </mat-chip>
-
               </mat-chip-list>
             </div>
           </div>
@@ -400,6 +396,5 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
       </div>
     </div>
-
   </div>
 </div>

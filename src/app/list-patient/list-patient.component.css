@@ -38,8 +38,8 @@ tr.mat-row:nth-child(odd){
 .example-chip-list {
      width: 100%;
 }
-div.mat-form-field .mat-form-field-suffix .mat-icon-button{
-    height: 1.5em !important;
+button.mat-icon-button{
+    margin-bottom: -8px !important
 }
 /* table medicine */
 div.scroll {

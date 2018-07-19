@@ -66,9 +66,19 @@ export class ListPatientComponent implements OnInit {
       this.resultSymptoms.splice(index, 1);
     }
   }
+
+  
   //---------------------------------------------------------
   myOptions: Array<IOption> = [];
   selectedDisease = [];
+
+  asyncObservable() {
+    return new Observable(observer => {
+      setInterval(() => {
+        observer.next("Hi");
+      }, 1000)
+    })
+}
   // --------------------------------------------------------
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
@@ -117,7 +127,7 @@ export class ListPatientComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-
+    // this.asyncObservable().subscribe(data=>{console.log(data);}) 
     this.date;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -387,10 +397,7 @@ export class ListPatientComponent implements OnInit {
   }
   onUpdateDetail(patID) {
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
-    this.ELEMENT_DATA[index].patientName = this.fullName
-    this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber
-    this.ELEMENT_DATA[index].address = this.address
-    this.ELEMENT_DATA[index].yob = new Date(this.yob)
+    
     if (this.genderObj == "Nam") {
       this.ELEMENT_DATA[index].gender = "1";
     } else if (this.genderObj == "Nữ") {
@@ -400,17 +407,20 @@ export class ListPatientComponent implements OnInit {
     }
     this.appointmentService
       .postUpdatePatient(this.ELEMENT_DATA[index].patientID,
-        this.ELEMENT_DATA[index].phoneNumber,
-        this.ELEMENT_DATA[index].patientName,
-        this.ELEMENT_DATA[index].address,
-        this.ELEMENT_DATA[index].yob,
+        this.phoneNumber,
+        this.fullName,
+        this.address,
+        new Date(this.yob),
         this.ELEMENT_DATA[index].gender)
       .subscribe((response) => {
 
         var tmp = JSON.parse(JSON.stringify(response));
         console.log(tmp)
         if (tmp.status == true) {
-
+          this.ELEMENT_DATA[index].patientName = this.fullName
+          this.ELEMENT_DATA[index].phoneNumber = this.phoneNumber
+          this.ELEMENT_DATA[index].address = this.address
+          this.ELEMENT_DATA[index].yob = new Date(this.yob)
           this.onRefreshData();
           this.toastService.Success("Update Patient Successfully")
         }

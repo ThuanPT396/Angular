@@ -37,19 +37,20 @@
             <input matInput (keyup)="applyFilter($event.target.value)" maxlength="30">
           </mat-form-field>
         </div>
-        <div class="col-md-4 padd-right-none">
+        <div class="col-md-3 ">
           <mat-form-field appearance="outline">
             <input matInput [matDatepicker]="picker1" placeholder="Chọn ngày" [formControl]="date" (dateChange)="onGetDate($event.target.value)">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker md-mode="month" #picker1></mat-datepicker>
           </mat-form-field>
         </div>
+        <div class="col-md-1 padd-right-none">
+          <button class="btn btn-primary">
 
-
+          </button>
+        </div>
       </div>
-
     </div>
-
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="position">

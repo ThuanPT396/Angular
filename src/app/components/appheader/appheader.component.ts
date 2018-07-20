@@ -19,7 +19,7 @@ export class AppheaderComponent implements OnInit {
   textValidPW="";
   textConfirmPW="";
   constructor(private router: Router, private userService: UserService, private toastService: ToasterService) { }
-
+  
   ngOnInit() {
     var result = this.userService.getUserClaims();
     if (localStorage.getItem('role')!='1') {

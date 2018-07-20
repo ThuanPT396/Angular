@@ -44,7 +44,8 @@
     "ngx-permissions": "^5.0.0",
     "ngx-spinner": "^6.0.0",
     "path": "^0.12.7",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.2.2",
+    "rxjs-compat": "^6.2.2",
     "typescript": "~2.7.2",
     "zone.js": "^0.8.26"
   },

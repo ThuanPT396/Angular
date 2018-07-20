@@ -11,16 +11,17 @@ import { AppheaderComponent } from '../components/appheader/appheader.component'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  providers: [AppheaderComponent]
 })
 export class HomeComponent implements OnInit {
-  role = 0;
-  notificationList: MyNotification[];
+  role = 0;  
   private notifications: AngularFirestoreCollection<MyNotification>;
   constructor(
     private userService: UserService,
     private db: AngularFirestore,
-    private toastService: ToasterService) {
+    private toastService: ToasterService, 
+    private appheader: AppheaderComponent) {
     var username = localStorage.getItem("username");
     this.notifications = db.collection("callcenter/" + username + "/notifications");
   }
@@ -33,8 +34,8 @@ export class HomeComponent implements OnInit {
     this.notifications.valueChanges().subscribe(collection => {
       for (var index in collection) {
         var item = collection[index];
-      }
-      this.notificationList = collection;      
+      }        
+      this.appheader.updateNotification(collection);
     });
 
     // this.notifications.stateChanges(['added']).pipe(

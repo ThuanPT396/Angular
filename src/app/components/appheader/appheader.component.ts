@@ -2,6 +2,7 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { ToasterService } from '../../service/toast/toaster.service';
+import { MyNotification } from '../../model/notification.model';
 
 @Component({
   selector: 'app-appheader',
@@ -18,8 +19,17 @@ export class AppheaderComponent implements OnInit {
   confirmpw = ""
   textValidPW="";
   textConfirmPW="";
+  notifications: MyNotification[] = [];
   constructor(private router: Router, private userService: UserService, private toastService: ToasterService) { }
   
+  updateNotification(notis: MyNotification[]){
+    this.notifications.pop();
+    for(var index in notis){
+      var item = notis[index];
+      this.notifications.push(item);
+      console.log(item);
+    }    
+  }
   ngOnInit() {
     var result = this.userService.getUserClaims();
     if (localStorage.getItem('role')!='1') {

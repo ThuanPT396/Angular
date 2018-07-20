@@ -86,6 +86,10 @@ import { ChartDateComponent } from './list-chart/chart-date/chart-date.component
 import { ChartLineMonthComponent } from './list-chart/chart-line-month/chart-line-month.component';
 import { ChartLineYearComponent } from './list-chart/chart-line-year/chart-line-year.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+//Firestore
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { environment } from '../environments/environment';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -156,8 +160,9 @@ export class DemoMaterialModule { }
     SignInComponent,
     PopupComponent
   ],
-  imports: [
+  imports: [    
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     FormsModule,
     HttpModule,
     SelectModule,
@@ -178,7 +183,7 @@ export class DemoMaterialModule { }
     MatTableModule
   ],
   entryComponents: [PopupComponent],
-  providers: [UserService, ToasterService],
+  providers: [UserService, ToasterService, AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

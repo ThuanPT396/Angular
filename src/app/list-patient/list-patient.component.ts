@@ -272,10 +272,10 @@ export class ListPatientComponent implements OnInit {
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
-          this.toastService.Success("Đổi trạng thái thành công")
+          this.toastService.Success("Tự động điểm danh thành công")
         }
         else {
-          this.toastService.Error("Đổi trạng thái thất bại")
+          this.toastService.Error("Tự động điểm danh")
         }
       },
         error => {

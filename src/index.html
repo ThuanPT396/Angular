@@ -107,42 +107,42 @@
     });
 
     function sendTokenToServer(token, topic) {
-      var request = $.ajax({
-        type: 'POST',
-        url: 'http://27.74.245.84:8080/clinic/subscribeTopic',
-        data: {
-          'token': token,
-          'topic': topic
-        }
-      });
-      request.done(function (msg) {
-        console.log(msg);
-      });
+      // var request = $.ajax({
+      //   type: 'POST',
+      //   url: 'http://27.74.245.84:8080/clinic/subscribeTopic',
+      //   data: {
+      //     'token': token,
+      //     'topic': topic
+      //   }
+      // });
+      // request.done(function (msg) {
+      //   console.log(msg);
+      // });
 
-      request.fail(function (jqXHR, textStatus) {
-        console.log(jqXHR);
-        console.log(textStatus);
-      });
+      // request.fail(function (jqXHR, textStatus) {
+      //   console.log(jqXHR);
+      //   console.log(textStatus);
+      // });
     }
 
     function unsubscribeTopic(token, topic) {
-      var request = $.ajax({
-        type: 'POST',
-        url: 'http://27.74.245.84:8080/clinic/unsubscribeTopic',
-        data: {
-          'token': token,
-          'topic': topic
-        }
-      });
-      request.done(function (msg) {
-        console.log(msg);
-      });
+      // var request = $.ajax({
+      //   type: 'POST',
+      //   url: 'http://27.74.245.84:8080/clinic/unsubscribeTopic',
+      //   data: {
+      //     'token': token,
+      //     'topic': topic
+      //   }
+      // });
+      // request.done(function (msg) {
+      //   console.log(msg);
+      // });
 
-      request.fail(function (jqXHR, textStatus) {
-        console.log(jqXHR);
-        console.log(textStatus);
-        alert("Request failed: " + textStatus);
-      });
+      // request.fail(function (jqXHR, textStatus) {
+      //   console.log(jqXHR);
+      //   console.log(textStatus);
+      //   alert("Request failed: " + textStatus);
+      // });
     }
 
     function getFirebaseToken() {

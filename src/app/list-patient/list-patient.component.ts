@@ -50,7 +50,6 @@ export class ListPatientComponent implements OnInit {
       this.symptoms.push({ name: value.trim() });
       this.resultSymptoms.push(value);
     }
-
     // Reset the input value
     if (input) {
       input.value = '';

@@ -64,5 +64,4 @@ export class ChartDateComponent implements OnInit {
     this.loadData(mSelectedDate.toDate());
     datepicker.close();
   }
-
 }

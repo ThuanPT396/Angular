@@ -13,7 +13,7 @@ export function drawChartForDate(data, month) {
   var daysNum = month.monthDays();
   function drawChart() {
     var arr = [];
-    arr.push(['Ngày trong tháng', 'Tổng bệnh nhân', 'Có mặt']);    
+    arr.push(['Date', 'Total patient', 'Present']);    
     for(let i = 1; i <= daysNum; i++){
       arr.push([i.toString(), 0, 0]);
     }
@@ -26,11 +26,11 @@ export function drawChartForDate(data, month) {
     var list = google.visualization.arrayToDataTable(arr);    
     var options = {
       chart: {
-        title: 'Thống kê các ngày trong tháng',
-        subtitle: 'Tháng '+fMonth
+        title: 'Statistic of date',
+        subtitle: 'Month '+fMonth
       },
       vAxis: {
-              title: 'Số bệnh nhân'
+              title: 'Number of patient'
             }
     };    
     var chart = new google.charts.Bar(document.getElementById('columnchart_date'));
@@ -45,22 +45,22 @@ export function drawChartForMonth(data,year) {
   google.charts.setOnLoadCallback(drawChart1);
   function drawChart1() {
     var arr = [];
-    arr.push(['Tháng trong Năm', 'Tổng bệnh nhân', 'Có mặt']);
+    arr.push(['Month', 'Total patient', 'Present']);
     for(let i = 1 ; i <= 12; i++){
-      arr.push(['Tháng ' + i, 0, 0]);
+      arr.push(['Month ' + i, 0, 0]);
     }
     for (let i = 0; i < data.length; i++) {
-      arr[data[i].month] = ['Tháng ' + data[i].month, data[i].total, data[i].present];      
+      arr[data[i].month] = ['Month ' + data[i].month, data[i].total, data[i].present];      
     }
   
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {
-        title: 'Thống kê các tháng trong năm',
-        subtitle: 'Năm '+year,
+        title: 'Statistic of month',
+        subtitle: 'Year '+year,
       },
       vAxis: {
-        title: 'Số bệnh nhân'
+        title: 'Number of patient'
       }
     };
 
@@ -78,7 +78,7 @@ export function drawChartForYear(data, startYear, endYear) {
   
   function drawChart1() {
     var arr = [];
-    arr.push(['Các Năm', 'Tổng bệnh nhân', 'Có mặt']);
+    arr.push(['Years', 'Total patient', 'Present']);
     for(let i = 1; i <= endYear - startYear + 1; i++){
       arr.push([(i - 1 + startYear).toString(), 0, 0]);
     }
@@ -88,11 +88,11 @@ export function drawChartForYear(data, startYear, endYear) {
     var list = google.visualization.arrayToDataTable(arr);
     var options = {
       chart: {
-        title: 'Thống kê các năm',
-        subtitle: 'Từ năm '+startYear+' Đến năm '+endYear,
+        title: 'Statistic of years',
+        subtitle: 'From year '+startYear+' To year '+endYear,
       },
       vAxis: {
-        title: 'Số bệnh nhân'
+        title: 'Number of patient'
       }
     };
 

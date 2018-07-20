@@ -2,7 +2,7 @@
   <div class="container">
     <div class="col-md-12 text-center" >
       <div class="col-md-5 form-group">
-        <label for="name" style="margin-right: 25px">Từ Năm:</label>
+        <label for="name" style="margin-right: 25px">From year:</label>
         <mat-form-field appearance="outline">
           <input matInput  [min]="minDate" [max]="maxDate" [matDatepicker]="dp" placeholder="Month and Year" [formControl]="startPicker">
           <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
@@ -13,7 +13,7 @@
 
 
       <div class="col-md-5">
-          <label for="name" style="margin-right: 25px">Đến Năm:</label>
+          <label for="name" style="margin-right: 25px">To year:</label>
         <mat-form-field appearance="outline">
           <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp1" placeholder="Month and Year" [formControl]="endPicker">
           <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>

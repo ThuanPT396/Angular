@@ -66,7 +66,7 @@ export class ListPatientComponent implements OnInit {
     }
   }
 
-  
+
   //---------------------------------------------------------
   myOptions: Array<IOption> = [];
   selectedDisease = [];
@@ -77,7 +77,7 @@ export class ListPatientComponent implements OnInit {
         observer.next("Hi");
       }, 1000)
     })
-}
+  }
   // --------------------------------------------------------
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
@@ -260,6 +260,28 @@ export class ListPatientComponent implements OnInit {
         }
       );
   }
+  CheckAttendanceForCreateRecord(appID: number, choose: number) {
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
+    if (choose == 0) {
+      choose = 1;
+    }
+    this.ELEMENT_DATA[index].status = choose;
+    this.appointmentService
+      .postCheckStatus(this.username, appID, choose)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.toastService.Success("Đổi trạng thái thành công")
+        }
+        else {
+          this.toastService.Error("Đổi trạng thái thất bại")
+        }
+      },
+        error => {
+          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+        }
+      );
+  }
   onGetDate(dateValue: string) {
     var format = this.pipe.transform(dateValue, 'yyyy/M/d')
     this.selectedDate = new Date(dateValue);
@@ -275,11 +297,11 @@ export class ListPatientComponent implements OnInit {
     this.onGetList(format);
 
   }
-  onPushPopupRecord(fullName: string, appID: number,phoneNumber:string) {
+  onPushPopupRecord(fullName: string, appID: number, phoneNumber: string) {
     this.remind = ""
     this.fullName = fullName;
     this.appID = appID;
-    this.phoneNumber= phoneNumber
+    this.phoneNumber = phoneNumber
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
     while (this.listMedicine.length > 0) {
       this.listMedicine.pop();
@@ -365,23 +387,17 @@ export class ListPatientComponent implements OnInit {
       }
     }
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
-
-    if (this.ELEMENT_DATA[index].status == 1) {
-      this.ELEMENT_DATA[index].status = 0
-    }
-    this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
+    this.CheckAttendanceForCreateRecord(this.appID, this.ELEMENT_DATA[index].status)
     this.medicineService
       .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease, this.resultSymptoms)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
-         
+
           this.toastService.Success("Tạo bệnh án thành công")
         }
         else {
-          this.onSelect(this.appID, this.ELEMENT_DATA[index].status)
           this.toastService.Error(tmp.error)
-
         }
       },
         error => {
@@ -396,7 +412,7 @@ export class ListPatientComponent implements OnInit {
   }
   onUpdateDetail(patID) {
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
-    
+
     if (this.genderObj == "Nam") {
       this.ELEMENT_DATA[index].gender = "1";
     } else if (this.genderObj == "Nữ") {

@@ -29,7 +29,7 @@
             <li>
               <ul class="menu">
                 <li *ngFor="let noti of notiOnView;let index = index;trackBy:trackByIndex;" >
-                  <a class="link" routerLink="/appointmentList" routerLinkActive="active" (click)="onSelectNotification(index)">
+                  <a class="link" routerLink="/appointmentList" routerLinkActive="active" (click)="onSelectNotification(noti.id)">
                     <i class="fa fa-users text-aqua"></i> {{noti.message}}
                   </a>
                 </li>

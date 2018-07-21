@@ -206,7 +206,6 @@ export function drawChartLineForYear(data, startYear, endYear) {
     // var chart = new google.visualization.LineChart(document.getElementById('curve1_chart'));
     // chart.draw(list, options); vẽ biểu đồ thường , còn ở dưới vẽ bằng meterial 
     var chart = new google.charts.Line(document.getElementById('curve1_chart'));
-
       chart.draw(list, google.charts.Line.convertOptions(options));
   }
 

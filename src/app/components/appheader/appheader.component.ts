@@ -27,9 +27,9 @@ export class AppheaderComponent implements OnInit {
   confirmpw = ""
   textValidPW = "";
   textConfirmPW = "";
-  private notiRef: AngularFirestoreCollection;
-  private notiOnView: MyNotification[] = [];
-  private isFirstRun = true;
+  notiRef: AngularFirestoreCollection;
+  notiOnView: MyNotification[] = [];
+  isFirstRun = true;
   constructor(private router: Router,
     private userService: UserService,
     private toastService: ToasterService,

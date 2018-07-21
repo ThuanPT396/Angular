@@ -59,14 +59,14 @@ export class ClinicListComponent implements OnInit {
     }
     onRemoveClinic(userName: string) {
         const index = this.ELEMENT_DATA.findIndex(clinic => clinic.username === userName);
-        console.log( this.ELEMENT_DATA[index])
+        console.log(this.ELEMENT_DATA[index])
         this.clinicService
             .postClinic(this.ELEMENT_DATA[index].username,
                 this.ELEMENT_DATA[index].fullName,
                 this.ELEMENT_DATA[index].address,
                 this.ELEMENT_DATA[index].clinicName,
                 this.ELEMENT_DATA[index].phoneNumber,
-                this.ELEMENT_DATA[index].email,0,1,
+                this.ELEMENT_DATA[index].email, 0, 1,
                 this.ELEMENT_DATA[index].accountSid,
                 this.ELEMENT_DATA[index].authToken)
             .subscribe((response) => {
@@ -138,7 +138,7 @@ export class ClinicListComponent implements OnInit {
                 this.ELEMENT_DATA[index].address,
                 this.ELEMENT_DATA[index].clinicName,
                 this.ELEMENT_DATA[index].phoneNumber,
-                this.ELEMENT_DATA[index].email, 1,1,
+                this.ELEMENT_DATA[index].email, 1, 1,
                 this.ELEMENT_DATA[index].accountSid,
                 this.ELEMENT_DATA[index].authToken)
             .subscribe((response) => {

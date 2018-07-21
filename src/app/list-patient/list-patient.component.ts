@@ -23,6 +23,7 @@ import { Record } from '../model/record.model';
 import { Observable, Subject, concat } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxAlertsService } from '@ngx-plus/ngx-alerts'
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -122,7 +123,8 @@ export class ListPatientComponent implements OnInit {
     private medicineService: MedicineService,
     private toastService: ToasterService,
     private dialog: DialogService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private alerts: NgxAlertsService,
   ) {
   }
   ngOnInit() {
@@ -235,7 +237,12 @@ export class ListPatientComponent implements OnInit {
       },
         error => {
           this.spinner.hide();
-          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+          this.alerts.alertError({
+            type: 'error', payload: {
+              title: 'Thông báo',
+              text: 'Không thể kết nối với máy chủ',
+            }
+          }.payload)
         })
   }
   onSelect(appID: number, choose: number) {
@@ -252,11 +259,16 @@ export class ListPatientComponent implements OnInit {
           this.toastService.Success("Đổi trạng thái thành công")
         }
         else {
-          this.toastService.Error("Đổi trạng thái thất bại")
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: ' Đổi trạng thái thất bại', } }.payload)
         }
       },
         error => {
-          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+          this.alerts.alertError({
+            type: 'error', payload: {
+              title: 'Thông báo',
+              text: 'Không thể kết nối với máy chủ',
+            }
+          }.payload)
         }
       );
   }
@@ -272,13 +284,15 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
           this.toastService.Success("Tự động điểm danh thành công")
+          this.createRecord();
         }
         else {
-          this.toastService.Error("Tự động điểm danh")
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Tự động điểm danh thất bại', } }.payload)
+          
         }
       },
         error => {
-          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Không thể kết nối với máy chủ', } }.payload)
         }
       );
   }
@@ -353,11 +367,13 @@ export class ListPatientComponent implements OnInit {
           this.toastService.Success("Đổi trạng thái chặn thành công")
         }
         else {
-          this.toastService.Error("Đổi trạng thái chặn thất bại")
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Đổi trạng thái chặn thất bại', } }.payload)
+
+          
         }
       },
         error => {
-          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Không thể kết nối với máy chủ', } }.payload)
         }
       );
   }
@@ -382,12 +398,17 @@ export class ListPatientComponent implements OnInit {
 
     for (let i = 0; i < this.listMedicine.length; i++) {
       if (this.listMedicine[i].medicineName == "") {
-        this.toastService.Error("Vui lòng nhập tên thuốc")
+        this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Vui lòng nhập tên thuốc', } }.payload)
+
         return;
       }
     }
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
     this.CheckAttendanceForCreateRecord(this.appID, this.ELEMENT_DATA[index].status)
+
+
+  }
+  createRecord() {
     this.medicineService
       .postMedicalRecord(this.appID, this.remind, "", this.listMedicine, this.selectedDisease, this.resultSymptoms)
       .subscribe((response) => {
@@ -397,14 +418,14 @@ export class ListPatientComponent implements OnInit {
           this.toastService.Success("Tạo bệnh án thành công")
         }
         else {
-          this.toastService.Error(tmp.error)
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: tmp.error, } }.payload)
+
         }
       },
         error => {
-          this.dialog.openDialog("Chú ý", "không thể kết nối mạng");
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Không thể kết nối với máy chủ', } }.payload)
         }
       );
-
   }
   onRemoveMedicine(nameMedicine: string) {
     const index = this.listMedicine.findIndex(med => med.medicineName === nameMedicine);
@@ -437,15 +458,19 @@ export class ListPatientComponent implements OnInit {
           this.ELEMENT_DATA[index].address = this.address
           this.ELEMENT_DATA[index].yob = new Date(this.yob)
           this.onRefreshData();
-          this.toastService.Success("Update Patient Successfully")
+          this.toastService.Success("Cập nhật thông tin thành công")
         }
         else {
-          this.toastService.Error(tmp.error)
-          console.log("loi update detail")
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Cập nhật thông tin thất bại', } }.payload)
         }
       },
         error => {
-          this.dialog.openDialog("Attention", "Cannot connect network!");
+          this.alerts.alertError({
+            type: 'error', payload: {
+              title: 'Thông báo',
+              text: 'Không thể kết nối với máy chủ',
+            }
+          }.payload)
         }
       );
     this.dataSource.filter = "";

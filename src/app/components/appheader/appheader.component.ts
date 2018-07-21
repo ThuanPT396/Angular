@@ -116,13 +116,13 @@ export class AppheaderComponent implements OnInit {
         if (tmp.status == true) {
           this.textValidPW = "";
         } else {
-          this.textValidPW = "Password is invalid";
+          this.textValidPW = "Mật khẩu không chính xác";
         }
       })
   }
   ConfirmPW(newpw, confirmpw) {
     if (newpw != confirmpw) {
-      this.textConfirmPW = "Confirm Password isn't correct";
+      this.textConfirmPW = "Mật khẩu xác thực không đúng";
     } else {
       this.textConfirmPW = ""
     }
@@ -134,17 +134,17 @@ export class AppheaderComponent implements OnInit {
         .subscribe((response) => {
           var tmp = JSON.parse(JSON.stringify(response));
           if (tmp.status == true) {
-            this.toastService.Success("Change Password Successfully")
+            this.toastService.Success("Thay đổi mật khẩu thành công")
             this.logout();
           }
           else {
-            this.toastService.Error("Password is invalid. Change Password Failure.")
+            this.toastService.Error("Mật khẩu không đúng. Thay đổi mật khẩu thất bại")
             this.currentpw = ''
           }
         },
       );
     } else {
-      this.toastService.Error("Confirm password not correct. Change Password Failure.")
+      this.toastService.Error("Mật khẩu xác thực không đúng. Thay đổi mật khẩu thất bại.")
       this.newpw = ''
       this.confirmpw = ''
     }

@@ -38,7 +38,7 @@ export class AppheaderComponent implements OnInit {
 
   listenNotification() {
     var username = localStorage.getItem("username");
-    this.notiRef = this.db.collection("callcenter/" + username + "/notifications");
+    this.notiRef = this.db.collection("callcenter/" + username + "/notifications", ref => ref.orderBy('serverTimestamp', 'desc'));
     var notifications = this.notiRef.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
@@ -48,12 +48,14 @@ export class AppheaderComponent implements OnInit {
         });
       })
     )
+
     notifications.subscribe(docs => {
       this.notiOnView = [];
       docs.forEach(doc => {
         this.notiOnView.push(doc);
       })
     })
+
     var addedNotification = this.notiRef.stateChanges(['added']).pipe(
       map(changes => {
         return changes.map(a => {

@@ -19,15 +19,18 @@
         </div>
 
         <div class="container-login100-form-btn">
-          <button type="submit" [disabled]="!loginForm.valid" class="login100-form-btn">
+          <button type="submit" [disabled]="!loginForm.valid" class="login100-form-btn" >
             Đăng nhập&nbsp;
             <div [hidden]="isLogin">
               <mat-spinner [diameter]="30"></mat-spinner>
             </div>
           </button>
-
+          
         </div>
-
+        <button *ngFor="let button of buttons"
+                [class]="button.classNames"
+                (click)="handleAction({ type: button.type, payload: item })">{{button.label}}
+        </button>
       </form>
 
     </div>

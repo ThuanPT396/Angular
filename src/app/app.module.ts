@@ -90,6 +90,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
+import { NgxAlertsModule } from '@ngx-plus/ngx-alerts';
+import { NgxFormsModule } from '@ngx-plus/ngx-forms'
 @NgModule({
   exports: [
     CdkTableModule,
@@ -176,7 +178,9 @@ export class DemoMaterialModule { }
     ReactiveFormsModule,
     NgxPermissionsModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxAlertsModule.forRoot(),
+    NgxFormsModule.forRoot()
   ],
   exports: [
     CdkTableModule,

@@ -21,11 +21,11 @@
         <!-- Notifications: style can be found in dropdown.less -->
         <li class="dropdown notifications-menu" [style.display]="hidden ? 'none' : 'block'">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell"></i>
+            <i class="far fa-bell"></i>
             <span class="label label-danger">{{notiOnView.length}}</span>
           </a>
           <ul class="dropdown-menu">
-            <li class="header">You have {{notiOnView.length}} notifications</li>
+            <li class="header">Bạn có {{notiOnView.length}} thông báo!!!</li>
             <li>
               <ul class="menu">
                 <li *ngFor="let noti of notiOnView;let index = index;trackBy:trackByIndex;" >
@@ -36,7 +36,7 @@
               </ul>
             </li>
             <li class="footer">
-              <a (click)="onClearNotification()">Clear all</a>
+              <a class="link" routerLink="/appointmentList" routerLinkActive="active" (click)="onClearNotification()">Xóa tất cả</a>
             </li>
           </ul>
         </li>
@@ -99,24 +99,24 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Change Password</h4>
+        <h4 class="modal-title">Thay đổi mật khẩu</h4>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
-              <label for="username">User Name</label>
+              <label for="username">Tên đăng nhập</label>
               <input type="text" id="username" class="form-control" disabled [(ngModel)]="username">
             </div>
             <div class="col-md-6 padd-right-none">
-              <label for="fullName">Full Name</label>
+              <label for="fullName">Họ và Tên</label>
               <input type="text" id="fullName" class="form-control" disabled [(ngModel)]="fullName">
             </div>
           </div>
 
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
-              <label for="currentpw">Current password</label>
+              <label for="currentpw">Mật khẩu hiện tại</label>
               <input type="password" id="currentpw" class="form-control" [(ngModel)]="currentpw" (focusout)="checkPassword(username,currentpw)">
             </div>
             <div class="col-md-6 padd-text">
@@ -125,14 +125,14 @@
           </div>
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
-              <label for="newpw">New password</label>
+              <label for="newpw">Mặt khẩu mới</label>
               <input type="password" id="newpw" class="form-control" [(ngModel)]="newpw">
             </div>
 
           </div>
           <div class="col-md-12 form-group">
             <div class="col-md-6 padd-left-none">
-              <label for="confirmpw">Confirm password</label>
+              <label for="confirmpw">Xác thực mật khẩu</label>
               <input type="password" id="confirmpw" class="form-control" [(ngModel)]="confirmpw" (keyup)="ConfirmPW(newpw,confirmpw)">
             </div>
             <div class="col-md-6 padd-text">
@@ -142,8 +142,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button class="btn btn-primary" (click)="onChangePassword(username,currentpw,newpw)" data-dismiss="modal">Change</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        <button class="btn btn-primary" (click)="onChangePassword(username,currentpw,newpw)" data-dismiss="modal">Đồng ý</button>
       </div>
     </div>
 

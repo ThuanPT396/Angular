@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { ToasterService } from '../../service/toast/toaster.service';
@@ -6,13 +6,18 @@ import { MyNotification } from '../../model/notification.model';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ListPatientComponent } from '../../list-patient/list-patient.component';
+
+import { MessageService } from '../../service/message.service';
+
 
 @Component({
   selector: 'app-appheader',
   templateUrl: './appheader.component.html',
-  styleUrls: ['./appheader.component.css']
+  styleUrls: ['./appheader.component.css'],
 })
 export class AppheaderComponent implements OnInit {
+  @Output() onFilter: EventEmitter<any> = new EventEmitter();
   username = ""
   fullName = ""
   phoneNumber = ""
@@ -25,7 +30,11 @@ export class AppheaderComponent implements OnInit {
   private notiRef: AngularFirestoreCollection;
   private notiOnView: MyNotification[] = [];
   private isFirstRun = true;
-  constructor(private router: Router, private userService: UserService, private toastService: ToasterService, private db: AngularFirestore) { }
+  constructor(private router: Router,
+    private userService: UserService,
+    private toastService: ToasterService,
+    private db: AngularFirestore,
+    private _messageService: MessageService) { }
 
   listenNotification() {
     var username = localStorage.getItem("username");
@@ -42,7 +51,7 @@ export class AppheaderComponent implements OnInit {
     notifications.subscribe(docs => {
       this.notiOnView = [];
       docs.forEach(doc => {
-        this.notiOnView.push(doc);        
+        this.notiOnView.push(doc);
       })
     })
     var addedNotification = this.notiRef.stateChanges(['added']).pipe(
@@ -55,22 +64,26 @@ export class AppheaderComponent implements OnInit {
       })
     )
     addedNotification.subscribe(docs => {
-      if(this.isFirstRun){
-        this.isFirstRun = false;        
-      } else{
+      if (this.isFirstRun) {
+        this.isFirstRun = false;
+      } else {
         docs.forEach(doc => {
           this.toastService.Success(doc.title, doc.message);
           console.log(doc);
         })
-      }      
+      }
     })
   }
-
+  clickFilter(): void {
+    // this.onFilter.emit('Register click');
+    
+  }
   onSelectNotification(id) {
     this.notiRef.doc(id).delete()
       .catch(err => {
         console.log(err);
       })
+      this._messageService.filter('Register click');
   }
   onClearNotification() {
     this.notiOnView.forEach(item => {

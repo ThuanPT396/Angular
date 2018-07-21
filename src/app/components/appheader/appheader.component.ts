@@ -27,10 +27,10 @@ export class AppheaderComponent implements OnInit {
   constructor(private router: Router, private userService: UserService, private toastService: ToasterService, private db: AngularFirestore) { }
 
   listenNotification() {
-    this.notiOnView.pop();
     var username = localStorage.getItem("username");
     this.notifications = this.db.collection("callcenter/" + username + "/notifications");
     this.notifications.valueChanges().subscribe(collection => {
+      this.notiOnView = [];
       for (var index in collection) {
         var item = collection[index];
         this.notiOnView.push(item);
@@ -51,11 +51,11 @@ export class AppheaderComponent implements OnInit {
     this.username = result.username
     this.phoneNumber = result.phoneNumber
   }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
   logout() {
-    this.userService.postUnsubscribe(localStorage.getItem('firebaseToken'), localStorage.getItem('username'))
-      .subscribe(res => {
-        console.log(res)
-      })
     localStorage.removeItem('clinicName');
     localStorage.removeItem('username');
     localStorage.removeItem('fullName');
@@ -103,5 +103,12 @@ export class AppheaderComponent implements OnInit {
       this.newpw = ''
       this.confirmpw = ''
     }
+  }
+
+  onSelectNotification(index){
+    console.log(index)
+  }
+  onClearNotification(){
+
   }
 }

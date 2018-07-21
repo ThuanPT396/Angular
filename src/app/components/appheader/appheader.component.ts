@@ -24,6 +24,7 @@ export class AppheaderComponent implements OnInit {
   textConfirmPW = "";
   private notiRef: AngularFirestoreCollection;
   private notiOnView: MyNotification[] = [];
+  private isFirstRun = true;
   constructor(private router: Router, private userService: UserService, private toastService: ToasterService, private db: AngularFirestore) { }
 
   listenNotification() {
@@ -41,9 +42,27 @@ export class AppheaderComponent implements OnInit {
     notifications.subscribe(docs => {
       this.notiOnView = [];
       docs.forEach(doc => {
-        this.notiOnView.push(doc);
-        console.log(doc);
+        this.notiOnView.push(doc);        
       })
+    })
+    var addedNotification = this.notiRef.stateChanges(['added']).pipe(
+      map(changes => {
+        return changes.map(a => {
+          const data = a.payload.doc.data() as MyNotification;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    )
+    addedNotification.subscribe(docs => {
+      if(this.isFirstRun){
+        this.isFirstRun = false;        
+      } else{
+        docs.forEach(doc => {
+          this.toastService.Success(doc.title, doc.message);
+          console.log(doc);
+        })
+      }      
     })
   }
 

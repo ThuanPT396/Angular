@@ -1,18 +1,19 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { ToasterService } from '../../service/toast/toaster.service';
 import { MyNotification } from '../../model/notification.model';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable, pipe } from 'rxjs';
+import { Observable, pipe, Subscriber } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ISubscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'app-appheader',
   templateUrl: './appheader.component.html',
   styleUrls: ['./appheader.component.css']
 })
-export class AppheaderComponent implements OnInit {
+export class AppheaderComponent implements OnInit, OnDestroy {
   username = ""
   fullName = ""
   phoneNumber = ""
@@ -24,7 +25,11 @@ export class AppheaderComponent implements OnInit {
   textConfirmPW = "";
   private notiRef: AngularFirestoreCollection;
   private notiOnView: MyNotification[] = [];
-  private isFirstRun = true;
+  private static isFirstRun = true;
+  private isInit = true;
+  private subscriptionAdded: ISubscription;
+  private subscriptionNoti: ISubscription;
+
   constructor(private router: Router, private userService: UserService, private toastService: ToasterService, private db: AngularFirestore) { }
 
   listenNotification() {
@@ -40,10 +45,13 @@ export class AppheaderComponent implements OnInit {
       })
     )
 
-    notifications.subscribe(docs => {
-      this.notiOnView = [];
+    this.subscriptionNoti = notifications.subscribe(docs => {
+      this.notiOnView = [];      
+      if (this.isInit && docs.length == 0) {
+        this.isInit = false
+      }
       docs.forEach(doc => {
-        this.notiOnView.push(doc);        
+        this.notiOnView.push(doc);
       })
     })
 
@@ -56,15 +64,14 @@ export class AppheaderComponent implements OnInit {
         });
       })
     )
-    addedNotification.subscribe(docs => {
-      if(this.isFirstRun){
-        this.isFirstRun = false;        
-      } else{
+    this.subscriptionAdded = addedNotification.subscribe(docs => {      
+      if (this.isInit) {
+        this.isInit = false
+      } else {
         docs.forEach(doc => {
           this.toastService.Success(doc.title, doc.message);
-          console.log(doc);
         })
-      }      
+      }
     })
   }
 
@@ -83,8 +90,18 @@ export class AppheaderComponent implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    if (this.subscriptionAdded) {
+      this.subscriptionAdded.unsubscribe();
+    }
+    if (this.subscriptionNoti) {
+      this.subscriptionNoti.unsubscribe();
+    }
+  }
+
   ngOnInit() {
     this.listenNotification();
+
     var result = this.userService.getUserClaims();
     if (localStorage.getItem('role') != '1') {
       this.fullName = result.fullName

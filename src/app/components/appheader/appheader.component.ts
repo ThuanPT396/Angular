@@ -4,7 +4,7 @@ import { UserService } from '../../service/user.service';
 import { ToasterService } from '../../service/toast/toaster.service';
 import { MyNotification } from '../../model/notification.model';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -22,20 +22,44 @@ export class AppheaderComponent implements OnInit {
   confirmpw = ""
   textValidPW = "";
   textConfirmPW = "";
-  private notifications: AngularFirestoreCollection<MyNotification>;
+  private notiRef: AngularFirestoreCollection;
   private notiOnView: MyNotification[] = [];
   constructor(private router: Router, private userService: UserService, private toastService: ToasterService, private db: AngularFirestore) { }
 
   listenNotification() {
     var username = localStorage.getItem("username");
-    this.notifications = this.db.collection("callcenter/" + username + "/notifications");
-    this.notifications.valueChanges().subscribe(collection => {
+    this.notiRef = this.db.collection("callcenter/" + username + "/notifications");
+    var notifications = this.notiRef.snapshotChanges().pipe(
+      map(changes => {
+        return changes.map(a => {
+          const data = a.payload.doc.data() as MyNotification;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    )
+    notifications.subscribe(docs => {
       this.notiOnView = [];
-      for (var index in collection) {
-        var item = collection[index];
-        this.notiOnView.push(item);
-      }
-    });
+      docs.forEach(doc => {
+        this.notiOnView.push(doc);
+        console.log(doc);
+      })
+    })
+  }
+
+  onSelectNotification(id) {
+    this.notiRef.doc(id).delete()
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  onClearNotification() {
+    this.notiOnView.forEach(item => {
+      this.notiRef.doc(item.id).delete()
+        .catch(err => {
+          console.log(err);
+        })
+    })
   }
 
   ngOnInit() {
@@ -103,12 +127,5 @@ export class AppheaderComponent implements OnInit {
       this.newpw = ''
       this.confirmpw = ''
     }
-  }
-
-  onSelectNotification(index){
-    console.log(index)
-  }
-  onClearNotification(){
-
   }
 }

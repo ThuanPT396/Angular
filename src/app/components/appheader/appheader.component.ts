@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgModule, Input, HostListener, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { ToasterService } from '../../service/toast/toaster.service';
@@ -7,13 +7,16 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable, pipe, Subscriber } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ISubscription } from "rxjs/Subscription";
-
+import { ListPatientComponent } from '../../list-patient/list-patient.component';
+import { MessageService } from '../../service/message.service';
 @Component({
   selector: 'app-appheader',
   templateUrl: './appheader.component.html',
-  styleUrls: ['./appheader.component.css']
+  styleUrls: ['./appheader.component.css'],
 })
+
 export class AppheaderComponent implements OnInit, OnDestroy {
+  @Output() onFilter: EventEmitter<any> = new EventEmitter();
   username = ""
   fullName = ""
   phoneNumber = ""
@@ -29,8 +32,11 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   private isInit = true;
   private subscriptionAdded: ISubscription;
   private subscriptionNoti: ISubscription;
-
-  constructor(private router: Router, private userService: UserService, private toastService: ToasterService, private db: AngularFirestore) { }
+  constructor(private router: Router,
+    private userService: UserService,
+    private toastService: ToasterService,
+    private db: AngularFirestore,
+    private _messageService: MessageService) { }
 
   listenNotification() {
     var username = localStorage.getItem("username");
@@ -46,7 +52,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
     )
 
     this.subscriptionNoti = notifications.subscribe(docs => {
-      this.notiOnView = [];      
+      this.notiOnView = [];
       if (this.isInit && docs.length == 0) {
         this.isInit = false
       }
@@ -64,7 +70,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
         });
       })
     )
-    this.subscriptionAdded = addedNotification.subscribe(docs => {      
+    this.subscriptionAdded = addedNotification.subscribe(docs => {
       if (this.isInit) {
         this.isInit = false
       } else {
@@ -74,12 +80,16 @@ export class AppheaderComponent implements OnInit, OnDestroy {
       }
     })
   }
+  clickFilter(): void {
+    // this.onFilter.emit('Register click');
 
+  }
   onSelectNotification(id) {
     this.notiRef.doc(id).delete()
       .catch(err => {
         console.log(err);
       })
+    this._messageService.filter('Register click');
   }
   onClearNotification() {
     this.notiOnView.forEach(item => {

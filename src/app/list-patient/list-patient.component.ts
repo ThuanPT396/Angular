@@ -24,6 +24,7 @@ import { Observable, Subject, concat } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxAlertsService } from '@ngx-plus/ngx-alerts'
+import { MessageService } from '../service/message.service';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -122,10 +123,15 @@ export class ListPatientComponent implements OnInit {
   constructor(private appointmentService: AppointmentService,
     private medicineService: MedicineService,
     private toastService: ToasterService,
-    private dialog: DialogService,
     private spinner: NgxSpinnerService,
     private alerts: NgxAlertsService,
+    private _messageService: MessageService
   ) {
+    this._messageService.listen().subscribe((m: any) => {
+      this.onRefreshData()
+      console.log(m);
+      this.onFilterClick(m);
+    })
   }
   ngOnInit() {
     // this.asyncObservable().subscribe(data=>{console.log(data);}) 
@@ -137,6 +143,9 @@ export class ListPatientComponent implements OnInit {
     this.onGetList(d);
     this.onGetMedicine();
     this.onGetDisease();
+  }
+  onFilterClick(event) {
+    console.log('Fire onFilterClick: ', event);
   }
   onAddMedicine() {
     this.listMedicine.push(new Medicines(0, "", "", 1, ""));
@@ -288,7 +297,7 @@ export class ListPatientComponent implements OnInit {
         }
         else {
           this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Tự động điểm danh thất bại', } }.payload)
-          
+
         }
       },
         error => {
@@ -369,7 +378,7 @@ export class ListPatientComponent implements OnInit {
         else {
           this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Đổi trạng thái chặn thất bại', } }.payload)
 
-          
+
         }
       },
         error => {

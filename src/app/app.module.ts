@@ -92,6 +92,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
 import { NgxAlertsModule } from '@ngx-plus/ngx-alerts';
 import { NgxFormsModule } from '@ngx-plus/ngx-forms'
+import { MessageService } from './service/message.service';
 @NgModule({
   exports: [
     CdkTableModule,
@@ -187,7 +188,7 @@ export class DemoMaterialModule { }
     MatTableModule
   ],
   entryComponents: [PopupComponent],
-  providers: [UserService, ToasterService, AngularFirestore],
+  providers: [UserService, ToasterService, AngularFirestore,MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

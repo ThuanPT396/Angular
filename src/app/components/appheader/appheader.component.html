@@ -14,7 +14,6 @@
   <nav class="navbar navbar-static-top">
     <!-- Navbar Right Menu -->
     <div class="navbar-inner title" [hidden]="hidden">Phòng khám {{fullName}}</div>
-
     <div class="navbar-custom-menu">
 
       <ul class="nav navbar-nav">
@@ -28,7 +27,7 @@
             <li class="header">Bạn có {{notiOnView.length}} thông báo!!!</li>
             <li>
               <ul class="menu">
-                <li *ngFor="let noti of notiOnView;let index = index;trackBy:trackByIndex;" >
+                <li *ngFor="let noti of notiOnView;let index = index;trackBy:trackByIndex;">
                   <a class="link" routerLink="/appointmentList" routerLinkActive="active" (click)="onSelectNotification(noti.id)">
                     <i class="fa fa-users text-aqua"></i> {{noti.message}}
                   </a>
@@ -40,8 +39,6 @@
             </li>
           </ul>
         </li>
-
-
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">

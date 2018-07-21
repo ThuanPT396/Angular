@@ -26,9 +26,9 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   confirmpw = ""
   textValidPW = "";
   textConfirmPW = "";
-  private notiRef: AngularFirestoreCollection;
-  private notiOnView: MyNotification[] = [];
-  private static isFirstRun = true;
+
+  notiRef: AngularFirestoreCollection;
+  notiOnView: MyNotification[] = [];  
   private isInit = true;
   private subscriptionAdded: ISubscription;
   private subscriptionNoti: ISubscription;

@@ -118,8 +118,8 @@ export class AppheaderComponent implements OnInit {
     localStorage.removeItem('username');
     localStorage.removeItem('fullName');
     localStorage.removeItem('role');
-    localStorage.removeItem('firebaseToken')
-
+    localStorage.removeItem('firebaseToken');
+    
   }
   checkPassword(username: string, password: string) {
     this.userService
@@ -149,6 +149,7 @@ export class AppheaderComponent implements OnInit {
           if (tmp.status == true) {
             this.toastService.Success("Thay đổi mật khẩu thành công")
             this.logout();
+            this.router.navigate(['/login']);
           }
           else {
             this.toastService.Error("Mật khẩu không đúng. Thay đổi mật khẩu thất bại")

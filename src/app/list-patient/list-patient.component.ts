@@ -178,7 +178,7 @@ export class ListPatientComponent implements OnInit {
           }
           for (var index in regimen.regimens) {
             var item = regimen.regimens[index];
-          this.listMedicine.push(new Medicines(item.medicineID, item.medicineID.toString(), item.description, item.quantity, item.unitName));
+            this.listMedicine.push(new Medicines(item.medicineID, item.medicineID.toString(), item.description, item.quantity, item.unitName));
 
           }
           //   this.listMedicine = [];
@@ -235,6 +235,7 @@ export class ListPatientComponent implements OnInit {
       })
   }
   onGetMedicine() {
+    this.medicines = [];
     this.medicineService
       .getMedicines()
       .subscribe((response) => {

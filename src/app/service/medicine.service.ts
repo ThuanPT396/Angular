@@ -5,6 +5,7 @@ import { BaseResponse } from "../model/BaseResponse.model";
 import { Medicine } from "../model/medicine.model";
 import { Disease } from "../model/disease.model";
 import { Prescription } from "../model/prescription.model";
+import { Regimen } from "../model/regimen.model";
 
 
 
@@ -44,5 +45,15 @@ export class MedicineService {
                 {
                     patientID: patientID
                 });
+    }
+    postRegimen(username,diseaseID){
+        return this
+        .http
+        .post<BaseResponse<Regimen>>(`${this.url}/regimen/getRegimen`,
+            {
+                username: username,
+                diseaseIDs: diseaseID,
+               
+            })
     }
 }

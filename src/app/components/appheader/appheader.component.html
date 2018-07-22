@@ -21,10 +21,11 @@
         <li class="dropdown notifications-menu" [style.display]="hidden ? 'none' : 'block'">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="far fa-bell"></i>
-            <span class="label label-danger">{{notiOnView.length}}</span>
+            <span class="label label-danger" *ngIf="notiOnView.length>0">{{notiOnView.length}}</span>
           </a>
-          <ul class="dropdown-menu">
-            <li class="header">Bạn có {{notiOnView.length}} thông báo!!!</li>
+          <ul class="dropdown-menu notify">
+            <li class="header" *ngIf="notiOnView.length>0">Bạn có {{notiOnView.length}} thông báo!!!</li>
+            <li class="header" *ngIf="notiOnView.length==0">Bạn không có thông báo!!!</li>
             <li>
               <ul class="menu">
                 <li *ngFor="let noti of notiOnView;let index = index;trackBy:trackByIndex;">
@@ -35,7 +36,7 @@
               </ul>
             </li>
             <li class="footer">
-              <a class="link" routerLink="/appointmentList" routerLinkActive="active" (click)="onClearNotification()">Xóa tất cả</a>
+              <a (click)="onClearNotification()">Xóa tất cả</a>
             </li>
           </ul>
         </li>

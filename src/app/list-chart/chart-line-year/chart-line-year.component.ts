@@ -6,6 +6,7 @@ import { MatDatepicker } from '@angular/material';
 import * as moment from 'moment'
 import * as GGChart from "../../../chart.js";
 import { Chart } from '../../model/chart.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-chart-line-year',
   templateUrl: './chart-line-year.component.html',
@@ -20,7 +21,7 @@ export class ChartLineYearComponent implements OnInit {
   startPicker = new FormControl(this.startDate);
   endPicker = new FormControl(this.endDate);
   selectedYear = new Date();
-  constructor(private appointmentService: AppointmentService, private toastService: ToasterService) { }
+  constructor(private appointmentService: AppointmentService, private toastService: ToasterService,private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.loadDataToChart(this.startDate, this.endDate)
@@ -59,12 +60,14 @@ export class ChartLineYearComponent implements OnInit {
   }
 
   loadDataToChart(startDate: Date, endDate: Date) {
+    this.spinner.show();
     var mStart = moment(startDate).startOf("year");
     var mEnd = moment(endDate).endOf("year");
     var username = localStorage.getItem('username');
     this.appointmentService
       .postChartByMonth(username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {
+        this.spinner.hide();
         var tmp = JSON.parse(JSON.stringify(response));
         console.log(tmp);
         var data = [];

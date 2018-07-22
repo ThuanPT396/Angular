@@ -25,6 +25,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxAlertsService } from '@ngx-plus/ngx-alerts'
 import { MessageService } from '../service/message.service';
+import { Regimen } from '../model/regimen.model';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -72,14 +73,14 @@ export class ListPatientComponent implements OnInit {
   //---------------------------------------------------------
   myOptions: Array<IOption> = [];
   selectedDisease = [];
-
-  asyncObservable() {
-    return new Observable(observer => {
-      setInterval(() => {
-        observer.next("Hi");
-      }, 1000)
-    })
-  }
+  listRegimen: Regimen[] = [];
+  // asyncObservable() {
+  //   return new Observable(observer => {
+  //     setInterval(() => {
+  //       observer.next("Hi");
+  //     }, 1000)
+  //   })
+  // }
   // --------------------------------------------------------
   genders = ["Nam", "Nữ", "Khác"]
   genderObj;
@@ -129,8 +130,6 @@ export class ListPatientComponent implements OnInit {
   ) {
     this._messageService.listen().subscribe((m: any) => {
       this.onRefreshData()
-      console.log(m);
-      this.onFilterClick(m);
     })
   }
   ngOnInit() {
@@ -144,9 +143,7 @@ export class ListPatientComponent implements OnInit {
     this.onGetMedicine();
     this.onGetDisease();
   }
-  onFilterClick(event) {
-    console.log('Fire onFilterClick: ', event);
-  }
+
   onAddMedicine() {
     this.listMedicine.push(new Medicines(0, "", "", 1, ""));
   }
@@ -161,9 +158,61 @@ export class ListPatientComponent implements OnInit {
       this.listMedicine[position].description = this.medicines[index].defaultDescription;
       this.listMedicine[position].quantity = this.medicines[index].defaultQuantity;
     }
-
-
     // console.log(this.medicines[index])
+  }
+  getListRegimen() {
+
+    console.log(this.listRegimen)
+    this.medicineService
+      .postRegimen(this.username, this.selectedDisease)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          //xoa list thuoc
+          this.listMedicine = [];
+          var regimen = tmp.value as Regimen;
+          this.remind = "";
+          for (var index in regimen.remindings) {
+            var reminding = regimen.remindings[index];
+            this.remind += index == "0" ? reminding : "; " + reminding;
+          }
+          for (var index in regimen.regimens) {
+            var item = regimen.regimens[index];
+          this.listMedicine.push(new Medicines(item.medicineID, item.medicineID.toString(), item.description, item.quantity, item.unitName));
+
+          }
+          //   this.listMedicine = [];
+          //   for (var i in tmp.value) {
+
+          //     var reg = tmp.value[i];
+          //     var result = new Regimen(reg.reminding, reg.medicines);
+
+          //     this.listRegimen.push(result)
+
+          //     result.remindingList
+          //     for (let j = 0; j < result.medicines.length; j++) {
+          //       // var position = this.medicines.findIndex(med => med.medicineID == result.medicines[j].medicineID);
+          //       this.listMedicine.push(new Medicines(result.medicines[j].medicineID, result.medicines[j].medicineID.toString(), result.medicines[j].description, result.medicines[j].quantity, result.medicines[j].unitName));
+          //     }
+          //     this.remind += this.listRegimen[i].remind + ", ";
+          //   }
+          //   this.toastService.Success("Lấy phác đồ thành công")
+          //   console.log(this.listRegimen)
+          //   while (this.listRegimen.length > 0) {
+          //     this.listRegimen.pop();
+          //   }
+        }
+        else {
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: tmp.error, } }.payload)
+        }
+      },
+        error => {
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Không thể kết nối với máy chủ', } }.payload)
+        }
+      );
+
+
+
   }
   onGetDisease() {
     this.medicineService
@@ -321,6 +370,8 @@ export class ListPatientComponent implements OnInit {
 
   }
   onPushPopupRecord(fullName: string, appID: number, phoneNumber: string) {
+
+
     this.remind = ""
     this.fullName = fullName;
     this.appID = appID;
@@ -337,6 +388,8 @@ export class ListPatientComponent implements OnInit {
       this.resultSymptoms.pop();
       this.symptoms.pop();
     }
+
+
   }
   onPushPopupDetail(appID: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === appID);

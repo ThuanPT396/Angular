@@ -146,7 +146,12 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-9 padd-right-none">
-              <ng-select [options]="myOptions" multiple="true" [(ngModel)]="selectedDisease">
+              <ng-select [options]="myOptions" 
+              [multiple]="true" 
+              bindLabel="name"
+               bindValue="id"
+               (selected)="getListRegimen()"
+                [(ngModel)]="selectedDisease" >
               </ng-select>
             </div>
           </div>
@@ -169,7 +174,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 scroll">
             <table class="table table-bordered">
               <thead>
                 <tr>

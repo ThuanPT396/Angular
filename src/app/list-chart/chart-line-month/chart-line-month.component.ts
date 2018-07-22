@@ -8,6 +8,7 @@ import * as GGChart from "../../../chart.js";
 import { Chart } from '../../model/chart.model';
 import { bind } from '../../../../node_modules/@angular/core/src/render3/instructions';
 import { basename } from 'path';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-chart-line-month',
   templateUrl: './chart-line-month.component.html',
@@ -22,7 +23,7 @@ export class ChartLineMonthComponent implements OnInit {
   startPicker = new FormControl(this.startDate);
   endPicker = new FormControl(this.endDate);
   selectedYear = new Date();
-  constructor(private appointmentService: AppointmentService, private toastService: ToasterService) { }
+  constructor(private appointmentService: AppointmentService, private toastService: ToasterService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.loadDataToChart(this.startDate, this.endDate)
@@ -61,12 +62,14 @@ export class ChartLineMonthComponent implements OnInit {
   }
 
   loadDataToChart(startDate: Date, endDate: Date) {
+    this.spinner.show();
     var mStart = moment(startDate).startOf("year");
     var mEnd = moment(endDate).endOf("year");
     var username = localStorage.getItem('username');
     this.appointmentService
       .postChartByMonth(username, mStart.format("YYYY-MM-DD"), mEnd.format("YYYY-MM-DD"))
       .subscribe((response) => {
+        this.spinner.hide();
         var tmp = JSON.parse(JSON.stringify(response));
         var datas = [];
         for (var i in tmp.value) {

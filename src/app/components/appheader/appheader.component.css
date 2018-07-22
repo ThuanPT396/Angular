@@ -30,3 +30,9 @@
     width: 76%;
     float: left;
 }
+a:hover {
+    cursor:pointer;
+   }
+ul.dropdown-menu.notify{
+width: 400px !important
+   }

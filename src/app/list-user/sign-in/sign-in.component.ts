@@ -81,9 +81,9 @@ export class SignInComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
 
         if (tmp.status == true) {
-          var currentDate = parseDate(tmp.value.expiredLicense);
-          var expiredDate = parseDate(tmp.value.currentTime);
-          if (tmp.value.isActive == 0){
+          var currentDate = parseDate(tmp.value.currentTime);
+          var expiredDate = parseDate(tmp.value.expiredLicense);
+          if (tmp.value.isActive == 0) {
             this.alerts.alertError({
               type: 'error', payload: {
                 title: 'Thông báo',
@@ -92,29 +92,31 @@ export class SignInComponent implements OnInit {
             }.payload)
 
             this.isLogin = true;
-          } else if (currentDate >= expiredDate) {
-            localStorage.setItem('username', tmp.value.username);
-            localStorage.setItem('fullName', tmp.value.fullName);
-            localStorage.setItem('clinicName', tmp.value.clinicName);
-            localStorage.setItem('phoneNumber', tmp.value.phoneNumber);
-            localStorage.setItem('role', tmp.value.role);
-            var role = localStorage.getItem('role');
-            if (role == '0') {
-              this.router.navigate(['/homeadmin'])
-            } else if (role == '1') {
-              this.router.navigate(['/homeclinic'])
-            } else if (role == '2') {
-              this.router.navigate(['/homestaff'])
-            }
           } else {
-            this.alerts.alertError({
-              type: 'error', payload: {
-                title: 'Thông báo',
-                text: 'Vui lòng gia hạn tài khoản để tiếp tục sử dụng hệ thống',
+            if (tmp.value.role == '1' && currentDate > expiredDate) {
+              this.alerts.alertError({
+                type: 'error', payload: {
+                  title: 'Thông báo',
+                  text: 'Vui lòng gia hạn tài khoản để tiếp tục sử dụng hệ thống',
+                }
+              }.payload)
+              this.isLogin = true;
+              return;
+            } else {
+              localStorage.setItem('username', tmp.value.username);
+              localStorage.setItem('fullName', tmp.value.fullName);
+              localStorage.setItem('clinicName', tmp.value.clinicName);
+              localStorage.setItem('phoneNumber', tmp.value.phoneNumber);
+              localStorage.setItem('role', tmp.value.role);
+              var role = localStorage.getItem('role');
+              if (role == '0') {
+                this.router.navigate(['/homeadmin'])
+              } else if (role == '1') {
+                this.router.navigate(['/homeclinic'])
+              } else if (role == '2') {
+                this.router.navigate(['/homestaff'])
               }
-            }.payload)
-
-            this.isLogin = true;
+            }
           }
         } else {
           this.alerts.alertError({

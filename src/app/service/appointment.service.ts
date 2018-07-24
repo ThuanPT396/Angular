@@ -5,6 +5,7 @@ import { BaseResponse } from "../model/BaseResponse.model";
 import { Appointment } from "../model/appointment.model";
 import { PhoneNumber } from "../model/phoneNumber.model";
 import { Patient } from "../model/patient.model";
+import { AppointmentList } from "../model/appointmentList.model";
 
 @Injectable()
 export class AppointmentService {
@@ -15,17 +16,17 @@ export class AppointmentService {
         if(date){
             return this
             .http
-            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDateForWeb?clinicUsername=${name}&date=${date}`);
+            .get<BaseResponse<AppointmentList>>(`${this.url}/appointment/getAppointmentsListByDateForWeb?clinicUsername=${name}&date=${date}`);
         }
         return this
             .http
-            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDateForWeb?clinicUsername=${name}`);
+            .get<BaseResponse<AppointmentList>>(`${this.url}/appointment/getAppointmentsListByDateForWeb?clinicUsername=${name}`);
     }
 
     postCheckStatus(clinicName,appointmentID,status){
         return this
             .http
-            .post<BaseResponse<Appointment[]>>(`${this.url}/appointment/checkVisit`,{
+            .post<BaseResponse<AppointmentList>>(`${this.url}/appointment/checkVisit`,{
                 clinicUsername:clinicName,
                 appointmentID:appointmentID,
                 status:status
@@ -35,7 +36,7 @@ export class AppointmentService {
     postBlockNumber(clinicName,phoneNumber,isBlock){
         return this
         .http
-        .post<BaseResponse<Appointment[]>>(`${this.url}/block/blockNumber`,{
+        .post<BaseResponse<AppointmentList>>(`${this.url}/block/blockNumber`,{
             clinicUsername:clinicName,
             phoneNumber:phoneNumber,
             isBlock:isBlock

@@ -312,12 +312,15 @@ export class ListPatientComponent implements OnInit {
         this.spinner.hide();
         var tmp = JSON.parse(JSON.stringify(response));
         var isCurrent = false;
-        for (var i in tmp.value) {
-          var app = tmp.value[i];
+        var value = tmp.value as AppointmentList;
+        // this.currentDate = value.currentTime
+        for (var i in value.appointments) {
+          var app = value.appointments[i] as Appointment;
           var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
+
           }
           if (result.isBlock === 1) {
             result.BisBlock = true

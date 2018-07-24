@@ -26,6 +26,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxAlertsService } from '@ngx-plus/ngx-alerts'
 import { MessageService } from '../service/message.service';
 import { Regimen } from '../model/regimen.model';
+import { AppointmentList } from '../model/appointmentList.model';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -97,7 +98,8 @@ export class ListPatientComponent implements OnInit {
   day = this.d.getDate();
   month = this.d.getMonth() + 1;
   year = this.d.getFullYear();
-  currentDate = this.year + "/" + this.month + "/" + this.day;
+   currentDate = this.year + "/" + this.month + "/" + this.day;
+  // currentDate = new Date()
   date = new FormControl(new Date());
   fullName = "";
   appID = 0;
@@ -275,12 +277,15 @@ export class ListPatientComponent implements OnInit {
         this.spinner.hide();
         var tmp = JSON.parse(JSON.stringify(response));
         var isCurrent = false;
-        for (var i in tmp.value) {
-          var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false,app.createdRecord);
+        var value = tmp.value as AppointmentList;
+        // this.currentDate = value.currentTime
+        for (var i in value.appointments) {
+          var app = value.appointments[i] as Appointment;
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
+
           }
           if (result.isBlock === 1) {
             result.BisBlock = true
@@ -309,7 +314,7 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false,app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -332,7 +337,7 @@ export class ListPatientComponent implements OnInit {
         })
   }
   onSelect(appID: number, choose: number) {
-    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID == appID);
     if (choose == 1) {
       choose = 0;
     } else choose = 1;
@@ -359,7 +364,7 @@ export class ListPatientComponent implements OnInit {
       );
   }
   CheckAttendanceForCreateRecord(appID: number, choose: number) {
-    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId == appID);
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID == appID);
     if (choose == 0) {
       choose = 1;
     }
@@ -389,7 +394,7 @@ export class ListPatientComponent implements OnInit {
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
-    if (format != this.currentDate) {
+    if (dateValue != this.currentDate) {
       this.disabled = true;
     } else {
       this.disabled = false;
@@ -402,8 +407,8 @@ export class ListPatientComponent implements OnInit {
     this.fullName = fullName;
     this.appID = appID;
     this.phoneNumber = phoneNumber
-    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
-    
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === this.appID);
+
     if (this.ELEMENT_DATA[index].createdRecord == true) {
       this.alerts.alertError({
         type: 'error', payload: {
@@ -427,10 +432,10 @@ export class ListPatientComponent implements OnInit {
 
   }
   onPushPopupDetail(appID: number) {
-    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === appID);
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
     this.appID = appID;
     this.patID = this.ELEMENT_DATA[index].patientID;
-    this.fullName = this.ELEMENT_DATA[index].patientName;
+    this.fullName = this.ELEMENT_DATA[index].fullName;
     this.phoneNumber = this.ELEMENT_DATA[index].phoneNumber;
     this.address = this.ELEMENT_DATA[index].address;
     if (this.ELEMENT_DATA[index].gender == "1") {
@@ -499,7 +504,7 @@ export class ListPatientComponent implements OnInit {
         return;
       }
     }
-    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentId === this.appID);
+    const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === this.appID);
     this.CheckAttendanceForCreateRecord(this.appID, this.ELEMENT_DATA[index].status)
   }
   createRecord() {
@@ -580,12 +585,12 @@ export class ListPatientComponent implements OnInit {
     this.ELEMENT_DATA = [];
     var pipe = new DatePipe('en-US');
     var format = pipe.transform(date, 'yyyy/M/dd');
-    this.onGetListByDate(format);
+    this.onGetListByDate(date);
     this.onGetMedicine();
     this.onGetDisease();
   }
   resetData() {
-    this.onRefreshDataByDate(this.selectedDate);
+    this.onRefreshDataDefault();
   }
 }
 

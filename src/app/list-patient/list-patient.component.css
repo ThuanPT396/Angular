@@ -9,7 +9,9 @@ th{
     font-weight: bold; 
     color: #222D32;
 }
-
+.cancel{
+    background-color: rgb(252, 212, 212) !important;
+}
 .negative {
     background-color: rgb(224, 224, 224) !important;
 }

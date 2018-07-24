@@ -12,9 +12,14 @@ export class AppointmentService {
     url = `${Final.API_ENDPOINT}`;
 
     getAppointments(name: string, date: string) {
+        if(date){
+            return this
+            .http
+            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDateForWeb?clinicUsername=${name}&date=${date}`);
+        }
         return this
             .http
-            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDateWithBlock?clinicUsername=${name}&date=${date}`);
+            .get<BaseResponse<Appointment[]>>(`${this.url}/appointment/getAppointmentsListByDateForWeb?clinicUsername=${name}`);
     }
 
     postCheckStatus(clinicName,appointmentID,status){

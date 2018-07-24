@@ -42,6 +42,9 @@ tr.mat-row:nth-child(odd){
 .fa-bell{
   font-size: 17px;
 }
+.fa-minus{
+  font-size: 20px;
+}
 .mat-form-field{
   line-height: 1 !important;
 }

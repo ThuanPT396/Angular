@@ -81,7 +81,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi toa </th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onPushPopupRecord(row.patientName,row.appointmentId,row.phoneNumber)" [hidden]="row.status==2">
-              <i *ngIf="row.createdRecord==true" class="fa fa-plus " style="color:#2B7FFF ">
+              <i *ngIf="row.createdRecord==true" class="fa fa-minus " style="color:#2B7FFF ">
               </i>
               <i *ngIf="row.createdRecord==false" data-toggle="modal" data-target="#medicalRecord" class="fa fa-plus " style="color:#2B7FFF ">
               </i>

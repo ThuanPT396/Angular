@@ -12,7 +12,7 @@ export class AppointmentService {
     constructor(private http: HttpClient) { }
     url = `${Final.API_ENDPOINT}`;
 
-    getAppointments(name: string, date: Date) {
+    getAppointments(name: string, date: string) {
         if(date){
             return this
             .http

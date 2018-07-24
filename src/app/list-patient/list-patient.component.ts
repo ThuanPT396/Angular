@@ -126,7 +126,7 @@ constructor(private appointmentService: AppointmentService,
   private _messageService: MessageService
 ) {
   this._messageService.listen().subscribe((m: any) => {
-    this.onGetDate(this.selectedDate)
+    this.onGetListDefault()
     this.date = new FormControl(new Date(this.selectedDate));
   })
 }
@@ -257,6 +257,7 @@ onGetRecord(patientID) {
 }
 onGetListDefault() {
   this.spinner.show();
+  this.ELEMENT_DATA=[]
   this.appointmentService
     .getAppointments(this.username, undefined)
     .subscribe((response) => {
@@ -294,8 +295,9 @@ onGetListDefault() {
 }
 onGetListByDate(date: Date) {
   this.spinner.show();
+  var format = this.pipe.transform(date, 'yyyy-MM-dd')
   this.appointmentService
-    .getAppointments(this.username, date)
+    .getAppointments(this.username, format)
     .subscribe((response) => {
       this.spinner.hide();
       var tmp = JSON.parse(JSON.stringify(response));
@@ -505,7 +507,7 @@ createRecord() {
     .subscribe((response) => {
       var tmp = JSON.parse(JSON.stringify(response));
       if (tmp.status == true) {
-
+        this.onRefreshDataByDate()
         this.toastService.Success("Tạo bệnh án thành công")
       }
       else {
@@ -542,10 +544,7 @@ onUpdateDetail(patID) {
     .subscribe((response) => {
       var tmp = JSON.parse(JSON.stringify(response));
       if (tmp.status == true) {
-        var pipe = new DatePipe('en-US');
-        var format = pipe.transform(this.selectedDate, 'yyyy-M-dd');
-        this.onRefreshDataByDate(format)
-        console.log(format)
+        this.onRefreshDataByDate()
         // console.log(parseDate(this.selectedDate))
         this.toastService.Success("Cập nhật thông tin thành công")
       }
@@ -570,10 +569,10 @@ onRefreshDataDefault() {
   this.onGetMedicine();
   this.onGetDisease();
 }
-onRefreshDataByDate(date) {
+onRefreshDataByDate() {
   this.ELEMENT_DATA = [];
 
-  this.onGetListByDate(date);
+  this.onGetListByDate(this.selectedDate);
   this.onGetMedicine();
   this.onGetDisease();
 }

@@ -27,6 +27,7 @@ import { NgxAlertsService } from '@ngx-plus/ngx-alerts'
 import { MessageService } from '../service/message.service';
 import { Regimen } from '../model/regimen.model';
 import { AppointmentList } from '../model/appointmentList.model';
+import { parseDate } from 'ngx-bootstrap/chronos';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -94,13 +95,13 @@ export class ListPatientComponent implements OnInit {
   medicines: Medicine[] = [];
   ELEMENT_DATA: Appointment[] = [];
   pipe = new DatePipe('en-US');
-  d = new Date();
-  day = this.d.getDate();
-  month = this.d.getMonth() + 1;
-  year = this.d.getFullYear();
-   currentDate = this.year + "/" + this.month + "/" + this.day;
-  // currentDate = new Date()
-  date = new FormControl(new Date());
+  // d = new Date();
+  // day = this.d.getDate();
+  // month = this.d.getMonth() + 1;
+  // year = this.d.getFullYear();
+  //  currentDate = this.year + "/" + this.month + "/" + this.day;
+  currentDate = new Date();
+  date = new FormControl();
   fullName = "";
   appID = 0;
   phoneNumber = "";
@@ -139,10 +140,11 @@ export class ListPatientComponent implements OnInit {
   }
   ngOnInit() {
     // this.asyncObservable().subscribe(data=>{console.log(data);}) 
-    this.date;
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.onRefreshDataDefault()
+    // this.date.setValue(new Date(this.currentDate));
     // this.onGetList(d);
     // this.onGetMedicine();
     // this.onGetDisease();
@@ -278,7 +280,8 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         var isCurrent = false;
         var value = tmp.value as AppointmentList;
-        // this.currentDate = value.currentTime
+        this.currentDate = value.currentTime
+        this.date.setValue(this.currentDate);
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
           var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
@@ -304,7 +307,7 @@ export class ListPatientComponent implements OnInit {
           }.payload)
         })
   }
-  onGetListByDate(date: string) {
+  onGetListByDate(date: Date) {
     this.spinner.show();
     this.appointmentService
       .getAppointments(this.username, date)
@@ -313,7 +316,7 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         var isCurrent = false;
         var value = tmp.value as AppointmentList;
-        // this.currentDate = value.currentTime
+        this.currentDate = value.currentTime
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
           var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
@@ -390,7 +393,7 @@ export class ListPatientComponent implements OnInit {
         }
       );
   }
-  onGetDate(dateValue: string) {
+  onGetDate(dateValue: Date) {
     var format = this.pipe.transform(dateValue, 'yyyy/M/d')
     this.selectedDate = new Date(dateValue);
     // var d = this.date = dateValue;
@@ -402,7 +405,7 @@ export class ListPatientComponent implements OnInit {
     } else {
       this.disabled = false;
     }
-    this.onGetListByDate(format);
+    this.onGetListByDate(dateValue);
   }
 
   onPushPopupRecord(fullName: string, appID: number, phoneNumber: string) {

@@ -7,8 +7,6 @@ import { PhoneNumber } from "../model/phoneNumber.model";
 import { Patient } from "../model/patient.model";
 import { AppointmentList } from "../model/appointmentList.model";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { UserTest, IUserResponse } from "../model/user.class";
 
 @Injectable()
 export class AppointmentService {

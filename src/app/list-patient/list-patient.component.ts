@@ -29,8 +29,6 @@ import { Regimen } from '../model/regimen.model';
 import { AppointmentList } from '../model/appointmentList.model';
 import { Patient } from '../model/patient.model';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { UserTest } from '../model/user.class';
-import { BaseResponse } from '../model/BaseResponse.model';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',

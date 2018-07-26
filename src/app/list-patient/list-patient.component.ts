@@ -42,7 +42,7 @@ export class ListPatientComponent implements OnInit {
   listPatients: Patient[] = [];
   usersForm: FormGroup;
   isLoading = false;
-  newPatient = new Patient(null,"","",null,null,null)
+  newPatient = new Patient(null, "", "", null, null, null)
   //---------------------------------------------
 
   visible = true;
@@ -105,6 +105,7 @@ export class ListPatientComponent implements OnInit {
   address = "";
   remind = "";
   patID = 0;
+  selectTabs = 0;
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -147,18 +148,18 @@ export class ListPatientComponent implements OnInit {
         debounceTime(500),
         tap(() => {
           this.isLoading = true;
-          
+
         }),
         switchMap(value => this.appointmentService.search(this.username, value)
           .pipe(
             tap((response) => {
               return response;
-              
+
             })
           )
-            .pipe(
-              finalize(() => this.isLoading = false),
-          )
+          .pipe(
+            finalize(() => this.isLoading = false),
+        )
         )
       )
       .subscribe(response => {
@@ -464,6 +465,19 @@ export class ListPatientComponent implements OnInit {
 
 
   }
+  testthu() {
+    console.log(this.selectTabs)
+  }
+  selectIndexTab(index: number) {
+    console.log(index)
+    if (index == 1) {
+      this.selectTabs = 1
+    } else if (index == 2) {
+      this.selectTabs = 2
+    } else {
+      this.selectTabs = 3
+    }
+  }
   onPushPopupDetail(appID: number) {
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
     this.appID = appID;
@@ -620,27 +634,27 @@ export class ListPatientComponent implements OnInit {
     console.log(this.selectedDate)
   }
 
-  onSubmitMergePatient(){
+  onSubmitMergePatient() {
     this.appointmentService
-    .postMergePatient(this.patID,this.newPatient.patientID)
-    .subscribe((response) => {
-      var tmp = JSON.parse(JSON.stringify(response));
-      if (tmp.status == true) {
-        this.onRefreshDataByDate()
-        this.toastService.Success("Cập nhật thông tin thành công")
-      }
-      else {
-        this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: tmp.error, } }.payload)
-      }
-    },
-      error => {
-        this.alerts.alertError({
-          type: 'error', payload: {
-            title: 'Thông báo',
-            text: 'Không thể kết nối với máy chủ',
-          }
-        }.payload)
-      })
+      .postMergePatient(this.patID, this.newPatient.patientID)
+      .subscribe((response) => {
+        var tmp = JSON.parse(JSON.stringify(response));
+        if (tmp.status == true) {
+          this.onRefreshDataByDate()
+          this.toastService.Success("Cập nhật thông tin thành công")
+        }
+        else {
+          this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: tmp.error, } }.payload)
+        }
+      },
+        error => {
+          this.alerts.alertError({
+            type: 'error', payload: {
+              title: 'Thông báo',
+              text: 'Không thể kết nối với máy chủ',
+            }
+          }.payload)
+        })
   }
 }
 

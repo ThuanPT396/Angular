@@ -341,42 +341,46 @@
             </div>
             <div id="merge" class="tab-pane fade">
               <div class="col-md-12 form-group" style="margin-top: 20px">
+                <div class="col-md-6 text-center">
+                  <h3>Bệnh nhân hiện tại</h3>
+                </div>
+                <div class="col-md-6 text-center padd-right-none">
+                  <div>
+                    <h3>Bệnh nhân thay thế</h3>
+                    <form class="example-form" [formGroup]='usersForm'>
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Tìm kiếm bệnh nhân" [matAutocomplete]="auto" formControlName='patientInput'>
+                      </mat-form-field>
+                      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngIf="isLoading" class="is-loading">
+                          <mat-spinner [diameter]="30"></mat-spinner>
+                        </mat-option>
+                        <ng-container *ngIf="!isLoading">
+                          <mat-option *ngIf="listPatients.length==0" [value]="patient">
+                            <div>Không có kết quả để hiển thị</div>
+                          </mat-option>
+                          <mat-option *ngFor="let patient of listPatients" [value]="patient" (click)="getResultNewPatient(patient)">
+                            <div *ngIf="listPatients.length>0">{{ patient.fullName }} | {{patient.phoneNumber}}</div>
+                          </mat-option>
+                        </ng-container>
+                      </mat-autocomplete>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 form-group">
                 <div class="col-md-6 padd-left-none">
                   <label for="username">Họ và Tên</label>
                   <input type="text" class="form-control" [(ngModel)]="fullName" disabled> </div>
                 <div class="col-md-6 padd-right-none">
-                  <label for="fullName">Số điện thoại</label>
-                  <input type="text" class="form-control" [(ngModel)]="phoneNumber" disabled>
-                </div>
-              </div>
-              <div class="col-md-12 form-group">
-                <form class="example-form" [formGroup]='usersForm'>
-                  <input matInput placeholder="Tìm kiếm bệnh nhân" [matAutocomplete]="auto" formControlName='patientInput'>
-                  <!-- <span>Your choice is: {{usersForm.get('patientInput').value | json}}</span> -->
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngIf="isLoading" class="is-loading">
-                      <mat-spinner [diameter]="30"></mat-spinner>
-                    </mat-option>
-                    <ng-container *ngIf="!isLoading">
-                      <mat-option  *ngIf="listPatients.length==0" [value]="patient">
-                          <div>Không có kết quả để hiển thị</div>
-                      </mat-option>
-                      
-                      <mat-option *ngFor="let patient of listPatients" [value]="patient" (click)="getResultNewPatient(patient)">
-
-                        <div *ngIf="listPatients.length>0">{{ patient.fullName }} | {{patient.phoneNumber}}</div>
-                      </mat-option>
-
-                    </ng-container>
-
-                  </mat-autocomplete>
-
-                </form>
+                  <label for="username">Họ và Tên</label>
+                  <input type="text" class="form-control" [(ngModel)]="newPatient.fullName" disabled> </div>
               </div>
               <div class="col-md-12 form-group">
                 <div class="col-md-6 padd-left-none">
-                  <label for="username">Họ và Tên</label>
-                  <input type="text" class="form-control" [(ngModel)]="newPatient.fullName" disabled> </div>
+                  <label for="fullName">Số điện thoại</label>
+                  <input type="text" class="form-control" [(ngModel)]="phoneNumber" disabled>
+                </div>
                 <div class="col-md-6 padd-right-none">
                   <label for="fullName">Số điện thoại</label>
                   <input type="text" class="form-control" [(ngModel)]="newPatient.phoneNumber" disabled>
@@ -394,7 +398,29 @@
 
   </div>
 </div>
-
+<!-- Test form mơi -->
+<div id="detailPopup1111" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center"> Toa thuốc</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <mat-tab-group>
+            <mat-tab label="First" (select)="selectIndexTab(1)"> Content 1 </mat-tab>
+            <mat-tab label="Second" (select)="selectIndexTab(2)"> Content 2 </mat-tab>
+            <mat-tab label="Third" (select)="selectIndexTab(3)"> Content 3 </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="testthu()">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Popup Đơn thuốc -->
 <div id="PrescriptionModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">

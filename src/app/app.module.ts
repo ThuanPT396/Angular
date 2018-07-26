@@ -62,6 +62,8 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  MatFormFieldModule
+  
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
@@ -111,6 +113,7 @@ import { MessageService } from './service/message.service';
     MatExpansionModule,
     MatGridListModule,
     MatIconModule,
+    MatFormFieldModule,
     MatInputModule,
     MatListModule,
     MatMenuModule,
@@ -131,6 +134,7 @@ import { MessageService } from './service/message.service';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    
   ],
 })
 export class DemoMaterialModule { }

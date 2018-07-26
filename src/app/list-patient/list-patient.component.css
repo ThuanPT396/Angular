@@ -60,3 +60,9 @@ ul.nav-tabs>li.active{
 button.btn-lg{
     padding: 13px 16px;
 }
+
+
+.is-loading ::ng-deep .mat-option-text {
+    display: flex;
+    justify-content: center;
+  }

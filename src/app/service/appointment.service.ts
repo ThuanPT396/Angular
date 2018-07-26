@@ -6,6 +6,9 @@ import { Appointment } from "../model/appointment.model";
 import { PhoneNumber } from "../model/phoneNumber.model";
 import { Patient } from "../model/patient.model";
 import { AppointmentList } from "../model/appointmentList.model";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { UserTest, IUserResponse } from "../model/user.class";
 
 @Injectable()
 export class AppointmentService {
@@ -88,6 +91,22 @@ export class AppointmentService {
             address:address,
             yob:yob,
             gender:gender
+        });
+    }
+
+    search(username: string, searchValue: string): Observable<BaseResponse<Patient[]>> {
+        return this.http.post<BaseResponse<Patient[]>>(`${this.url}/patient/search`, {
+            username: username,
+            searchValue: searchValue
+        })
+      }
+
+      postMergePatient(oldPatientID,newPatientID){
+        return this
+        .http
+        .post<BaseResponse<Patient[]>>(`${this.url}/patient/merge`,{
+            oldPatientID:oldPatientID,
+            newPatientID:newPatientID,
         });
     }
 }

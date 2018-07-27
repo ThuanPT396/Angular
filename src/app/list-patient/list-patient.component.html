@@ -503,12 +503,12 @@
               </div>
               <div class="col-md-12 form-group">
                 <div class="col-md-4 padd-left-none">
-                  <h3 style="float: left;">Bệnh nhân mới- Tìm kiếm:</h3>
+                  <h3>Bệnh nhân mới | Tìm kiếm:</h3>
                 </div>
                 <div class="col-md-8 padd-right-none" style="margin-top: 5px">
                   <form class="example-form" [formGroup]='usersForm'>
                     <mat-form-field class="example-full-width">
-                      <input matInput [matAutocomplete]="auto" formControlName='patientInput'>
+                      <input matInput placeholder="Nhập bệnh nhân cần tìm" [matAutocomplete]="auto" formControlName='patientInput'>
                     </mat-form-field>
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                       <mat-option *ngIf="isLoading" class="is-loading">

@@ -470,17 +470,19 @@ export class ListPatientComponent implements OnInit {
 
   }
   selectIndexTab(event: MatTabChangeEvent) {
-  console.log('event => ', event);
-  console.log('index => ', event.index);
-  console.log('tab => ', event.tab);
-    // console.log(index)
-    // if (index == 1) {
-    //   this.selectTabs = 1
-    // } else if (index == 2) {
-    //   this.selectTabs = 2
-    // } else {
-    //   this.selectTabs = 3
-    // }
+  // console.log('event => ', event);
+  // console.log('index => ', event.index);
+  // console.log('tab => ', event.tab);
+    if (event.index == 0) {
+      this.selectTabs = 0
+      console.log('index => ', this.selectTabs );
+    } else if (event.index == 1) {
+      this.selectTabs = 1
+      console.log('index => ', this.selectTabs );
+    } else {
+      this.selectTabs = 2
+      console.log('index => ', this.selectTabs );
+    }
   }
   onPushPopupDetail(appID: number) {
     this.newPatient=new Patient(null, "", "", null, null, null);

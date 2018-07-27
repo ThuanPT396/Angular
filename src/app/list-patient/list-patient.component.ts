@@ -9,6 +9,7 @@ import {
   MatDatepicker,
   MAT_CHECKBOX_CLICK_ACTION,
   MatChipInputEvent,
+  MatTabChangeEvent,
 } from '@angular/material';
 import { ToasterService } from '../service/toast/toaster.service';
 
@@ -105,7 +106,7 @@ export class ListPatientComponent implements OnInit {
   address = "";
   remind = "";
   patID = 0;
-  selectTabs = 0;
+  selectTabs =0;
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -137,6 +138,13 @@ export class ListPatientComponent implements OnInit {
     })
   }
   ngOnInit() {
+    this.onGetPatientList();
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.onRefreshDataDefault()
+  }
+  onGetPatientList(){
     this.usersForm = this.fb.group({
       patientInput: null
     })
@@ -167,10 +175,6 @@ export class ListPatientComponent implements OnInit {
         this.listPatients = response.value;
         console.log(this.listPatients)
       });
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.onRefreshDataDefault()
   }
   displayFn(patient: Patient) {
     if (patient) { return patient.fullName; }
@@ -465,20 +469,22 @@ export class ListPatientComponent implements OnInit {
 
 
   }
-  testthu() {
-    console.log(this.selectTabs)
-  }
-  selectIndexTab(index: number) {
-    console.log(index)
-    if (index == 1) {
-      this.selectTabs = 1
-    } else if (index == 2) {
-      this.selectTabs = 2
-    } else {
-      this.selectTabs = 3
-    }
+  selectIndexTab(event: MatTabChangeEvent) {
+  console.log('event => ', event);
+  console.log('index => ', event.index);
+  console.log('tab => ', event.tab);
+    // console.log(index)
+    // if (index == 1) {
+    //   this.selectTabs = 1
+    // } else if (index == 2) {
+    //   this.selectTabs = 2
+    // } else {
+    //   this.selectTabs = 3
+    // }
   }
   onPushPopupDetail(appID: number) {
+    this.newPatient=new Patient(null, "", "", null, null, null);
+    this.onGetPatientList();
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
     this.appID = appID;
     this.patID = this.ELEMENT_DATA[index].patientID;

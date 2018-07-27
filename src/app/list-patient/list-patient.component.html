@@ -386,13 +386,16 @@
                   <input type="text" class="form-control" [(ngModel)]="newPatient.phoneNumber" disabled>
                 </div>
               </div>
+              <div class="col-md-12 form-group text-right">
+                <button class="btn btn-primary" hidden="" data-dismiss="modal" (click)="onSubmitMergePatient()">Chuyển đổi</button>
+
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-        <button class="btn btn-primary" hidden="" data-dismiss="modal" (click)="onSubmitMergePatient()">Chuyển đổi</button>
       </div>
     </div>
 
@@ -408,15 +411,15 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <mat-tab-group>
-            <mat-tab label="First" (select)="selectIndexTab(1)"> Content 1 </mat-tab>
-            <mat-tab label="Second" (select)="selectIndexTab(2)"> Content 2 </mat-tab>
-            <mat-tab label="Third" (select)="selectIndexTab(3)"> Content 3 </mat-tab>
+          <mat-tab-group  (selectedTabChange)="selectIndexTab($event)">
+            <mat-tab label="First" > Content 1 </mat-tab>
+            <mat-tab label="Second" > Content 2 </mat-tab>
+            <mat-tab label="Third"> Content 3 </mat-tab>
           </mat-tab-group>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="testthu()">Đóng</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>

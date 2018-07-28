@@ -80,7 +80,6 @@
             ],
             "scripts": ["src/chart.js"],
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ]
           }

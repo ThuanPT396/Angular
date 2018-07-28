@@ -27,8 +27,9 @@
 
 .navbar-inner{
     text-align:center;
-    width: 76%;
+    width: 50%;
     float: left;
+    margin-left:15%
 }
 a:hover {
     cursor:pointer;

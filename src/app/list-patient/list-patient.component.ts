@@ -43,7 +43,7 @@ export class ListPatientComponent implements OnInit {
   listPatients: Patient[] = [];
   usersForm: FormGroup;
   isLoading = false;
-  newPatient = new Patient(null, "", "", null, null, null)
+  newPatient = new Patient(null, "", "","", null, null, null)
   //---------------------------------------------
 
   visible = true;
@@ -103,6 +103,7 @@ export class ListPatientComponent implements OnInit {
   fullName = "";
   appID = 0;
   phoneNumber = "";
+  secondPhoneNumber=""
   address = "";
   remind = "";
   patID = 0;
@@ -314,7 +315,7 @@ export class ListPatientComponent implements OnInit {
         this.date.setValue(this.selectedDate);
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber,app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -350,7 +351,7 @@ export class ListPatientComponent implements OnInit {
         // this.selectedDate = value.currentTime
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber,app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -475,23 +476,21 @@ export class ListPatientComponent implements OnInit {
   // console.log('tab => ', event.tab);
     if (event.index == 0) {
       this.selectTabs = 0
-      console.log('index => ', this.selectTabs );
     } else if (event.index == 1) {
       this.selectTabs = 1
-      console.log('index => ', this.selectTabs );
     } else {
       this.selectTabs = 2
-      console.log('index => ', this.selectTabs );
     }
   }
   onPushPopupDetail(appID: number) {
-    this.newPatient=new Patient(null, "", "", null, null, null);
+    this.newPatient=new Patient(null, "", "","", null, null, null);
     this.onGetPatientList();
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
     this.appID = appID;
     this.patID = this.ELEMENT_DATA[index].patientID;
     this.fullName = this.ELEMENT_DATA[index].fullName;
     this.phoneNumber = this.ELEMENT_DATA[index].phoneNumber;
+    this.secondPhoneNumber= this.ELEMENT_DATA[index].secondPhoneNumber;
     this.address = this.ELEMENT_DATA[index].address;
     if (this.ELEMENT_DATA[index].gender == "1") {
       this.genderObj = "Nam"
@@ -573,7 +572,6 @@ export class ListPatientComponent implements OnInit {
         }
         else {
           this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: tmp.error, } }.payload)
-
         }
       },
         error => {
@@ -595,9 +593,17 @@ export class ListPatientComponent implements OnInit {
     } else {
       this.ELEMENT_DATA[index].gender = "0";
     }
+    console.log(this.ELEMENT_DATA[index].patientID)
+    console.log(this.phoneNumber)
+    console.log(this.secondPhoneNumber)
+    console.log(this.fullName)
+    console.log(this.address)
+    console.log( new Date(this.yob))
+    console.log( this.ELEMENT_DATA[index].gender)
     this.appointmentService
       .postUpdatePatient(this.ELEMENT_DATA[index].patientID,
         this.phoneNumber,
+        this.secondPhoneNumber,
         this.fullName,
         this.address,
         new Date(this.yob),

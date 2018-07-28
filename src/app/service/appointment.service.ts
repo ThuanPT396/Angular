@@ -79,12 +79,13 @@ export class AppointmentService {
         });
     }
 
-    postUpdatePatient(patientID,phoneNumber,fullName,address,yob,gender){
+    postUpdatePatient(patientID,phoneNumber,secondPhoneNumber,fullName,address,yob,gender){
         return this
         .http
-        .post<BaseResponse<Appointment[]>>(`${this.url}/patient/update`,{
+        .post<BaseResponse<Patient[]>>(`${this.url}/patient/update`,{
             patientID:patientID,
             phoneNumber:phoneNumber,
+            secondPhoneNumber:secondPhoneNumber,
             fullName:fullName,
             address:address,
             yob:yob,

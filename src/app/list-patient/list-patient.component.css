@@ -59,6 +59,7 @@ ul.nav-tabs>li.active{
 }
 button.btn-lg{
     padding: 13px 16px;
+    width: 100%;
 }
 
 
@@ -66,3 +67,9 @@ button.btn-lg{
     display: flex;
     justify-content: center;
   }
+.layout-mat-option{
+    width: 77%;
+    margin-top: 5px;
+    margin-left: 40px;
+
+}

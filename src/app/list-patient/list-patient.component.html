@@ -44,7 +44,7 @@
             <mat-datepicker md-mode="month" #picker1></mat-datepicker>
           </mat-form-field>
         </div>
-        <div class="col-md-2" style="padding-top: 4px">
+        <div class="col-md-2 padd-right-none" style="padding-top: 4px">
           <button type="button" class="btn btn-primary btn-lg" (click)="resetData()">
             Làm mới dữ liệu
           </button>
@@ -238,167 +238,6 @@
   </div>
 </div>
 <!-- Popup thông tin chi tiết -->
-<div id="detailPopup111" class="modal fade" role="dialog" data-backdrop="false" style="z-index: 1000;">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title text-center"> Thông tin chi tiết bệnh nhân</h3>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <ul class="nav nav-tabs">
-            <li class="active">
-              <a data-toggle="tab" href="#home">Thông tin cá nhân</a>
-            </li>
-            <li>
-              <a data-toggle="tab" href="#menu1">Lịch sử khám bệnh</a>
-            </li>
-            <li>
-              <a data-toggle="tab" href="#merge">Chuyển đổi Bệnh nhân</a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div id="home" class="tab-pane fade in active">
-              <div class="col-md-12 form-group" style="margin-top: 20px">
-                <div class="col-md-6 padd-left-none">
-                  <label for="username">Họ và Tên</label>
-                  <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName"> </div>
-                <div class="col-md-6 padd-right-none">
-                  <label for="fullName">Số điện thoại</label>
-                  <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber" disabled>
-                </div>
-              </div>
-              <div class="col-md-12 form-group">
-                <label for="address" class=" padd-left-none">Địa chỉ</label>
-                <input type="text" id="address" class="form-control" [(ngModel)]="address">
-              </div>
-              <div class="col-md-12 form-group">
-                <div class="col-md-6 padd-left-none">
-                  <label for="yob">Ngày sinh</label>
-                  <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
-
-                <div class="col-md-6 padd-right-none">
-                  <label for="sex">Giới tính</label>
-                  <select class="form-control" id="sex" [(ngModel)]="genderObj">
-                    <option *ngFor="let gender of genders" [ngValue]="gender"> {{gender}} </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-12 form-group text-right">
-                <button class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin bệnh nhân</button>
-              </div>
-            </div>
-            <div id="menu1" class="tab-pane fade">
-              <div class="col-md-12 form-group text-center">
-                <h3>
-                  Bệnh nhân {{fullName}}
-                </h3>
-              </div>
-              <div class="col-md-12 scroll">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th class="text-center" style="width: 5% !important">STT</th>
-                      <th class="text-center">Tên Bệnh</th>
-                      <!-- <th class="text-center" style="width: 30% !important">Triệu chứng lâm sàng</th> -->
-                      <th class="text-center" style="width: 20% !important">Thời gian</th>
-                      <th class="text-center" style="width: 10% !important">Chi tiết</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-
-                    <tr *ngFor="let record of records;let index = index;trackBy:trackByIndex;">
-                      <td class="text-center">
-                        <label style="margin-top: 7px">{{index+1}}</label>
-                      </td>
-                      <td>
-                        <div class="text-center">
-                          <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
-                        </div>
-                      </td>
-                      <!-- <td class="text-center">
-                        <label style="margin-top: 7px">{{records[index].presentSymptoms}}</label>
-                      </td> -->
-                      <td class="text-center">
-                        <label style="margin-top: 7px">{{records[index].appointmentTime | date:'dd/MM/yyyy'}}</label>
-                      </td>
-                      <td class="text-center">
-                        <a>
-                          <i style="margin-top: 7px" data-toggle="modal" data-target="#PrescriptionModal" (click)="getIndexRecord(index)" class="fa fa-eye"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                </table>
-                <div *ngIf="records.length===0" class="text-center">
-                  <label style="margin-top: 7px">Không có kết quả để hiển thị</label>
-                </div>
-              </div>
-            </div>
-            <div id="merge" class="tab-pane fade">
-              <div class="col-md-12 form-group" style="margin-top: 20px">
-                <div class="col-md-6 text-center">
-                  <h3>Bệnh nhân hiện tại</h3>
-                </div>
-                <div class="col-md-6 text-center padd-right-none">
-                  <div>
-                    <h3>Bệnh nhân thay thế</h3>
-                    <form class="example-form" [formGroup]='usersForm'>
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Tìm kiếm bệnh nhân" [matAutocomplete]="auto" formControlName='patientInput'>
-                      </mat-form-field>
-                      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                        <mat-option *ngIf="isLoading" class="is-loading">
-                          <mat-spinner [diameter]="30"></mat-spinner>
-                        </mat-option>
-                        <ng-container *ngIf="!isLoading">
-                          <mat-option *ngIf="listPatients.length==0" [value]="patient">
-                            <div>Không có kết quả để hiển thị</div>
-                          </mat-option>
-                          <mat-option *ngFor="let patient of listPatients" [value]="patient" (click)="getResultNewPatient(patient)">
-                            <div *ngIf="listPatients.length>0">{{ patient.fullName }} | {{patient.phoneNumber}}</div>
-                          </mat-option>
-                        </ng-container>
-                      </mat-autocomplete>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 form-group">
-                <div class="col-md-6 padd-left-none">
-                  <label for="username">Họ và Tên</label>
-                  <input type="text" class="form-control" [(ngModel)]="fullName" disabled> </div>
-                <div class="col-md-6 padd-right-none">
-                  <label for="username">Họ và Tên</label>
-                  <input type="text" class="form-control" [(ngModel)]="newPatient.fullName" disabled> </div>
-              </div>
-              <div class="col-md-12 form-group">
-                <div class="col-md-6 padd-left-none">
-                  <label for="fullName">Số điện thoại</label>
-                  <input type="text" class="form-control" [(ngModel)]="phoneNumber" disabled>
-                </div>
-                <div class="col-md-6 padd-right-none">
-                  <label for="fullName">Số điện thoại</label>
-                  <input type="text" class="form-control" [(ngModel)]="newPatient.phoneNumber" disabled>
-                </div>
-              </div>
-              <div class="col-md-12 form-group text-right">
-                <button class="btn btn-primary" hidden="" data-dismiss="modal" (click)="onSubmitMergePatient()">Chuyển đổi</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Test form mơi -->
 <div id="detailPopup" class="modal fade" role="dialog" data-backdrop="false" style="z-index: 1000;">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -413,24 +252,28 @@
               <div class="col-md-12 form-group" style="margin-top: 20px">
                 <div class="col-md-6 padd-left-none">
                   <label for="username">Họ và Tên</label>
-                  <input type="text" id="fullName" class="form-control" [(ngModel)]="fullName"> </div>
-                <div class="col-md-6 padd-right-none">
-                  <label for="fullName">Số điện thoại</label>
-                  <input type="text" id="phoneNumber" class="form-control" [(ngModel)]="phoneNumber" disabled>
+                  <input type="text" class="form-control" [(ngModel)]="fullName"> </div>
+                <div class="col-md-3">
+                  <label for="fullName">Số điện thoại chính</label>
+                  <input type="text" class="form-control" [(ngModel)]="phoneNumber" >
+                </div>
+                <div class="col-md-3 padd-right-none">
+                  <label for="fullName">Số điện thoại phụ</label>
+                  <input type="text" class="form-control" [(ngModel)]="secondPhoneNumber" >
                 </div>
               </div>
               <div class="col-md-12 form-group">
                 <label for="address" class=" padd-left-none">Địa chỉ</label>
-                <input type="text" id="address" class="form-control" [(ngModel)]="address">
+                <input type="text" class="form-control" [(ngModel)]="address">
               </div>
               <div class="col-md-12 form-group">
                 <div class="col-md-6 padd-left-none">
                   <label for="yob">Ngày sinh</label>
-                  <input type="date" id="yob" class="form-control" [(ngModel)]="yob"> </div>
+                  <input type="date" class="form-control" [(ngModel)]="yob"> </div>
 
                 <div class="col-md-6 padd-right-none">
                   <label for="sex">Giới tính</label>
-                  <select class="form-control" id="sex" [(ngModel)]="genderObj">
+                  <select class="form-control" [(ngModel)]="genderObj">
                     <option *ngFor="let gender of genders" [ngValue]="gender"> {{gender}} </option>
                   </select>
                 </div>
@@ -486,7 +329,7 @@
               </div>
             </mat-tab>
             <mat-tab label="Chuyển đổi Bệnh nhân">
-              <div class="col-md-12 form-group" style="margin-top: 20px">
+              <div class="col-md-12 form-group">
                 <div class="col-md-6 padd-left-none">
                   <h3>Bệnh nhân hiện tại</h3>
                 </div>
@@ -497,18 +340,17 @@
                   <label for="usernameOld">Họ và Tên</label>
                   <input type="text" class="form-control" [(ngModel)]="fullName" disabled> </div>
                 <div class="col-md-6 padd-right-none">
-                  <label for="phoneNumberOld">Số điện thoại</label>
+                  <label for="phoneNumberOld">Số điện thoại chính</label>
                   <input type="text" class="form-control" [(ngModel)]="phoneNumber" disabled>
                 </div>
               </div>
-              <div class="col-md-12 form-group">
-                <div class="col-md-4 padd-left-none">
-                  <h3>Bệnh nhân mới | Tìm kiếm:</h3>
-                </div>
-                <div class="col-md-8 padd-right-none" style="margin-top: 5px">
-                  <form class="example-form" [formGroup]='usersForm'>
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Nhập bệnh nhân cần tìm" [matAutocomplete]="auto" formControlName='patientInput'>
+              <div class="col-md-12 form-group" style="float: left;">
+                
+                  <h3 style="float: left;">Bệnh nhân mới</h3>
+               
+                  <form class="example-form " [formGroup]='usersForm' >
+                    <mat-form-field class="example-full-width layout-mat-option">
+                      <input matInput placeholder="Tìm kiếm bệnh nhân bằng tên hoặc số điện thoại" [matAutocomplete]="auto" formControlName='patientInput'>
                     </mat-form-field>
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                       <mat-option *ngIf="isLoading" class="is-loading">
@@ -524,7 +366,7 @@
                       </ng-container>
                     </mat-autocomplete>
                   </form>
-                </div>
+           
               </div>
               <div class="col-md-12 form-group">
                 <div class="col-md-6 padd-left-none">
@@ -532,7 +374,7 @@
                   <input type="text" class="form-control" [(ngModel)]="newPatient.fullName" disabled>
                 </div>
                 <div class="col-md-6 padd-right-none">
-                  <label for="phoneNumberNew">Số điện thoại</label>
+                  <label for="phoneNumberNew">Số điện thoại phụ</label>
                   <input type="text" class="form-control" [(ngModel)]="newPatient.phoneNumber" disabled>
                 </div>
               </div>

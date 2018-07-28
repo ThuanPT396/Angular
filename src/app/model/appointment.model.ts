@@ -9,6 +9,7 @@ export class Appointment {
         public isCurrentAppointment: Boolean,
         public fullName: string,
         public phoneNumber: string,
+        public secondPhoneNumber:string,
         public address:string,
         public gender:string,
         public yob:Date,

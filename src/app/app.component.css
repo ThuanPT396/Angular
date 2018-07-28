@@ -45,6 +45,9 @@ tr.mat-row:nth-child(odd){
 .fa-minus{
   font-size: 20px;
 }
+.fa-address-card{
+  font-size: 20px;
+}
 .mat-form-field{
   line-height: 1 !important;
 }

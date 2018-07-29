@@ -74,8 +74,7 @@
         <ng-container matColumnDef="attendance">
           <th mat-header-cell *matHeaderCellDef>Có mặt</th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentID,row.status)"
-              [disabled]="row.createdRecord||row.status==2"></mat-checkbox>
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentID,row.status)" [disabled]="row.createdRecord||row.status==2"></mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="medical">
@@ -148,7 +147,8 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-9 padd-right-none">
-              <ng-select [options]="myOptions" [multiple]="true" bindLabel="name" bindValue="id" (selected)="getListRegimen()" (deselected)="removeRegimen()" [(ngModel)]="selectedDisease">
+              <ng-select [options]="myOptions" [multiple]="true" bindLabel="name" bindValue="id" (selected)="getListRegimen()" (deselected)="removeRegimen()"
+                [(ngModel)]="selectedDisease">
               </ng-select>
             </div>
           </div>
@@ -251,11 +251,11 @@
                   <input type="text" class="form-control" [(ngModel)]="fullName"> </div>
                 <div class="col-md-3">
                   <label for="fullName">Số điện thoại chính</label>
-                  <input type="text" class="form-control" [(ngModel)]="phoneNumber" >
+                  <input type="text" class="form-control" [(ngModel)]="phoneNumber">
                 </div>
                 <div class="col-md-3 padd-right-none">
-                  <label for="fullName">Số điện thoại phụ</label>
-                  <input type="text" class="form-control" [(ngModel)]="secondPhoneNumber" >
+                  <label for="secondPhoneNumber">Số điện thoại phụ</label>
+                  <input type="text" class="form-control" [(ngModel)]="secondPhoneNumber">
                 </div>
               </div>
               <div class="col-md-12 form-group">
@@ -341,28 +341,28 @@
                 </div>
               </div>
               <div class="col-md-12 form-group" style="float: left;">
-                
-                  <h3 style="float: left;">Bệnh nhân mới</h3>
-               
-                  <form class="example-form " [formGroup]='usersForm' >
-                    <mat-form-field class="example-full-width layout-mat-option">
-                      <input matInput placeholder="Tìm kiếm bệnh nhân bằng tên hoặc số điện thoại" [matAutocomplete]="auto" formControlName='patientInput'>
-                    </mat-form-field>
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                      <mat-option *ngIf="isLoading" class="is-loading">
-                        <mat-spinner [diameter]="30"></mat-spinner>
+
+                <h3 style="float: left;">Bệnh nhân mới</h3>
+
+                <form class="example-form " [formGroup]='usersForm'>
+                  <mat-form-field class="example-full-width layout-mat-option">
+                    <input matInput placeholder="Tìm kiếm bệnh nhân bằng tên hoặc số điện thoại" [matAutocomplete]="auto" formControlName='patientInput'>
+                  </mat-form-field>
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngIf="isLoading" class="is-loading">
+                      <mat-spinner [diameter]="30"></mat-spinner>
+                    </mat-option>
+                    <ng-container *ngIf="!isLoading">
+                      <mat-option *ngIf="listPatients.length==0" [value]="patient">
+                        <div>Không có kết quả để hiển thị</div>
                       </mat-option>
-                      <ng-container *ngIf="!isLoading">
-                        <mat-option *ngIf="listPatients.length==0" [value]="patient">
-                          <div>Không có kết quả để hiển thị</div>
-                        </mat-option>
-                        <mat-option *ngFor="let patient of listPatients" [value]="patient" (click)="getResultNewPatient(patient)">
-                          <div *ngIf="listPatients.length>0">{{ patient.fullName }} | {{patient.phoneNumber}}</div>
-                        </mat-option>
-                      </ng-container>
-                    </mat-autocomplete>
-                  </form>
-           
+                      <mat-option *ngFor="let patient of listPatients" [value]="patient" (click)="getResultNewPatient(patient)">
+                        <div *ngIf="listPatients.length>0">{{ patient.fullName }} | {{patient.phoneNumber}}</div>
+                      </mat-option>
+                    </ng-container>
+                  </mat-autocomplete>
+                </form>
+
               </div>
               <div class="col-md-12 form-group">
                 <div class="col-md-6 padd-left-none">

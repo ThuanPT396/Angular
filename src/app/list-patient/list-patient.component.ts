@@ -45,7 +45,6 @@ export class ListPatientComponent implements OnInit {
   isLoading = false;
   newPatient = new Patient(null, "", "", "", null, null, null)
   //---------------------------------------------
-
   visible = true;
   selectable = true;
   removable = true;
@@ -143,7 +142,7 @@ export class ListPatientComponent implements OnInit {
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.onRefreshDataDefault()
+    this.onRefreshDataDefault();
   }
   onGetPatientList() {
     this.usersForm = this.fb.group({
@@ -470,12 +469,12 @@ export class ListPatientComponent implements OnInit {
     while (this.resultSymptoms.length > 0) {
       this.resultSymptoms.pop();
       this.symptoms.pop();
+      
     }
 
 
   }
   selectIndexTab(event: MatTabChangeEvent) {
-
     if (event.index == 0) {
       this.selectTabs = 0
     } else if (event.index == 1) {
@@ -485,6 +484,7 @@ export class ListPatientComponent implements OnInit {
     }
   }
   onPushPopupDetail(appID: number) {
+   
     this.newPatient = new Patient(null, "", "", "", null, null, null);
     this.onGetPatientList();
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);

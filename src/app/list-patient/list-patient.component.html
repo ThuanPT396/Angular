@@ -106,16 +106,12 @@
             <mat-slide-toggle [checked]="row.BisBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.BisBlock)"></mat-slide-toggle>
           </td>
         </ng-container>
-
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'positive' :row.isCurrentAppointment,'negative':row.currentTime>row.appointmentTime,'cancel':row.status==2}"></tr>
-
       </table>
       <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
       <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">
       </mat-paginator>
-
       <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"
         [ngClass]="{'highlight': selectedRowIndex == row.id}">
       </mat-row>
@@ -340,7 +336,7 @@
                   <label for="usernameOld">Họ và Tên</label>
                   <input type="text" class="form-control" [(ngModel)]="fullName" disabled> </div>
                 <div class="col-md-6 padd-right-none">
-                  <label for="phoneNumberOld">Số điện thoại chính</label>
+                  <label for="phoneNumberOld">Số điện thoại</label>
                   <input type="text" class="form-control" [(ngModel)]="phoneNumber" disabled>
                 </div>
               </div>
@@ -373,9 +369,13 @@
                   <label for="usernameNew">Họ và Tên</label>
                   <input type="text" class="form-control" [(ngModel)]="newPatient.fullName" disabled>
                 </div>
-                <div class="col-md-6 padd-right-none">
-                  <label for="phoneNumberNew">Số điện thoại phụ</label>
+                <div class="col-md-3">
+                  <label for="phoneNumberNew">Số điện thoại chính</label>
                   <input type="text" class="form-control" [(ngModel)]="newPatient.phoneNumber" disabled>
+                </div>
+                <div class="col-md-3 padd-right-none">
+                  <label for="phoneNumberNew">Số điện thoại phụ</label>
+                  <input type="text" class="form-control" [(ngModel)]="newPatient.secondPhoneNumber" disabled>
                 </div>
               </div>
             </mat-tab>

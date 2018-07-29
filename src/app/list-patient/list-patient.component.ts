@@ -182,6 +182,7 @@ export class ListPatientComponent implements OnInit {
   }
   getResultNewPatient(object: Patient) {
     this.newPatient = object
+    console.log(this.newPatient)
   }
   onAddMedicine() {
     this.listMedicine.push(new Medicines(null, "", "", 1, ""));
@@ -593,13 +594,6 @@ export class ListPatientComponent implements OnInit {
     } else {
       this.ELEMENT_DATA[index].gender = "0";
     }
-    console.log(this.ELEMENT_DATA[index].patientID)
-    console.log(this.phoneNumber)
-    console.log(this.secondPhoneNumber)
-    console.log(this.fullName)
-    console.log(this.address)
-    console.log( new Date(this.yob))
-    console.log( this.ELEMENT_DATA[index].gender)
     this.appointmentService
       .postUpdatePatient(this.ELEMENT_DATA[index].patientID,
         this.phoneNumber,

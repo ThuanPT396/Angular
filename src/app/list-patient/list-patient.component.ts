@@ -66,7 +66,7 @@ export class ListPatientComponent implements OnInit {
     if (input) {
       input.value = '';
     }
-    console.log(this.symptoms)
+
   }
   remove(fruit): void {
     const index = this.symptoms.indexOf(fruit);
@@ -174,7 +174,7 @@ export class ListPatientComponent implements OnInit {
       .subscribe(response => {
         this.isLoading = false
         this.listPatients = response.value;
-        console.log(this.listPatients)
+
       });
   }
   displayFn(patient: Patient) {
@@ -182,7 +182,7 @@ export class ListPatientComponent implements OnInit {
   }
   getResultNewPatient(object: Patient) {
     this.newPatient = object
-    console.log(this.newPatient)
+
   }
   onAddMedicine() {
     this.listMedicine.push(new Medicines(null, "", "", 1, ""));
@@ -210,12 +210,8 @@ export class ListPatientComponent implements OnInit {
     this.listMedicine[position].medicineID = this.medicines[index].medicineID;
     this.listMedicine[position].description = this.medicines[index].defaultDescription;
     this.listMedicine[position].quantity = this.medicines[index].defaultQuantity;
-
-    // console.log(this.medicines[index])
   }
   getListRegimen() {
-
-    console.log(this.selectedDisease)
     this.medicineService
       .postRegimen(this.username, this.selectedDisease)
       .subscribe((response) => {
@@ -232,6 +228,7 @@ export class ListPatientComponent implements OnInit {
           for (var index in regimen.regimens) {
             var item = regimen.regimens[index];
             this.listMedicine.push(new Medicines(item.medicineID, item.medicineID.toString(), item.description, item.quantity, item.unitName));
+          
           }
         }
         else {
@@ -278,9 +275,7 @@ export class ListPatientComponent implements OnInit {
       })
   }
   onGetRecord(patientID) {
-    while (this.records.length > 0) {
-      this.records.pop();
-    }
+    this.records=[]
     this.medicineService
       .getMedicalRecord(patientID)
       .subscribe((response) => {
@@ -290,11 +285,9 @@ export class ListPatientComponent implements OnInit {
           var result = new Record(re.appointmentID, re.appointmentTime, re.no, re.status, re.reminding, re.medicalMedicines, re.medicalDisease, "", re.symptoms, "");
           for (var index in result.disease) {
             var item = result.disease[index];
-
             result.presentDiseases += (parseInt(index) != result.disease.length - 1) ? item.diseaseName + ", " : item.diseaseName;
             result.presentSymptoms = result.symptoms.toString();
           }
-
           this.records.push(result);
           this.records.sort((pre, post) => { return new Date(post.appointmentTime).getTime() - new Date(pre.appointmentTime).getTime() })
 
@@ -312,7 +305,6 @@ export class ListPatientComponent implements OnInit {
         var isCurrent = false;
         var value = tmp.value as AppointmentList;
         this.selectedDate = value.currentTime
-        console.log(this.selectedDate)
         this.date.setValue(this.selectedDate);
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
@@ -429,8 +421,6 @@ export class ListPatientComponent implements OnInit {
   onGetDate(dateValue: Date) {
     var format = this.pipe.transform(dateValue, 'yyyy-M-dd')
     this.selectedDate = dateValue
-    console.log(this.selectedDate)
-    // var d = this.date = dateValue;
     while (this.ELEMENT_DATA.length > 0) {
       this.ELEMENT_DATA.pop();
     }
@@ -472,9 +462,7 @@ export class ListPatientComponent implements OnInit {
 
   }
   selectIndexTab(event: MatTabChangeEvent) {
-  // console.log('event => ', event);
-  // console.log('index => ', event.index);
-  // console.log('tab => ', event.tab);
+
     if (event.index == 0) {
       this.selectTabs = 0
     } else if (event.index == 1) {
@@ -543,16 +531,12 @@ export class ListPatientComponent implements OnInit {
     }
   }
   getIndexRecord(indexRecord) {
-    // while (this.listMedicine.length > 0) {
-    //   this.listMedicine.pop();
-    // }
     this.listMedicine = this.records[indexRecord].medicines
     this.remind = this.records[indexRecord].remind;
     this.recordSymptoms = this.records[indexRecord].symptoms;
 
   }
   onSaveRecord() {
-
     for (let i = 0; i < this.listMedicine.length; i++) {
       if (this.listMedicine[i].medicineName == "") {
         this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Vui lòng nhập tên thuốc', } }.payload)
@@ -606,7 +590,7 @@ export class ListPatientComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {
           this.onRefreshDataByDate()
-          // console.log(parseDate(this.selectedDate))
+
           this.toastService.Success("Cập nhật thông tin thành công")
         }
         else {
@@ -639,7 +623,7 @@ export class ListPatientComponent implements OnInit {
   }
   resetData() {
     this.onRefreshDataDefault();
-    console.log(this.selectedDate)
+
   }
 
   onSubmitMergePatient() {

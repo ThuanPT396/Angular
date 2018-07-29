@@ -134,13 +134,13 @@
               <label for="fullName">Họ và Tên</label>
             </div>
             <div class="col-md-5">
-              <input type="text" id="fullName" class="form-control" disabled [(ngModel)]="fullName">
+              <input type="text" class="form-control" disabled [(ngModel)]="fullName">
             </div>
             <div class="col-md-1 text-right" style="padding-top: 7px">
-              <label for="fullName">SĐT</label>
+              <label for="phoneNumber">SĐT</label>
             </div>
             <div class="col-md-3 padd-right-none">
-              <input type="text" id="phoneNumber" class="form-control" disabled [(ngModel)]="phoneNumber">
+              <input type="text" class="form-control" disabled [(ngModel)]="phoneNumber">
             </div>
           </div>
           <div class="col-md-12 form-group">
@@ -407,7 +407,7 @@
                   <th class="text-center" style="width: 10% !important">STT</th>
                   <th class="text-center">Tên Thuốc</th>
                   <th class="text-center" style="width: 45% !important">Nhắc nhở</th>
-                  <th class="text-center" style="width: 10% !important">Số lượng</th>
+                  <th class="text-center" style="width: 15% !important">Số lượng</th>
                 </tr>
               </thead>
               <tbody>
@@ -424,7 +424,7 @@
                     <label style="margin-top: 7px">{{prescription.description}}</label>
                   </td>
                   <td class="text-center">
-                    <label style="margin-top: 7px">{{prescription.quantity}}</label>
+                    <label style="margin-top: 7px">{{prescription.quantity}} {{prescription.unitName}}</label>
                   </td>
                 </tr>
               </tbody>

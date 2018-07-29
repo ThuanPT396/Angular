@@ -5,7 +5,7 @@ constructor(
     public phoneNumber: string,
     public secondPhoneNumber:string,
     public address: string,
-    public yob:Date,
+    public yob:string,
     public gender:number
 ){}
 }

@@ -43,7 +43,7 @@ export class ListPatientComponent implements OnInit {
   listPatients: Patient[] = [];
   usersForm: FormGroup;
   isLoading = false;
-  newPatient = new Patient(null, "", "","", null, null, null)
+  newPatient = new Patient(null, "", "", "", null, null, null)
   //---------------------------------------------
 
   visible = true;
@@ -103,11 +103,11 @@ export class ListPatientComponent implements OnInit {
   fullName = "";
   appID = 0;
   phoneNumber = "";
-  secondPhoneNumber=""
+  secondPhoneNumber = ""
   address = "";
   remind = "";
   patID = 0;
-  selectTabs =0;
+  selectTabs = 0;
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -145,7 +145,7 @@ export class ListPatientComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.onRefreshDataDefault()
   }
-  onGetPatientList(){
+  onGetPatientList() {
     this.usersForm = this.fb.group({
       patientInput: null
     })
@@ -211,6 +211,10 @@ export class ListPatientComponent implements OnInit {
     this.listMedicine[position].description = this.medicines[index].defaultDescription;
     this.listMedicine[position].quantity = this.medicines[index].defaultQuantity;
   }
+
+  removeRegimen(){
+    this.getListRegimen();
+  }
   getListRegimen() {
     this.medicineService
       .postRegimen(this.username, this.selectedDisease)
@@ -228,7 +232,7 @@ export class ListPatientComponent implements OnInit {
           for (var index in regimen.regimens) {
             var item = regimen.regimens[index];
             this.listMedicine.push(new Medicines(item.medicineID, item.medicineID.toString(), item.description, item.quantity, item.unitName));
-          
+
           }
         }
         else {
@@ -275,7 +279,7 @@ export class ListPatientComponent implements OnInit {
       })
   }
   onGetRecord(patientID) {
-    this.records=[]
+    this.records = []
     this.medicineService
       .getMedicalRecord(patientID)
       .subscribe((response) => {
@@ -308,7 +312,7 @@ export class ListPatientComponent implements OnInit {
         this.date.setValue(this.selectedDate);
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber,app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -344,7 +348,7 @@ export class ListPatientComponent implements OnInit {
         // this.selectedDate = value.currentTime
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber,app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -456,9 +460,9 @@ export class ListPatientComponent implements OnInit {
       }.payload)
       return;
     }
-    
+
     while (this.listMedicine.length > 0) {
-      this.listMedicine=[];
+      this.listMedicine = [];
     }
     while (this.selectedDisease.length > 0) {
       this.selectedDisease = [];
@@ -481,14 +485,14 @@ export class ListPatientComponent implements OnInit {
     }
   }
   onPushPopupDetail(appID: number) {
-    this.newPatient=new Patient(null, "", "","", null, null, null);
+    this.newPatient = new Patient(null, "", "", "", null, null, null);
     this.onGetPatientList();
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
     this.appID = appID;
     this.patID = this.ELEMENT_DATA[index].patientID;
     this.fullName = this.ELEMENT_DATA[index].fullName;
     this.phoneNumber = this.ELEMENT_DATA[index].phoneNumber;
-    this.secondPhoneNumber= this.ELEMENT_DATA[index].secondPhoneNumber;
+    this.secondPhoneNumber = this.ELEMENT_DATA[index].secondPhoneNumber;
     this.address = this.ELEMENT_DATA[index].address;
     if (this.ELEMENT_DATA[index].gender == "1") {
       this.genderObj = "Nam"
@@ -574,8 +578,10 @@ export class ListPatientComponent implements OnInit {
       );
   }
   onRemoveMedicine(idMedicine: number) {
+    
     const index = this.listMedicine.findIndex(med => med.medicineID === idMedicine);
     this.listMedicine.splice(index, 1);
+    
   }
   onUpdateDetail(patID) {
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
@@ -593,7 +599,7 @@ export class ListPatientComponent implements OnInit {
         this.secondPhoneNumber,
         this.fullName,
         this.address,
-        new Date(this.yob),
+        this.yob,
         this.ELEMENT_DATA[index].gender)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));

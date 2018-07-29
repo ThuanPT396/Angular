@@ -148,7 +148,7 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-9 padd-right-none">
-              <ng-select [options]="myOptions" [multiple]="true" bindLabel="name" bindValue="id" (selected)="getListRegimen()" [(ngModel)]="selectedDisease">
+              <ng-select [options]="myOptions" [multiple]="true" bindLabel="name" bindValue="id" (selected)="getListRegimen()" (deselected)="removeRegimen()" [(ngModel)]="selectedDisease">
               </ng-select>
             </div>
           </div>

@@ -102,7 +102,7 @@
             <!-- <a href="#" data-toggle="modal" data-target="#myModal" (click)="onPopupPhoneNumber(row.fullName,row.phoneNumber)">
               <i class="fa fa-ban" style="color: red"></i>
             </a> -->
-            <mat-slide-toggle [checked]="row.BisBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.BisBlock)"></mat-slide-toggle>
+            <mat-slide-toggle [checked]="row.isBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.isBlock)"></mat-slide-toggle>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -311,14 +311,11 @@ export class ListPatientComponent implements OnInit {
         this.date.setValue(this.selectedDate);
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
 
-          }
-          if (result.isBlock === 1) {
-            result.BisBlock = true
           }
           this.ELEMENT_DATA.push(result);
         }
@@ -347,14 +344,11 @@ export class ListPatientComponent implements OnInit {
         // this.selectedDate = value.currentTime
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, app.createdRecord);
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
 
-          }
-          if (result.isBlock === 1) {
-            result.BisBlock = true
           }
           this.ELEMENT_DATA.push(result);
         }
@@ -507,18 +501,16 @@ export class ListPatientComponent implements OnInit {
     this.yob = format
     this.onGetRecord(this.ELEMENT_DATA[index].patientID);
   }
-  onBanPhoneNumber(phoneNumber: string, BisBlock: boolean) {
-    var test = BisBlock ? 0 : 1;
+  onBanPhoneNumber(phoneNumber: string, isBlock: boolean) {
     const index = this.ELEMENT_DATA.findIndex(app => app.phoneNumber === phoneNumber);
     for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
       if (this.ELEMENT_DATA[i].phoneNumber === phoneNumber) {
-        this.ELEMENT_DATA[i].BisBlock = !BisBlock;
-        this.ELEMENT_DATA[i].isBlock = test;
+        this.ELEMENT_DATA[i].isBlock = !isBlock;
       }
     }
 
     this.appointmentService
-      .postBlockNumber(this.username, phoneNumber, test)
+      .postBlockNumber(this.username, phoneNumber, !isBlock)
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
         if (tmp.status == true) {

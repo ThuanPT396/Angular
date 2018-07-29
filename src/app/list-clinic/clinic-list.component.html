@@ -63,10 +63,10 @@
                         <a (click)="onRemoveClinic(row.username)">
                             <i class="fa fa-trash" style="color: red"></i>
                         </a>
-                        &nbsp;&nbsp;&nbsp;
+                        <!-- &nbsp;&nbsp;&nbsp;
                         <a (click)="onResetClinic(row.username)">
                             <i class="fa fa-retweet" style="color: deepskyblue"></i>
-                        </a>
+                        </a> -->
                         &nbsp;&nbsp;&nbsp;
                         <a *ngIf="isStaff" data-toggle="modal" data-target="#update" (click)="onPushPopupUpdate(row.username,row.phoneNumber,row.address,row.clinicName,row.email)">
                             <i class="fa fa-edit" style="color: blue"></i>

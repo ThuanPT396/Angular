@@ -13,8 +13,8 @@ export class Appointment {
         public address:string,
         public gender:string,
         public yob:Date,
-        public isBlock: number,
-        public BisBlock: Boolean,
+        public isBlock: Boolean,
+
         public createdRecord:Boolean,
     ) { }
 }

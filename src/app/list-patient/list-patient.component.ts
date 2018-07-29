@@ -438,7 +438,15 @@ export class ListPatientComponent implements OnInit {
     this.appID = appID;
     this.phoneNumber = phoneNumber
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === this.appID);
-
+    if (this.ELEMENT_DATA[index].status == 2) {
+      this.alerts.alertError({
+        type: 'error', payload: {
+          title: 'Thông báo',
+          text: 'Cuộc hẹn này đã bị hủy',
+        }
+      }.payload)
+      return;
+    }
     if (this.ELEMENT_DATA[index].createdRecord == true) {
       this.alerts.alertError({
         type: 'error', payload: {
@@ -448,8 +456,9 @@ export class ListPatientComponent implements OnInit {
       }.payload)
       return;
     }
+    
     while (this.listMedicine.length > 0) {
-      this.listMedicine.pop();
+      this.listMedicine=[];
     }
     while (this.selectedDisease.length > 0) {
       this.selectedDisease = [];

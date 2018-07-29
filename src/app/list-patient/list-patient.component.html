@@ -74,17 +74,17 @@
         <ng-container matColumnDef="attendance">
           <th mat-header-cell *matHeaderCellDef>Có mặt</th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentID,row.status)" [hidden]="row.status==2"
-              [disabled]="row.createdRecord"></mat-checkbox>
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentID,row.status)"
+              [disabled]="row.createdRecord||row.status==2"></mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="medical">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi toa </th>
           <td mat-cell *matCellDef="let row">
-            <a (click)="onPushPopupRecord(row.fullName,row.appointmentID,row.phoneNumber)" [hidden]="row.status==2">
-              <i *ngIf="row.createdRecord==true" class="fa fa-edit " style="color:#B0B0B0 ">
+            <a (click)="onPushPopupRecord(row.fullName,row.appointmentID,row.phoneNumber)">
+              <i *ngIf="row.createdRecord==true||row.status==2" class="fa fa-edit " style="color:#B0B0B0 ">
               </i>
-              <i *ngIf="row.createdRecord==false" data-toggle="modal" data-target="#medicalRecord" class="fa fa-edit " style="color:#2B7FFF ">
+              <i *ngIf="row.createdRecord==false&&row.status!=2" data-toggle="modal" data-target="#medicalRecord" class="fa fa-edit " style="color:#2B7FFF ">
               </i>
             </a>
           </td>
@@ -107,7 +107,7 @@
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'positive' :row.isCurrentAppointment,'negative':row.currentTime>row.appointmentTime,'cancel':row.status==2}"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'cancel':row.status==2,'positive' :row.isCurrentAppointment&&row.status!=2,'negative':row.currentTime>row.appointmentTime&&row.status!=2}"></tr>
       </table>
       <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
       <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">

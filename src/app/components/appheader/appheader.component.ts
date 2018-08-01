@@ -28,7 +28,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
   textConfirmPW = "";
 
   notiRef: AngularFirestoreCollection;
-  notiOnView: MyNotification[] = [];  
+  notiOnView: MyNotification[] = [];
   private isInit = true;
   private subscriptionAdded: ISubscription;
   private subscriptionNoti: ISubscription;
@@ -118,6 +118,12 @@ export class AppheaderComponent implements OnInit, OnDestroy {
       this.hidden = true;
     } else {
       this.fullName = result.clinicName
+      // console.log(this.fullName.length)
+      if (this.fullName.length > 30) {
+        this.fullName = "..." + this.fullName.slice(this.fullName.length-30, this.fullName.length);
+        // console.log(this.fullName.slice(this.fullName.length-30, this.fullName.length).length)
+      }
+
       this.hidden = false;
     }
     this.username = result.username
@@ -133,7 +139,7 @@ export class AppheaderComponent implements OnInit, OnDestroy {
     localStorage.removeItem('fullName');
     localStorage.removeItem('role');
     localStorage.removeItem('firebaseToken');
-    
+    localStorage.removeItem('phoneNumber');
   }
   checkPassword(username: string, password: string) {
     this.userService

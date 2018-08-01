@@ -12,7 +12,6 @@ import { Regimen } from "../model/regimen.model";
 @Injectable()
 export class MedicineService {
     constructor(private http: HttpClient) { }
-    // url = 'http://27.74.245.84:8080';
     url = `${Final.API_ENDPOINT}`;
 
     getMedicines() {

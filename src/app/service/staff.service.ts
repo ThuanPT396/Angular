@@ -9,7 +9,6 @@ import { Staff } from "../model/staff.model";
 })
 export class StaffService {
     constructor(private http: HttpClient) { }
-    // url = 'http://27.74.245.84:8080';
     url = `${Final.API_ENDPOINT}`;
 
     getStaffs() {

@@ -10,7 +10,6 @@ import { Clinic } from '../model/clinic.model';
 })
 export class UserService {
     constructor(private http: HttpClient) { }
-    // url = 'http://27.74.245.84:8080';
     url = `${Final.API_ENDPOINT}`;
 
     getUsers() {

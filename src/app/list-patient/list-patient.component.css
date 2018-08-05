@@ -47,7 +47,6 @@ button.mat-icon-button{
 div.scroll {
     max-height:230px;
     overflow: auto;
-    z-index: 900 !important;
 }
 
 .symptom{

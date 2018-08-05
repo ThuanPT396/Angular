@@ -14,7 +14,7 @@ export class Appointment {
         public gender:string,
         public yob:Date,
         public isBlock: Boolean,
-
+        public isOpenTime:Boolean,
         public createdRecord:Boolean,
     ) { }
 }

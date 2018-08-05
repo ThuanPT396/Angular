@@ -45,8 +45,9 @@ button.mat-icon-button{
 }
 /* table medicine */
 div.scroll {
-    height: 350px;
+    max-height:230px;
     overflow: auto;
+    z-index: 900 !important;
 }
 
 .symptom{

@@ -226,7 +226,7 @@ export class ListPatientComponent implements OnInit {
     }
     this.listMedicine[position].unitName = this.medicines[index].unitName;
     this.listMedicine[position].medicineID = this.medicines[index].medicineID;
-    this.listMedicine[position].medicineName =  this.medicines[index].medicineName;
+    this.listMedicine[position].medicineName = this.medicines[index].medicineName;
     this.listMedicine[position].description = this.medicines[index].defaultDescription;
     this.listMedicine[position].quantity = this.medicines[index].defaultQuantity;
     // this.medicinesIO[position].value= this.medicines[index].medicineID.toString();
@@ -251,8 +251,8 @@ export class ListPatientComponent implements OnInit {
           }
           for (var index in regimen.regimens) {
             var item = regimen.regimens[index];
-            this.listMedicine.push(new Medicines(item.medicineID,item.medicineName, item.description, item.quantity, item.unitName));
-        console.log(this.listMedicine)
+            this.listMedicine.push(new Medicines(item.medicineID, item.medicineName, item.description, item.quantity, item.unitName));
+            console.log(this.listMedicine)
           }
         }
         else {
@@ -371,7 +371,7 @@ export class ListPatientComponent implements OnInit {
         // this.selectedDate = value.currentTime
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock,false, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
           if (value.appointments[0].appointmentTime < value.appointments[0].currentTime) {
             result.isOpenTime = true;
           }
@@ -572,12 +572,17 @@ export class ListPatientComponent implements OnInit {
 
   }
   onSaveRecord() {
+    if (this.selectedDisease.length == 0) {
+      this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Vui lòng nhập bệnh', } }.payload)
+      return;
+    }
     for (let i = 0; i < this.listMedicine.length; i++) {
       if (this.listMedicine[i].medicineName == null) {
         this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Vui lòng nhập tên thuốc', } }.payload)
         return;
       }
     }
+
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === this.appID);
     this.CheckAttendanceForCreateRecord(this.appID, this.ELEMENT_DATA[index].status)
   }

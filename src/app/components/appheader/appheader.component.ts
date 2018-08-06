@@ -75,7 +75,8 @@ export class AppheaderComponent implements OnInit, OnDestroy {
         this.isInit = false
       } else {
         docs.forEach(doc => {
-          this.toastService.Success(doc.title, doc.message);
+          // this.toastService.Success(doc.title, doc.message);
+          this.toastService.Success("Đã có bệnh nhân đặt hẹn tới phòng khám","Thông báo");
         })
       }
     })

@@ -372,6 +372,9 @@ export class ListPatientComponent implements OnInit {
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
           var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock,false, app.createdRecord);
+          if (value.appointments[0].appointmentTime < value.appointments[0].currentTime) {
+            result.isOpenTime = true;
+          }
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;

@@ -44,8 +44,13 @@ export class AppointmentService {
         });
     }
 
-    getPhoneNumberBlock(clinicName){
-        return this.http.get<BaseResponse<PhoneNumber[]>>(`${this.url}/block/getBlock?clinicUsername=${clinicName}`);
+    getPhoneNumber(clinicName){
+        // return this.http.get<BaseResponse<PhoneNumber[]>>(`${this.url}/block/getBlock?clinicUsername=${clinicName}`);
+        return this
+        .http
+        .post<BaseResponse<AppointmentList>>(`${this.url}/clinic/getBookingHistory`,{
+            username:clinicName
+        });
     }
 
 

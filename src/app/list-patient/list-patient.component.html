@@ -99,9 +99,7 @@
         <ng-container matColumnDef="block">
           <th mat-header-cell *matHeaderCellDef>Chặn SĐT</th>
           <td mat-cell *matCellDef="let row">
-            <!-- <a href="#" data-toggle="modal" data-target="#myModal" (click)="onPopupPhoneNumber(row.fullName,row.phoneNumber)">
-              <i class="fa fa-ban" style="color: red"></i>
-            </a> -->
+           
             <mat-slide-toggle [checked]="row.isBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.isBlock)"></mat-slide-toggle>
           </td>
         </ng-container>
@@ -109,7 +107,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'cancel':row.status==2,'positive' :row.isCurrentAppointment&&row.status!=2,'negative':row.currentTime>row.appointmentTime&&row.status!=2}"></tr>
       </table>
       <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
-      <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">
+      <mat-paginator  [pageSize]="25" [pageSizeOptions]="[5,10,25, 100]" (page)="pageEvent = $event">
       </mat-paginator>
       <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"
         [ngClass]="{'highlight': selectedRowIndex == row.id}">

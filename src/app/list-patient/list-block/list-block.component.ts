@@ -149,10 +149,18 @@ export class ListBlockComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource1.filter = filterValue;
+    if (this.selectTabs==0) {
+      this.dataSource1.filter = filterValue;
     if (this.dataSource1.paginator) {
       this.dataSource1.paginator.firstPage();
     }
+    }else if(this.selectTabs==1){
+      this.dataSource2.filter = filterValue;
+      if (this.dataSource2.paginator) {
+        this.dataSource2.paginator.firstPage();
+      }
+    }
+    
   }
   selectIndexTab(event) {
     // if (event.index == 0) {

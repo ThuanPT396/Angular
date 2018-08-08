@@ -9,9 +9,9 @@ table {
 }
 
 tr.mat-row:nth-child(odd){
-  /* background-color: rgba(178, 194, 241, 0.247); */
-  background: linear-gradient(to right, rgba(73, 60, 248, 0.116) 0%, rgba(43, 128, 255, 0.116) 100%);
-  }
+   background-color: rgba(43, 128, 255, 0.021); 
+  /* background: linear-gradient(to right, rgba(73, 60, 248, 0.116) 0%, rgba(43, 128, 255, 0.116) 100%); */
+}
 
 .padd-text{
   padding-top: 30px;

@@ -30,6 +30,7 @@ import { Regimen } from '../model/regimen.model';
 import { AppointmentList } from '../model/appointmentList.model';
 import { Patient } from '../model/patient.model';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { DialogService } from '../service/dialog/dialog.service';
 @Component({
   selector: 'app-list-patient',
   templateUrl: './list-patient.component.html',
@@ -76,7 +77,9 @@ export class ListPatientComponent implements OnInit {
     }
   }
   //---------------------------------------------------------
-  myOptions: Array<IOption> = [];
+  medicinesIO: Array<IOption> = [];
+
+  diseaseList: Array<IOption> = [];
   selectedDisease = [];
   listRegimen: Regimen[] = [];
   // asyncObservable() {
@@ -130,7 +133,7 @@ export class ListPatientComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private alerts: NgxAlertsService,
     private _messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
     this._messageService.listen().subscribe((m: any) => {
       this.onGetListDefault()
@@ -179,18 +182,34 @@ export class ListPatientComponent implements OnInit {
   displayFn(patient: Patient) {
     if (patient) { return patient.fullName; }
   }
-  getResultNewPatient(object: Patient) {
-    this.newPatient = object
-
+  getResultNewPatient(patient: Patient) {
+    for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
+      console.log(this.ELEMENT_DATA[i].fullName)
+      console.log(patient.fullName)
+      if (this.ELEMENT_DATA[i].fullName == patient.fullName) {
+        this.alerts.alertWarning({
+          type: 'warning', payload: {
+            title: 'Chú ý',
+            text: 'Bệnh nhân này đã đặt hẹn vào hôm nay',
+          }
+        }.payload);
+      }
+      this.newPatient = patient
+    }
   }
   onAddMedicine() {
-    this.listMedicine.push(new Medicines(null, "", "", 1, ""));
+    this.listMedicine.push(new Medicines(null, null, "", 1, ""));
+    console.log(this.listMedicine)
+    console.log(this.selectedDisease)
   }
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  inputUnit(id: any, position: number) {
-    var index = this.medicines.findIndex(med => med.medicineID == id);
+  inputUnit(name: string, position: number) {
+    console.log("id: " + name)
+    var index = this.medicines.findIndex(med => med.medicineName == name);
+    console.log("position: " + position)
+    console.log("index: " + index)
     for (let i = 0; i < this.listMedicine.length; i++) {
       if (this.listMedicine[i].medicineID == this.medicines[index].medicineID) {
         this.alerts.alertError({
@@ -207,11 +226,13 @@ export class ListPatientComponent implements OnInit {
     }
     this.listMedicine[position].unitName = this.medicines[index].unitName;
     this.listMedicine[position].medicineID = this.medicines[index].medicineID;
+    this.listMedicine[position].medicineName = this.medicines[index].medicineName;
     this.listMedicine[position].description = this.medicines[index].defaultDescription;
     this.listMedicine[position].quantity = this.medicines[index].defaultQuantity;
+    // this.medicinesIO[position].value= this.medicines[index].medicineID.toString();
+    console.log(this.listMedicine)
   }
-
-  removeRegimen(){
+  removeRegimen() {
     this.getListRegimen();
   }
   getListRegimen() {
@@ -230,8 +251,8 @@ export class ListPatientComponent implements OnInit {
           }
           for (var index in regimen.regimens) {
             var item = regimen.regimens[index];
-            this.listMedicine.push(new Medicines(item.medicineID, item.medicineID.toString(), item.description, item.quantity, item.unitName));
-
+            this.listMedicine.push(new Medicines(item.medicineID, item.medicineName, item.description, item.quantity, item.unitName));
+            console.log(this.listMedicine)
           }
         }
         else {
@@ -258,7 +279,7 @@ export class ListPatientComponent implements OnInit {
           });
           this.diseases.push(result);
         }
-        this.myOptions = list;
+        this.diseaseList = list;
 
 
       })
@@ -269,12 +290,17 @@ export class ListPatientComponent implements OnInit {
       .getMedicines()
       .subscribe((response) => {
         var tmp = JSON.parse(JSON.stringify(response));
+        var list: Array<IOption> = [];
         for (var i in tmp.value) {
           var med = tmp.value[i];
           var result = new Medicine(med.medicineID, med.medicineName, med.unitName, med.isActive, med.defaultDescription, med.defaultQuantity)
+          list.push({
+            label: med.medicineName,
+            value: med.medicineName
+          });
           this.medicines.push(result);
-
         }
+        this.medicinesIO = list;
       })
   }
   onGetRecord(patientID) {
@@ -293,7 +319,6 @@ export class ListPatientComponent implements OnInit {
           }
           this.records.push(result);
           this.records.sort((pre, post) => { return new Date(post.appointmentTime).getTime() - new Date(pre.appointmentTime).getTime() })
-
         }
       })
   }
@@ -311,11 +336,13 @@ export class ListPatientComponent implements OnInit {
         this.date.setValue(this.selectedDate);
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          if (value.appointments[0].appointmentTime < value.appointments[0].currentTime) {
+            result.isOpenTime = true;
+          }
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
-
           }
           this.ELEMENT_DATA.push(result);
         }
@@ -344,7 +371,10 @@ export class ListPatientComponent implements OnInit {
         // this.selectedDate = value.currentTime
         for (var i in value.appointments) {
           var app = value.appointments[i] as Appointment;
-          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, app.createdRecord);
+          var result = new Appointment(app.appointmentID, app.patientID, app.appointmentTime, app.no, app.currentTime, app.status, false, app.fullName, app.phoneNumber, app.secondPhoneNumber, app.address, app.gender, app.yob, app.isBlock, false, app.createdRecord);
+          if (value.appointments[0].appointmentTime < value.appointments[0].currentTime) {
+            result.isOpenTime = true;
+          }
           if (!isCurrent && result.appointmentTime >= result.currentTime) {
             isCurrent = true;
             result.isCurrentAppointment = true;
@@ -463,7 +493,7 @@ export class ListPatientComponent implements OnInit {
     while (this.resultSymptoms.length > 0) {
       this.resultSymptoms.pop();
       this.symptoms.pop();
-      
+
     }
 
 
@@ -478,7 +508,7 @@ export class ListPatientComponent implements OnInit {
     }
   }
   onPushPopupDetail(appID: number) {
-   
+
     this.newPatient = new Patient(null, "", "", "", null, null, null);
     this.onGetPatientList();
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
@@ -542,12 +572,17 @@ export class ListPatientComponent implements OnInit {
 
   }
   onSaveRecord() {
+    if (this.selectedDisease.length == 0) {
+      this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Vui lòng nhập bệnh', } }.payload)
+      return;
+    }
     for (let i = 0; i < this.listMedicine.length; i++) {
-      if (this.listMedicine[i].medicineName == "") {
+      if (this.listMedicine[i].medicineName == null) {
         this.alerts.alertError({ type: 'error', payload: { title: 'Thông báo', text: 'Vui lòng nhập tên thuốc', } }.payload)
         return;
       }
     }
+
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === this.appID);
     this.CheckAttendanceForCreateRecord(this.appID, this.ELEMENT_DATA[index].status)
   }
@@ -570,10 +605,10 @@ export class ListPatientComponent implements OnInit {
       );
   }
   onRemoveMedicine(idMedicine: number) {
-    
+
     const index = this.listMedicine.findIndex(med => med.medicineID === idMedicine);
     this.listMedicine.splice(index, 1);
-    
+
   }
   onUpdateDetail(patID) {
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
@@ -623,7 +658,6 @@ export class ListPatientComponent implements OnInit {
   }
   onRefreshDataByDate() {
     this.ELEMENT_DATA = [];
-
     this.onGetListByDate(this.selectedDate);
     this.onGetMedicine();
     this.onGetDisease();

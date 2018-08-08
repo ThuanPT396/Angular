@@ -74,16 +74,16 @@
         <ng-container matColumnDef="attendance">
           <th mat-header-cell *matHeaderCellDef>Có mặt</th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentID,row.status)" [disabled]="row.createdRecord||row.status==2"></mat-checkbox>
+            <mat-checkbox color="primary" [checked]="row.status===1" (change)="onSelect(row.appointmentID,row.status)" [disabled]="row.createdRecord||row.status==2||row.isOpenTime==false"></mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="medical">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi toa </th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onPushPopupRecord(row.fullName,row.appointmentID,row.phoneNumber)">
-              <i *ngIf="row.createdRecord==true||row.status==2" class="fa fa-edit " style="color:#B0B0B0 ">
+              <i *ngIf="row.createdRecord==true||row.status==2||row.isOpenTime==false" class="fa fa-edit " style="color:#B0B0B0 ">
               </i>
-              <i *ngIf="row.createdRecord==false&&row.status!=2" data-toggle="modal" data-target="#medicalRecord" class="fa fa-edit " style="color:#2B7FFF ">
+              <i *ngIf="row.createdRecord==false&&row.status!=2&&row.isOpenTime==true" data-toggle="modal" data-target="#medicalRecord" class="fa fa-edit " style="color:#2B7FFF ">
               </i>
             </a>
           </td>
@@ -99,9 +99,7 @@
         <ng-container matColumnDef="block">
           <th mat-header-cell *matHeaderCellDef>Chặn SĐT</th>
           <td mat-cell *matCellDef="let row">
-            <!-- <a href="#" data-toggle="modal" data-target="#myModal" (click)="onPopupPhoneNumber(row.fullName,row.phoneNumber)">
-              <i class="fa fa-ban" style="color: red"></i>
-            </a> -->
+           
             <mat-slide-toggle [checked]="row.isBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.isBlock)"></mat-slide-toggle>
           </td>
         </ng-container>
@@ -109,7 +107,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'cancel':row.status==2,'positive' :row.isCurrentAppointment&&row.status!=2,'negative':row.currentTime>row.appointmentTime&&row.status!=2}"></tr>
       </table>
       <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
-      <mat-paginator [pageSizeOptions]="[25, 100]" (page)="pageEvent = $event">
+      <mat-paginator  [pageSize]="25" [pageSizeOptions]="[5,10,25, 100]" (page)="pageEvent = $event">
       </mat-paginator>
       <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"
         [ngClass]="{'highlight': selectedRowIndex == row.id}">
@@ -147,7 +145,7 @@
               <label for="fullName">Chuẩn đoán</label>
             </div>
             <div class="col-md-9 padd-right-none">
-              <ng-select [options]="myOptions" [multiple]="true" bindLabel="name" bindValue="id" (selected)="getListRegimen()" (deselected)="removeRegimen()"
+              <ng-select [options]="diseaseList" [multiple]="true" bindLabel="name" bindValue="id" (selected)="getListRegimen()" (deselected)="removeRegimen()"
                 [(ngModel)]="selectedDisease">
               </ng-select>
             </div>
@@ -193,9 +191,11 @@
                   </td>
                   <td>
                     <div style="width: 100%;">
-                      <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit($event.target.value ,index)">
+                      <!-- <select class="form-control" id="se4" [(ngModel)]="listMedicine[index].medicineName" (change)="inputUnit($event.target.value ,index)">
                         <option *ngFor="let medicine of medicines" [value]="medicine.medicineID">{{medicine.medicineName}}</option>
-                      </select>
+                      </select> -->
+                      <ng-select [options]="medicinesIO" [(ngModel)]="listMedicine[index].medicineName" (selected)="inputUnit(listMedicine[index].medicineName,index)">
+                      </ng-select>
                     </div>
                   </td>
                   <td>
@@ -217,7 +217,7 @@
           <div class="col-md-12 form-group text-right">
             <button type="button" class="btn btn-success" (click)="onAddMedicine()">Thêm thuốc</button>
           </div>
-          <div class="col-md-12 form-group">
+          <div class="col-md-12">
             <div class="col-md-3 padd-left-none" style="padding-top: 7px">
               <label for="fullName">Lời dặn</label>
             </div>
@@ -356,7 +356,7 @@
                       <mat-option *ngIf="listPatients.length==0" [value]="patient">
                         <div>Không có kết quả để hiển thị</div>
                       </mat-option>
-                      <mat-option *ngFor="let patient of listPatients" [value]="patient" (click)="getResultNewPatient(patient)">
+                      <mat-option *ngFor="let patient of listPatients" [value]="patient" (onSelectionChange)="getResultNewPatient(patient)">
                         <div *ngIf="listPatients.length>0">{{ patient.fullName }} | {{patient.phoneNumber}}</div>
                       </mat-option>
                     </ng-container>

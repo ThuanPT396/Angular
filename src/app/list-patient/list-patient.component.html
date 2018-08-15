@@ -83,7 +83,8 @@
             <a (click)="onPushPopupRecord(row.fullName,row.appointmentID,row.phoneNumber)">
               <i *ngIf="row.createdRecord==true||row.status==2||row.isOpenTime==false" class="fa fa-edit " style="color:#B0B0B0 ">
               </i>
-              <i *ngIf="row.createdRecord==false&&row.status!=2&&row.isOpenTime==true" data-toggle="modal" data-target="#medicalRecord" class="fa fa-edit " style="color:#2B7FFF ">
+              <i *ngIf="row.createdRecord==false&&row.status!=2&&row.isOpenTime==true" data-toggle="modal" data-target="#medicalRecord"
+                class="fa fa-edit " style="color:#2B7FFF ">
               </i>
             </a>
           </td>
@@ -99,7 +100,7 @@
         <ng-container matColumnDef="block">
           <th mat-header-cell *matHeaderCellDef>Chặn SĐT</th>
           <td mat-cell *matCellDef="let row">
-           
+
             <mat-slide-toggle [checked]="row.isBlock" color='primary' (change)="onBanPhoneNumber(row.phoneNumber,row.isBlock)"></mat-slide-toggle>
           </td>
         </ng-container>
@@ -107,7 +108,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'cancel':row.status==2,'positive' :row.isCurrentAppointment&&row.status!=2,'negative':row.currentTime>row.appointmentTime&&row.status!=2}"></tr>
       </table>
       <div *ngIf="ELEMENT_DATA.length === 0" class="text-center" style="font-size: 16px">Không có kết quả để hiển thị</div>
-      <mat-paginator  [pageSize]="25" [pageSizeOptions]="[5,10,25, 100]" (page)="pageEvent = $event">
+      <mat-paginator [pageSize]="25" [pageSizeOptions]="[5,10,25, 100]" (page)="pageEvent = $event">
       </mat-paginator>
       <mat-row *cdkRowDef="let row; columns: displayedColumns; let i = index; let isOdd = odd; let isEven = even; let isLast = last"
         [ngClass]="{'highlight': selectedRowIndex == row.id}">
@@ -150,7 +151,7 @@
               </ng-select>
             </div>
           </div>
-          <!-- <div class="col-md-12 form-group">
+          <div class="col-md-12 form-group">
             <div class="col-md-3 padd-left-none" style="padding-top: 7px">
               <label for="fullName">Triệu chứng lâm sàng</label>
             </div>
@@ -168,7 +169,7 @@
                 </mat-chip-list>
               </div>
             </div>
-          </div> -->
+          </div>
           <div class="col-md-12">
             <table class="table table-bordered">
               <thead>
@@ -287,7 +288,7 @@
                     <tr>
                       <th class="text-center" style="width: 5% !important">STT</th>
                       <th class="text-center">Tên Bệnh</th>
-                      <!-- <th class="text-center" style="width: 30% !important">Triệu chứng lâm sàng</th> -->
+                      <th class="text-center" style="width: 30% !important">Triệu chứng lâm sàng</th>
                       <th class="text-center" style="width: 20% !important">Thời gian</th>
                       <th class="text-center" style="width: 10% !important">Chi tiết</th>
                     </tr>
@@ -304,9 +305,9 @@
                           <label style="margin-top: 7px">{{records[index].presentDiseases}}</label>
                         </div>
                       </td>
-                      <!-- <td class="text-center">
+                      <td class="text-center">
                     <label style="margin-top: 7px">{{records[index].presentSymptoms}}</label>
-                  </td> -->
+                  </td>
                       <td class="text-center">
                         <label style="margin-top: 7px">{{records[index].appointmentTime | date:'dd/MM/yyyy'}}</label>
                       </td>
@@ -343,10 +344,10 @@
               <div class="col-md-12 form-group" style="float: left;">
 
                 <h3 style="float: left;">Bệnh nhân mới</h3>
-
                 <form class="example-form " [formGroup]='usersForm'>
                   <mat-form-field class="example-full-width layout-mat-option">
-                    <input matInput placeholder="Tìm kiếm bệnh nhân bằng tên hoặc số điện thoại" [matAutocomplete]="auto" formControlName='patientInput'>
+                    <input matInput placeholder="Tìm kiếm bệnh nhân bằng tên hoặc số điện thoại" [matAutocomplete]="auto" formControlName='patientInput' [(ngModel)]="valueNewPatient" (focusout)="onInputMergePatient()">
+                    <mat-hint *ngIf="isDuplicatePatient" [ngStyle]="{'color': 'orange'}">Bệnh nhân này đã đặt hẹn vào hôm nay!</mat-hint>
                   </mat-form-field>
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngIf="isLoading" class="is-loading">
@@ -384,7 +385,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-        <button *ngIf="selectTabs==2" class="btn btn-primary" hidden="" data-dismiss="modal" (click)="onSubmitMergePatient()">Chuyển đổi</button>
+        <button *ngIf="selectTabs==2" class="btn btn-primary" [disabled]="!valueNewPatient" data-dismiss="modal" (click)="onSubmitMergePatient()">Chuyển đổi</button>
         <button *ngIf="selectTabs==0" class="btn btn-primary" (click)="onUpdateDetail(patID)" data-dismiss="modal">Cập nhật thông tin bệnh nhân</button>
       </div>
     </div>

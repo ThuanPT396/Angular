@@ -110,6 +110,8 @@ export class ListPatientComponent implements OnInit {
   remind = "";
   patID = 0;
   selectTabs = 0;
+  isDuplicatePatient= false;
+  valueNewPatient="";
   username = localStorage.getItem('username')
   clinicName = localStorage.getItem('clinicName')
   disabled = false;
@@ -182,25 +184,34 @@ export class ListPatientComponent implements OnInit {
   displayFn(patient: Patient) {
     if (patient) { return patient.fullName; }
   }
+  onInputMergePatient(){
+    console.log(this.valueNewPatient)
+    if (this.valueNewPatient=="") {
+      this.isDuplicatePatient=false;
+      this.newPatient= new Patient(null, "", "", "", null, null, null)
+    }
+   
+  }
   getResultNewPatient(patient: Patient) {
+   
     for (let i = 0; i < this.ELEMENT_DATA.length; i++) {
-      console.log(this.ELEMENT_DATA[i].fullName)
-      console.log(patient.fullName)
-      if (this.ELEMENT_DATA[i].fullName == patient.fullName) {
-        this.alerts.alertWarning({
-          type: 'warning', payload: {
-            title: 'Chú ý',
-            text: 'Bệnh nhân này đã đặt hẹn vào hôm nay',
-          }
-        }.payload);
+      if (this.ELEMENT_DATA[i].fullName == patient.fullName &&this.ELEMENT_DATA[i].phoneNumber == patient.phoneNumber) {
+        // this.alerts.alertWarning({
+        //   type: 'warning', payload: {
+        //     title: 'Chú ý',
+        //     text: 'Bệnh nhân này đã đặt hẹn vào hôm nay',
+        //   }
+        // }.payload);
+        this.isDuplicatePatient=true;
+        break;
+      }else{
+        this.isDuplicatePatient=false;
       }
       this.newPatient = patient
     }
   }
   onAddMedicine() {
     this.listMedicine.push(new Medicines(null, null, "", 1, ""));
-    console.log(this.listMedicine)
-    console.log(this.selectedDisease)
   }
   trackByIndex(index: number, obj: any): any {
     return index;
@@ -508,7 +519,7 @@ export class ListPatientComponent implements OnInit {
     }
   }
   onPushPopupDetail(appID: number) {
-
+    this.isDuplicatePatient=false;
     this.newPatient = new Patient(null, "", "", "", null, null, null);
     this.onGetPatientList();
     const index = this.ELEMENT_DATA.findIndex(app => app.appointmentID === appID);
@@ -525,9 +536,7 @@ export class ListPatientComponent implements OnInit {
     } else {
       this.genderObj = "Khác"
     }
-
     var format = this.pipe.transform(this.ELEMENT_DATA[index].yob, 'yyyy-MM-dd')
-
     this.yob = format
     this.onGetRecord(this.ELEMENT_DATA[index].patientID);
   }
@@ -611,6 +620,7 @@ export class ListPatientComponent implements OnInit {
 
   }
   onUpdateDetail(patID) {
+    
     const index = this.ELEMENT_DATA.findIndex(pat => pat.patientID === patID);
 
     if (this.genderObj == "Nam") {

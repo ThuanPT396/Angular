@@ -94,7 +94,7 @@ export class SignInComponent implements OnInit {
             this.isLogin = true;
           } else {
             if (tmp.value.role == '1' && currentDate > expiredDate) {
-              this.alerts.alertError({
+              this.alerts.alertInfo({
                 type: 'error', payload: {
                   title: 'Thông báo',
                   text: 'Vui lòng gia hạn tài khoản để tiếp tục sử dụng hệ thống',

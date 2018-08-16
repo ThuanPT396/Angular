@@ -16,12 +16,13 @@ export class ListBlockComponent implements OnInit {
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
   // -------------------
+  valueFilter="";
   ELEMENT_DATA: PhoneNumber[] = [];
   username = localStorage.getItem('username')
   pageEvent: PageEvent;
   selectedRowIndex;
   selectTabs = 0;
-  displayedColumns = ['position', 'phoneNumber', 'bookingCount', 'ratio', 'function'];
+  displayedColumns = ['position','fullName', 'phoneNumber', 'function'];
   dataSource1 = new MatTableDataSource<PhoneNumber>(this.ELEMENT_DATA);
   dataSource2 = new MatTableDataSource<PhoneNumber>(this.ELEMENT_DATA);
   @ViewChild('paginator1') paginator1: MatPaginator;
@@ -60,10 +61,10 @@ export class ListBlockComponent implements OnInit {
         var tmp = JSON.parse(JSON.stringify(response));
         for (var i in tmp.value) {
           var app = tmp.value[i];
-          var result = new PhoneNumber(app.phoneNumber, app.bookingCount, app.absent, Math.round((app.absent / app.bookingCount) * 100), app.isBlock);
-          if (result.isBlock == true && this.selectTabs == 0) {
+          var result = new PhoneNumber(app.names,app.phoneNumber, app.isBlock);
+          if (result.isBlock == false && this.selectTabs == 0) {
             this.ELEMENT_DATA.push(result);
-          } else if (result.isBlock == false && this.selectTabs == 1) {
+          } else if (result.isBlock == true && this.selectTabs == 1) {
             this.ELEMENT_DATA.push(result);
           }
           // this.ELEMENT_DATA.push(result);
@@ -180,12 +181,16 @@ export class ListBlockComponent implements OnInit {
           this.onGetListBlock();
           !this.dataSource1.paginator ? this.dataSource1.paginator = this.paginator1 : null;
           !this.dataSource1.sort ? this.dataSource1.sort = this.sort1 : null;
+          this.valueFilter="";
+          this.applyFilter(this.valueFilter)
           break;
         case 1:
           this.selectTabs = 1
           this.onGetListBlock();
           !this.dataSource2.paginator ? this.dataSource2.paginator = this.paginator2 : null;
           !this.dataSource2.sort ? this.dataSource2.sort = this.sort2 : null;
+          this.valueFilter="";
+          this.applyFilter(this.valueFilter)
       }
     });
   }

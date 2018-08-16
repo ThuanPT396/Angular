@@ -73,3 +73,8 @@ button.btn-lg{
     margin-left: 40px;
 
 }
+
+.custom-size-popup{
+    width: 90%;
+    height: 95%;
+}

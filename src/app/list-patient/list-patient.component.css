@@ -75,6 +75,10 @@ button.btn-lg{
 }
 
 .custom-size-popup{
-    width: 90%;
-    height: 95%;
+    width: 90%;  
+   
 }
+.modal-content {
+     /* 80% of window height */
+    height: 60%;
+}   

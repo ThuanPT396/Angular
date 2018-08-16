@@ -236,7 +236,7 @@
 </div>
 <!-- Popup thông tin chi tiết -->
 <div id="detailPopup" class="modal fade" role="dialog" data-backdrop="false" style="z-index: 1000;">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog custom-size-popup" >
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -435,7 +435,7 @@
             <label for="remind" class=" padd-left-none">Lời nhắc</label>
             <textarea type="text" id="remind" class="form-control" disabled [(ngModel)]="remind"></textarea>
           </div>
-          <!-- <div class="col-md-12 form-group">
+          <div class="col-md-12 form-group">
             <label for="symptom" class=" padd-left-none">Triệu chứng lâm sàng</label>
             <div class="symptom">
               <div *ngIf="recordSymptoms.length === 0 " style="font-size: 16px; margin-bottom: 5px">Không có kết quả để hiển thị</div>
@@ -445,7 +445,7 @@
                 </mat-chip>
               </mat-chip-list>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
       <div class="modal-footer">

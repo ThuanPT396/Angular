@@ -73,3 +73,12 @@ button.btn-lg{
     margin-left: 40px;
 
 }
+
+.custom-size-popup{
+    width: 90%;  
+   
+}
+.modal-content {
+     /* 80% of window height */
+    height: 60%;
+}   

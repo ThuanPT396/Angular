@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-2 padd-right-none" style="padding-top: 4px">
           <button type="button" class="btn btn-primary btn-lg" (click)="resetData()">
-            Làm mới dữ liệu
+            Làm mới
           </button>
         </div>
       </div>
@@ -78,7 +78,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="medical">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tạo bệnh án </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Bệnh án</th>
           <td mat-cell *matCellDef="let row">
             <a (click)="onPushPopupRecord(row.fullName,row.appointmentID,row.phoneNumber)">
               <i *ngIf="row.createdRecord==true||row.status==2||row.isOpenTime==false" class="fa fa-edit " style="color:#B0B0B0 ">
